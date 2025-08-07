@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrowdWave | Admin Dashboard</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <h1 class="logo-text">Crowd<span>Wave</span></h1>
+            </div>
+            <p class="text-muted">ADMIN CONSOLE</p>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="users.html">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="trips.html">
+                    <i class="fas fa-route"></i>
+                    <span>Trips</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="packages.html">
+                    <i class="fas fa-box-open"></i>
+                    <span>Packages</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="transactions.html">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Transactions</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="disputes.html">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Disputes</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="analytics.html">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="settings.html">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Settings</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="profile-img">
+                    <span>AU</span> <!-- Initials as fallback -->
+                </div>
+                <div class="profile-info">
+                    <h6>Admin User</h6>
+                    <small>Super Admin</small>
+                </div>
+                <a href="#" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <nav class="admin-topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h4>Dashboard Overview</h4>
+            </div>
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <!-- Replace the <div class="notifications"> in the <nav class="admin-topbar"> section of each page -->
+<div class="notifications dropdown">
+    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-bell"></i>
+        <span class="badge" id="notificationBadge">0</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="
+        background: rgba(10, 25, 47, 0.95);
+        border: 1px solid rgba(108, 92, 231, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        min-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(108, 92, 231, 0.5) transparent;
+    ">
+        <div class="dropdown-header" style="
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: white;
+        ">
+            <span>Notifications</span>
+            <button class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" id="clearNotifications" style="
+                border: 1px solid rgba(108, 92, 231, 0.3);
+                border-radius: 8px;
+                padding: 4px 10px;
+            ">
+                <i class="fas fa-trash mr-1"></i> Clear All
+            </button>
+        </div>
+        <div id="notificationList" style="padding: 10px;">
+            <!-- Notifications will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+                <!-- <div class="quick-actions">
+                    <button class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> New
+                    </button>
+                </div> -->
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <div class="admin-content">
+            <div class="row g-4">
+                <!-- Stats Cards -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>1,248</h3>
+                            <p>Total Users</p>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 12.5%
+                            </div>
+                        </div>
+                        <div class="stat-wave">
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>86</h3>
+                            <p>Active Trips</p>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 8.3%
+                            </div>
+                        </div>
+                        <div class="stat-wave">
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>42</h3>
+                            <p>Packages in Transit</p>
+                            <div class="stat-trend down">
+                                <i class="fas fa-arrow-down"></i> 3.2%
+                            </div>
+                        </div>
+                        <div class="stat-wave">
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>$2,480</h3>
+                            <p>Monthly Revenue</p>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 18.7%
+                            </div>
+                        </div>
+                        <div class="stat-wave">
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Chart -->
+                <div class="col-xl-8">
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h5>Platform Activity</h5>
+                            <div class="time-filter">
+                                <button class="active">Week</button>
+                                <button>Month</button>
+                                <button>Year</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-placeholder">
+                                <div class="chart-grid">
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                </div>
+                                <div class="chart-line users">
+                                    <div class="line-point" style="left: 10%; bottom: 20%;"></div>
+                                    <div class="line-point" style="left: 30%; bottom: 45%;"></div>
+                                    <div class="line-point" style="left: 50%; bottom: 70%;"></div>
+                                    <div class="line-point" style="left: 70%; bottom: 50%;"></div>
+                                    <div class="line-point" style="left: 90%; bottom: 80%;"></div>
+                                </div>
+                                <div class="chart-line trips">
+                                    <div class="line-point" style="left: 10%; bottom: 30%;"></div>
+                                    <div class="line-point" style="left: 30%; bottom: 60%;"></div>
+                                    <div class="line-point" style="left: 50%; bottom: 40%;"></div>
+                                    <div class="line-point" style="left: 70%; bottom: 75%;"></div>
+                                    <div class="line-point" style="left: 90%; bottom: 65%;"></div>
+                                </div>
+                                <div class="chart-line revenue">
+                                    <div class="line-point" style="left: 10%; bottom: 15%;"></div>
+                                    <div class="line-point" style="left: 30%; bottom: 35%;"></div>
+                                    <div class="line-point" style="left: 50%; bottom: 60%;"></div>
+                                    <div class="line-point" style="left: 70%; bottom: 85%;"></div>
+                                    <div class="line-point" style="left: 90%; bottom: 95%;"></div>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color users"></div>
+                                    <span>New Users</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color trips"></div>
+                                    <span>Trips Posted</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color revenue"></div>
+                                    <span>Revenue</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="col-xl-4">
+                    <div class="activity-card">
+                        <div class="card-header">
+                            <h5>Recent Activity</h5>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon new-user">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>New user</strong> registered as Traveler</p>
+                                        <small>10 minutes ago</small>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon new-trip">
+                                        <i class="fas fa-route"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>John Doe</strong> posted a new trip</p>
+                                        <small>25 minutes ago</small>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon new-package">
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Jane Smith</strong> requested package delivery</p>
+                                        <small>1 hour ago</small>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon payment">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Payment</strong> completed for package #1234</p>
+                                        <small>2 hours ago</small>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon dispute">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Dispute</strong> reported for delivery #5678</p>
+                                        <small>3 hours ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Distribution -->
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h5>User Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="donut-chart">
+                                <div class="donut-segment travelers" style="--percentage: 60;"></div>
+                                <div class="donut-segment senders" style="--percentage: 25;"></div>
+                                <div class="donut-segment both" style="--percentage: 15;"></div>
+                                <div class="donut-center">
+                                    <h4>1,248</h4>
+                                    <small>Total Users</small>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color travelers"></div>
+                                    <span>Travelers (60%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color senders"></div>
+                                    <span>Senders (25%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color both"></div>
+                                    <span>Both Roles (15%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h5>Recent Transactions</h5>
+                            <a href="transactions.html" class="view-all">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="transaction-list">
+                                <div class="transaction-item">
+                                    <div class="transaction-icon success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <p>TXN-1001</p>
+                                        <small>Package #PKG-1001</small>
+                                    </div>
+                                    <div class="transaction-amount">
+                                        <strong>$25.00</strong>
+                                        <small>Completed</small>
+                                    </div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="transaction-icon pending">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <p>TXN-1002</p>
+                                        <small>Package #PKG-1002</small>
+                                    </div>
+                                    <div class="transaction-amount">
+                                        <strong>$45.00</strong>
+                                        <small>Pending</small>
+                                    </div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="transaction-icon processing">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <p>TXN-1003</p>
+                                        <small>Package #PKG-1003</small>
+                                    </div>
+                                    <div class="transaction-amount">
+                                        <strong>$60.00</strong>
+                                        <small>Processing</small>
+                                    </div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="transaction-icon failed">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <p>TXN-1004</p>
+                                        <small>Package #PKG-1004</small>
+                                    </div>
+                                    <div class="transaction-amount">
+                                        <strong>$35.00</strong>
+                                        <small>Failed</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            // Store state in localStorage
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        });
+
+        // Check localStorage for saved state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    // Sample notification data (can be replaced with API calls in a real implementation)
+    const initialNotifications = [
+        { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
+        { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
+        { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
+    ];
+
+    // Load notifications from localStorage or use initial data
+    let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
+
+    // Notification elements
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notificationList = document.getElementById('notificationList');
+    const clearNotifications = document.getElementById('clearNotifications');
+
+    // Function to render notifications
+    function renderNotifications() {
+        const unreadCount = notifications.filter(n => !n.read).length;
+        notificationBadge.textContent = unreadCount;
+        notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+        notificationList.innerHTML = notifications.length === 0
+            ? '<div style="padding: 10px; text-align: center; color: rgba(255,255,255,0.7);">No notifications</div>'
+            : notifications.map(n => `
+                <div class="dropdown-item notification-item ${n.read ? 'read' : ''}" style="
+                    padding: 10px 15px;
+                    border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: ${n.read ? 'rgba(255,255,255,0.5)' : 'white'};
+                    background: ${n.read ? 'transparent' : 'rgba(108, 92, 231, 0.1)'};
+                    transition: background 0.3s ease;
+                ">
+                    <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
+                        <div>${n.message}</div>
+                        <small style="color: rgba(255,255,255,0.5);">${n.time}</small>
+                    </a>
+                    <button class="btn btn-sm mark-read-btn" data-id="${n.id}" style="
+                        background: none;
+                        border: none;
+                        color: rgba(255,255,255,0.7);
+                        font-size: 12px;
+                    ">
+                        <i class="fas fa-check-circle"></i>
+                    </button>
+                </div>
+            `).join('');
+
+        // Add event listeners for mark read buttons
+        document.querySelectorAll('.mark-read-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = parseInt(this.dataset.id);
+                const notification = notifications.find(n => n.id === id);
+                if (notification) {
+                    notification.read = true;
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    renderNotifications();
+                }
+            });
+        });
+    }
+
+    // Clear all notifications
+    clearNotifications.addEventListener('click', function() {
+        notifications = [];
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    });
+
+    // Initial render
+    renderNotifications();
+
+    // Simulate new notifications (for demo purposes)
+    setInterval(() => {
+        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+        const newNotification = {
+            id: newId,
+            message: `New event ${newId} occurred.`,
+            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            read: false,
+            link: 'index.html'
+        };
+        notifications.unshift(newNotification);
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    }, 60000); // Add a new notification every 60 seconds (for demo)
+});
+    </script>
+</body>
+</html>

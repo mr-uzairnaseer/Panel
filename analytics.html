@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrowdWave | Analytics Dashboard</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #fdcb6e;
+            --info: #0984e3;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --gray-light: #dfe6e9;
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --topbar-height: 70px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .admin-body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            transition: all 0.3s ease;
+        }
+
+        .admin-sidebar.collapsed + .admin-main {
+            margin-left: var(--sidebar-collapsed);
+            width: calc(100% - var(--sidebar-collapsed));
+        }
+
+        /* Sidebar Styles */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-height: 100vh;
+            max-height: 100vh;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .admin-sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .admin-sidebar.collapsed .logo-text,
+        .admin-sidebar.collapsed .nav-link span,
+        .admin-sidebar.collapsed .profile-info,
+        .admin-sidebar.collapsed .sidebar-header p {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 40px;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding-top: 10px;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            min-width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: white;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo-text span {
+            color: var(--secondary);
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            margin-top: 3px;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav {
+            padding: 10px 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+
+        .nav-item {
+            position: relative;
+            min-height: 40px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-link i {
+            font-size: 18px;
+            min-width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            transition: margin 0.3s ease;
+        }
+
+        .nav::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .admin-sidebar.collapsed .nav-link i {
+            margin-right: 0;
+        }
+
+        .link-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: all 0.3s ease;
+            z-index: 0;
+        }
+
+        .nav-item.active .link-underline {
+            width: 100%;
+        }
+
+        .nav-item.active .nav-link {
+            color: white;
+            background: rgba(0, 206, 201, 0.1);
+            z-index: 2;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 2;
+        }
+
+        .sidebar-footer {
+            padding: 10px 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-info h6 {
+            margin: 0;
+            font-size: 14px;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-info small {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logout-btn {
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .logout-btn:hover {
+            color: white;
+        }
+
+        /* Top Bar Styles */
+        .admin-topbar {
+            height: var(--topbar-height);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            color: white;
+        }
+
+        .admin-topbar h4 {
+            margin: 0;
+            font-weight: 500;
+            color: white;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-box input {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px 8px 35px;
+            color: white;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            width: 250px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .notifications {
+            position: relative;
+            margin-right: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notifications:hover {
+            color: white;
+        }
+
+        .notifications .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content Styles */
+        .admin-content {
+            padding: 20px;
+            min-height: calc(100vh - var(--topbar-height));
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(34, 47, 62, 0.9) 100%);
+        }
+
+        .analytics-card {
+            background: rgba(10, 25, 47, 0.9);
+            border: 1px solid rgba(9, 132, 227, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(9, 132, 227, 0.2);
+            border-color: rgba(9, 132, 227, 0.5);
+        }
+
+        .analytics-card::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(9, 132, 227, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(9, 132, 227, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(9, 132, 227, 0.1);
+            border-color: rgba(9, 132, 227, 0.4);
+        }
+
+        .metric-card h5 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .metric-card .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-controls select, .filter-controls button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(9, 132, 227, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-controls select:focus, .filter-controls button:hover {
+            background: rgba(9, 132, 227, 0.2);
+            border-color: var(--info);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-main {
+                margin-left: var(--sidebar-collapsed);
+                width: calc(100% - var(--sidebar-collapsed));
+            }
+            
+            .logo-text,
+            .nav-link span,
+            .profile-info,
+            .sidebar-header p {
+                display: none;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+            }
+            
+            .user-profile {
+                justify-content: center;
+            }
+            
+            .nav {
+                gap: 8px;
+            }
+            
+            .nav-item {
+                min-height: 44px;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 8px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .admin-sidebar.collapsed {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-sidebar.collapsed .logo-text,
+            .admin-sidebar.collapsed .nav-link span,
+            .admin-sidebar.collapsed .profile-info,
+            .admin-sidebar.collapsed .sidebar-header p {
+                display: none;
+            }
+            
+            .admin-sidebar.collapsed .logo-container {
+                justify-content: center;
+            }
+            
+            .admin-sidebar.collapsed .nav-link i {
+                margin-right: 0;
+            }
+            
+            .admin-sidebar.collapsed .user-profile {
+                justify-content: center;
+                padding: 8px 5px;
+            }
+            
+            .nav-link i {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-topbar h4 {
+                display: none;
+            }
+            
+            .search-box input {
+                width: 150px;
+            }
+            
+            .search-box input:focus {
+                width: 180px;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <h1 class="logo-text">Crowd<span>Wave</span></h1>
+            </div>
+            <p class="text-muted">ADMIN CONSOLE</p>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="users.html">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="trips.html">
+                    <i class="fas fa-route"></i>
+                    <span>Trips</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="packages.html">
+                    <i class="fas fa-box-open"></i>
+                    <span>Packages</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="transactions.html">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Transactions</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="disputes.html">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Disputes</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="analytics.html">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="settings.html">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Settings</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="profile-img">
+                    <span>AU</span>
+                </div>
+                <div class="profile-info">
+                    <h6>Admin User</h6>
+                    <small>Super Admin</small>
+                </div>
+                <a href="#" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <nav class="admin-topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h4>Analytics Dashboard</h4>
+            </div>
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search metrics..." id="searchInput">
+                </div>
+                <!-- Replace the <div class="notifications"> in the <nav class="admin-topbar"> section of each page -->
+<div class="notifications dropdown">
+    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-bell"></i>
+        <span class="badge" id="notificationBadge">0</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="
+        background: rgba(10, 25, 47, 0.95);
+        border: 1px solid rgba(108, 92, 231, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        min-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(108, 92, 231, 0.5) transparent;
+    ">
+        <div class="dropdown-header" style="
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: white;
+        ">
+            <span>Notifications</span>
+            <button class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" id="clearNotifications" style="
+                border: 1px solid rgba(108, 92, 231, 0.3);
+                border-radius: 8px;
+                padding: 4px 10px;
+            ">
+                <i class="fas fa-trash mr-1"></i> Clear All
+            </button>
+        </div>
+        <div id="notificationList" style="padding: 10px;">
+            <!-- Notifications will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+            </div>
+        </nav>
+
+        <!-- Analytics Content -->
+        <div class="admin-content">
+            <div class="analytics-card">
+                <div class="card-header d-flex justify-content-between align-items-center" style="border-bottom: 1px solid rgba(9, 132, 227, 0.2); padding: 15px 20px;">
+                    <h5 style="margin: 0; font-family: 'Orbitron', sans-serif; color: white; font-weight: 500;">Platform Analytics</h5>
+                    <div class="filter-controls">
+                        <select id="timeRangeFilter">
+                            <option value="7d">Last 7 Days</option>
+                            <option value="30d">Last 30 Days</option>
+                            <option value="90d">Last 90 Days</option>
+                            <option value="all">All Time</option>
+                        </select>
+                        <button id="exportCSV"><i class="fas fa-download mr-2"></i>Export CSV</button>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 20px;">
+                    <!-- Key Metrics -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="metric-card">
+                                <h5>Total Revenue</h5>
+                                <div class="metric-value" id="totalRevenue">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="metric-card">
+                                <h5>Trips Completed</h5>
+                                <div class="metric-value" id="tripsCompleted">0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="metric-card">
+                                <h5>Active Users</h5>
+                                <div class="metric-value" id="activeUsers">0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3">
+                            <div class="metric-card">
+                                <h5>Disputes Raised</h5>
+                                <div class="metric-value" id="disputesRaised">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Charts -->
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="chart-container">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="chart-container">
+                                <canvas id="tripsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="chart-container">
+                                <canvas id="userGrowthChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <div class="chart-container">
+                                <canvas id="disputeStatusChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+
+        // Check localStorage for saved state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            }
+
+            // Sample analytics data
+            const analyticsData = {
+                '7d': {
+                    labels: ['Aug 01', 'Aug 02', 'Aug 03', 'Aug 04', 'Aug 05', 'Aug 06', 'Aug 07'],
+                    revenue: [1200, 1500, 1800, 1400, 2000, 1700, 2200],
+                    trips: [50, 60, 55, 70, 65, 80, 75],
+                    users: [100, 105, 110, 115, 120, 125, 130],
+                    disputes: { open: 2, inReview: 3, resolved: 5, escalated: 1 }
+                },
+                '30d': {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    revenue: [5000, 6200, 5800, 7000],
+                    trips: [200, 250, 230, 280],
+                    users: [400, 420, 450, 480],
+                    disputes: { open: 10, inReview: 15, resolved: 25, escalated: 5 }
+                },
+                '90d': {
+                    labels: ['June', 'July', 'August'],
+                    revenue: [15000, 18000, 20000],
+                    trips: [600, 750, 800],
+                    users: [1000, 1100, 1200],
+                    disputes: { open: 30, inReview: 40, resolved: 80, escalated: 15 }
+                },
+                'all': {
+                    labels: ['2024 Q4', '2025 Q1', '2025 Q2', '2025 Q3'],
+                    revenue: [40000, 45000, 48000, 52000],
+                    trips: [1500, 1800, 2000, 2200],
+                    users: [2000, 2200, 2500, 2800],
+                    disputes: { open: 50, inReview: 70, resolved: 150, escalated: 30 }
+                }
+            };
+
+            // Chart instances
+            let revenueChart, tripsChart, userGrowthChart, disputeStatusChart;
+
+            // Filter and search functionality
+            const timeRangeFilter = document.getElementById('timeRangeFilter');
+            const searchInput = document.getElementById('searchInput');
+
+            function updateAnalytics(range) {
+                const data = analyticsData[range];
+                const search = searchInput.value.toLowerCase();
+
+                // Filter metrics to display based on search
+                const metrics = ['revenue', 'trips', 'users', 'disputes'];
+                const visibleMetrics = metrics.filter(metric => metric.includes(search));
+
+                // Update key metrics
+                document.getElementById('totalRevenue').textContent = `$${data.revenue.reduce((a, b) => a + b, 0).toFixed(2)}`;
+                document.getElementById('tripsCompleted').textContent = data.trips.reduce((a, b) => a + b, 0);
+                document.getElementById('activeUsers').textContent = data.users[data.users.length - 1];
+                document.getElementById('disputesRaised').textContent = Object.values(data.disputes).reduce((a, b) => a + b, 0);
+
+                // Update charts
+                if (visibleMetrics.includes('revenue')) {
+                    document.getElementById('revenueChart').parentElement.style.display = 'block';
+                    if (revenueChart) revenueChart.destroy();
+                    revenueChart = new Chart(document.getElementById('revenueChart'), {
+                        type: 'line',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Revenue ($)',
+                                data: data.revenue,
+                                borderColor: 'rgba(9, 132, 227, 0.8)',
+                                backgroundColor: 'rgba(9, 132, 227, 0.2)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                } else {
+                    document.getElementById('revenueChart').parentElement.style.display = 'none';
+                }
+
+                if (visibleMetrics.includes('trips')) {
+                    document.getElementById('tripsChart').parentElement.style.display = 'block';
+                    if (tripsChart) tripsChart.destroy();
+                    tripsChart = new Chart(document.getElementById('tripsChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Trips Completed',
+                                data: data.trips,
+                                backgroundColor: 'rgba(0, 206, 201, 0.8)',
+                                borderColor: 'rgba(0, 206, 201, 1)'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                } else {
+                    document.getElementById('tripsChart').parentElement.style.display = 'none';
+                }
+
+                if (visibleMetrics.includes('users')) {
+                    document.getElementById('userGrowthChart').parentElement.style.display = 'block';
+                    if (userGrowthChart) userGrowthChart.destroy();
+                    userGrowthChart = new Chart(document.getElementById('userGrowthChart'), {
+                        type: 'line',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Active Users',
+                                data: data.users,
+                                borderColor: 'rgba(108, 92, 231, 0.8)',
+                                backgroundColor: 'rgba(108, 92, 231, 0.2)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                } else {
+                    document.getElementById('userGrowthChart').parentElement.style.display = 'none';
+                }
+
+                if (visibleMetrics.includes('disputes')) {
+                    document.getElementById('disputeStatusChart').parentElement.style.display = 'block';
+                    if (disputeStatusChart) disputeStatusChart.destroy();
+                    disputeStatusChart = new Chart(document.getElementById('disputeStatusChart'), {
+                        type: 'pie',
+                        data: {
+                            labels: ['Open', 'In Review', 'Resolved', 'Escalated'],
+                            datasets: [{
+                                label: 'Dispute Status',
+                                data: [data.disputes.open, data.disputes.inReview, data.disputes.resolved, data.disputes.escalated],
+                                backgroundColor: [
+                                    'rgba(253, 203, 110, 0.8)',
+                                    'rgba(9, 132, 227, 0.8)',
+                                    'rgba(0, 184, 148, 0.8)',
+                                    'rgba(214, 48, 49, 0.8)'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                } else {
+                    document.getElementById('disputeStatusChart').parentElement.style.display = 'none';
+                }
+            }
+
+            timeRangeFilter.addEventListener('change', () => updateAnalytics(timeRangeFilter.value));
+            searchInput.addEventListener('input', () => updateAnalytics(timeRangeFilter.value));
+
+            document.getElementById('exportCSV').addEventListener('click', function() {
+                const range = timeRangeFilter.value;
+                const data = analyticsData[range];
+                const csv = [
+                    `Time Range: ${range}`,
+                    'Date,Revenue,Trips,Users,Disputes Open,Disputes In Review,Disputes Resolved,Disputes Escalated',
+                    ...data.labels.map((label, i) => `${label},${data.revenue[i]},${data.trips[i]},${data.users[i]},${i === 0 ? data.disputes.open : ''},${i === 0 ? data.disputes.inReview : ''},${i === 0 ? data.disputes.resolved : ''},${i === 0 ? data.disputes.escalated : ''}`)
+                ].join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `analytics_${range}.csv`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+
+            // Initial render
+            updateAnalytics('7d');
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    // Sample notification data (can be replaced with API calls in a real implementation)
+    const initialNotifications = [
+        { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
+        { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
+        { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
+    ];
+
+    // Load notifications from localStorage or use initial data
+    let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
+
+    // Notification elements
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notificationList = document.getElementById('notificationList');
+    const clearNotifications = document.getElementById('clearNotifications');
+
+    // Function to render notifications
+    function renderNotifications() {
+        const unreadCount = notifications.filter(n => !n.read).length;
+        notificationBadge.textContent = unreadCount;
+        notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+        notificationList.innerHTML = notifications.length === 0
+            ? '<div style="padding: 10px; text-align: center; color: rgba(255,255,255,0.7);">No notifications</div>'
+            : notifications.map(n => `
+                <div class="dropdown-item notification-item ${n.read ? 'read' : ''}" style="
+                    padding: 10px 15px;
+                    border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: ${n.read ? 'rgba(255,255,255,0.5)' : 'white'};
+                    background: ${n.read ? 'transparent' : 'rgba(108, 92, 231, 0.1)'};
+                    transition: background 0.3s ease;
+                ">
+                    <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
+                        <div>${n.message}</div>
+                        <small style="color: rgba(255,255,255,0.5);">${n.time}</small>
+                    </a>
+                    <button class="btn btn-sm mark-read-btn" data-id="${n.id}" style="
+                        background: none;
+                        border: none;
+                        color: rgba(255,255,255,0.7);
+                        font-size: 12px;
+                    ">
+                        <i class="fas fa-check-circle"></i>
+                    </button>
+                </div>
+            `).join('');
+
+        // Add event listeners for mark read buttons
+        document.querySelectorAll('.mark-read-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = parseInt(this.dataset.id);
+                const notification = notifications.find(n => n.id === id);
+                if (notification) {
+                    notification.read = true;
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    renderNotifications();
+                }
+            });
+        });
+    }
+
+    // Clear all notifications
+    clearNotifications.addEventListener('click', function() {
+        notifications = [];
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    });
+
+    // Initial render
+    renderNotifications();
+
+    // Simulate new notifications (for demo purposes)
+    setInterval(() => {
+        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+        const newNotification = {
+            id: newId,
+            message: `New event ${newId} occurred.`,
+            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            read: false,
+            link: 'index.html'
+        };
+        notifications.unshift(newNotification);
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    }, 60000); // Add a new notification every 60 seconds (for demo)
+});
+    </script>
+</body>
+</html>

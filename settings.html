@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrowdWave | Settings Management</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #fdcb6e;
+            --info: #0984e3;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --gray-light: #dfe6e9;
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --topbar-height: 70px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .admin-body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            transition: all 0.3s ease;
+        }
+
+        .admin-sidebar.collapsed + .admin-main {
+            margin-left: var(--sidebar-collapsed);
+            width: calc(100% - var(--sidebar-collapsed));
+        }
+
+        /* Sidebar Styles */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-height: 100vh;
+            max-height: 100vh;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .admin-sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .admin-sidebar.collapsed .logo-text,
+        .admin-sidebar.collapsed .nav-link span,
+        .admin-sidebar.collapsed .profile-info,
+        .admin-sidebar.collapsed .sidebar-header p {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 40px;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding-top: 10px;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            min-width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: white;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo-text span {
+            color: var(--secondary);
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            margin-top: 3px;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav {
+            padding: 10px 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+
+        .nav-item {
+            position: relative;
+            min-height: 40px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-link i {
+            font-size: 18px;
+            min-width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            transition: margin 0.3s ease;
+        }
+
+        .nav::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .admin-sidebar.collapsed .nav-link i {
+            margin-right: 0;
+        }
+
+        .link-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: all 0.3s ease;
+            z-index: 0;
+        }
+
+        .nav-item.active .link-underline {
+            width: 100%;
+        }
+
+        .nav-item.active .nav-link {
+            color: white;
+            background: rgba(0, 206, 201, 0.1);
+            z-index: 2;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 2;
+        }
+
+        .sidebar-footer {
+            padding: 10px 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-info h6 {
+            margin: 0;
+            font-size: 14px;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-info small {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logout-btn {
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .logout-btn:hover {
+            color: white;
+        }
+
+        /* Top Bar Styles */
+        .admin-topbar {
+            height: var(--topbar-height);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            color: white;
+        }
+
+        .admin-topbar h4 {
+            margin: 0;
+            font-weight: 500;
+            color: white;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-box input {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px 8px 35px;
+            color: white;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            width: 250px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .notifications {
+            position: relative;
+            margin-right: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notifications:hover {
+            color: white;
+        }
+
+        .notifications .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content Styles */
+        .admin-content {
+            padding: 20px;
+            min-height: calc(100vh - var(--topbar-height));
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(44, 44, 44, 0.9) 100%);
+        }
+
+        .settings-card {
+            background: rgba(10, 25, 47, 0.9);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .settings-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
+            border-color: rgba(108, 92, 231, 0.5);
+        }
+
+        .settings-card::before {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section h5 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            color: white;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .form-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            color: white;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.1);
+            outline: none;
+        }
+
+        .form-check-input {
+            background-color: transparent;
+            border-color: rgba(108, 92, 231, 0.5);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .action-buttons button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 8px;
+            padding: 8px 20px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .action-buttons button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .modal-content {
+            background: rgba(10, 25, 47, 0.95);
+            border: 1px solid rgba(108, 92, 231, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-header, .modal-footer {
+            border-color: rgba(108, 92, 231, 0.2);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-main {
+                margin-left: var(--sidebar-collapsed);
+                width: calc(100% - var(--sidebar-collapsed));
+            }
+            
+            .logo-text,
+            .nav-link span,
+            .profile-info,
+            .sidebar-header p {
+                display: none;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+            }
+            
+            .user-profile {
+                justify-content: center;
+            }
+            
+            .nav {
+                gap: 8px;
+            }
+            
+            .nav-item {
+                min-height: 44px;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 8px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .admin-sidebar.collapsed {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-sidebar.collapsed .logo-text,
+            .admin-sidebar.collapsed .nav-link span,
+            .admin-sidebar.collapsed .profile-info,
+            .admin-sidebar.collapsed .sidebar-header p {
+                display: none;
+            }
+            
+            .admin-sidebar.collapsed .logo-container {
+                justify-content: center;
+            }
+            
+            .admin-sidebar.collapsed .nav-link i {
+                margin-right: 0;
+            }
+            
+            .admin-sidebar.collapsed .user-profile {
+                justify-content: center;
+                padding: 8px 5px;
+            }
+            
+            .nav-link i {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-topbar h4 {
+                display: none;
+            }
+            
+            .search-box input {
+                width: 150px;
+            }
+            
+            .search-box input:focus {
+                width: 180px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .action-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <h1 class="logo-text">Crowd<span>Wave</span></h1>
+            </div>
+            <p class="text-muted">ADMIN CONSOLE</p>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="users.html">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="trips.html">
+                    <i class="fas fa-route"></i>
+                    <span>Trips</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="packages.html">
+                    <i class="fas fa-box-open"></i>
+                    <span>Packages</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="transactions.html">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Transactions</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="disputes.html">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Disputes</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="analytics.html">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="settings.html">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Settings</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="profile-img">
+                    <span>AU</span>
+                </div>
+                <div class="profile-info">
+                    <h6>Admin User</h6>
+                    <small>Super Admin</small>
+                </div>
+                <a href="#" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <nav class="admin-topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h4>Settings Management</h4>
+            </div>
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search settings..." id="searchInput">
+                </div>
+                <!-- Replace the <div class="notifications"> in the <nav class="admin-topbar"> section of each page -->
+<div class="notifications dropdown">
+    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-bell"></i>
+        <span class="badge" id="notificationBadge">0</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="
+        background: rgba(10, 25, 47, 0.95);
+        border: 1px solid rgba(108, 92, 231, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        min-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(108, 92, 231, 0.5) transparent;
+    ">
+        <div class="dropdown-header" style="
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: white;   
+        ">
+            <span>Notifications</span>
+            <button class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" id="clearNotifications" style="
+                border: 1px solid rgba(108, 92, 231, 0.3);
+                border-radius: 8px;
+                padding: 4px 10px;
+            ">
+                <i class="fas fa-trash mr-1"></i> Clear All
+            </button>
+        </div>
+        <div id="notificationList" style="padding: 10px;">
+            <!-- Notifications will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+            </div>
+        </nav>
+
+        <!-- Settings Content -->
+        <div class="admin-content">
+            <div class="settings-card">
+                <div class="card-header d-flex justify-content-between align-items-center" style="border-bottom: 1px solid rgba(108, 92, 231, 0.2); padding: 15px 20px;">
+                    <h5 style="margin: 0; font-family: 'Orbitron', sans-serif; color: white; font-weight: 500;">Platform Settings</h5>
+                    <div class="action-buttons">
+                        <button id="resetSettings"><i class="fas fa-undo-alt mr-2"></i>Reset</button>
+                        <button id="saveSettings" data-bs-toggle="modal" data-bs-target="#confirmSaveModal"><i class="fas fa-save mr-2"></i>Save</button>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 20px;">
+                    <!-- Platform Settings -->
+                    <div class="settings-section">
+                        <h5>Platform Configuration</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="deliveryFee" class="form-label">Delivery Fee ($)</label>
+                                <input type="number" class="form-control" id="deliveryFee" min="0" step="0.01" value="5.00">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="maxPackageWeight" class="form-label">Max Package Weight (kg)</label>
+                                <input type="number" class="form-control" id="maxPackageWeight" min="1" value="50">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="supportEmail" class="form-label">Support Email</label>
+                                <input type="email" class="form-control" id="supportEmail" value="support@crowdwave.com">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="supportPhone" class="form-label">Support Phone</label>
+                                <input type="tel" class="form-control" id="supportPhone" value="+1-800-555-1234">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Notification Settings -->
+                    <div class="settings-section">
+                        <h5>Notification Settings</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                    <label class="form-check-label" for="emailNotifications">Enable Email Notifications</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="smsNotifications">
+                                    <label class="form-check-label" for="smsNotifications">Enable SMS Notifications</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="notificationFrequency" class="form-label">Notification Frequency</label>
+                                <select class="form-select" id="notificationFrequency">
+                                    <option value="immediate">Immediate</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- User Role Settings -->
+                    <!-- <div class="settings-section">
+                        <h5>User Role Permissions</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="adminPermissions" class="form-label">Admin Permissions</label>
+                                <select class="form-select" id="adminPermissions" multiple>
+                                    <option value="manage_users" selected>Manage Users</option>
+                                    <option value="manage_trips" selected>Manage Trips</option>
+                                    <option value="manage_packages" selected>Manage Packages</option>
+                                    <option value="manage_transactions" selected>Manage Transactions</option>
+                                    <option value="manage_disputes" selected>Manage Disputes</option>
+                                    <option value="view_analytics" selected>View Analytics</option>
+                                    <option value="manage_settings" selected>Manage Settings</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="driverPermissions" class="form-label">Driver Permissions</label>
+                                <select class="form-select" id="driverPermissions" multiple>
+                                    <option value="view_trips" selected>View Trips</option>
+                                    <option value="manage_packages">Manage Packages</option>
+                                    <option value="view_transactions">View Transactions</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Save Modal -->
+        <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmSaveModalLabel">Confirm Save Settings</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to save these settings? This action will update the platform configuration.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" id="confirmSaveButton">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+
+        // Check localStorage for saved state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            }
+
+            // Default settings
+            const defaultSettings = {
+                deliveryFee: 5.00,
+                maxPackageWeight: 50,
+                supportEmail: 'support@crowdwave.com',
+                supportPhone: '+1-800-555-1234',
+                emailNotifications: true,
+                smsNotifications: false,
+                notificationFrequency: 'immediate',
+                adminPermissions: ['manage_users', 'manage_trips', 'manage_packages', 'manage_transactions', 'manage_disputes', 'view_analytics', 'manage_settings'],
+                driverPermissions: ['view_trips', 'manage_packages', 'view_transactions']
+            };
+
+            // Load saved settings from localStorage or use defaults
+            const savedSettings = JSON.parse(localStorage.getItem('platformSettings')) || defaultSettings;
+
+            // Initialize form with saved settings
+            document.getElementById('deliveryFee').value = savedSettings.deliveryFee;
+            document.getElementById('maxPackageWeight').value = savedSettings.maxPackageWeight;
+            document.getElementById('supportEmail').value = savedSettings.supportEmail;
+            document.getElementById('supportPhone').value = savedSettings.supportPhone;
+            document.getElementById('emailNotifications').checked = savedSettings.emailNotifications;
+            document.getElementById('smsNotifications').checked = savedSettings.smsNotifications;
+            document.getElementById('notificationFrequency').value = savedSettings.notificationFrequency;
+
+            const adminPermissionsSelect = document.getElementById('adminPermissions');
+            Array.from(adminPermissionsSelect.options).forEach(option => {
+                option.selected = savedSettings.adminPermissions.includes(option.value);
+            });
+            const driverPermissionsSelect = document.getElementById('driverPermissions');
+            Array.from(driverPermissionsSelect.options).forEach(option => {
+                option.selected = savedSettings.driverPermissions.includes(option.value);
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const search = this.value.toLowerCase();
+                const sections = document.querySelectorAll('.settings-section');
+                sections.forEach(section => {
+                    const title = section.querySelector('h5').textContent.toLowerCase();
+                    section.style.display = title.includes(search) ? 'block' : 'none';
+                });
+            });
+
+            // Form validation
+            function validateSettings() {
+                const deliveryFee = parseFloat(document.getElementById('deliveryFee').value);
+                const maxPackageWeight = parseInt(document.getElementById('maxPackageWeight').value);
+                const supportEmail = document.getElementById('supportEmail').value;
+                const supportPhone = document.getElementById('supportPhone').value;
+
+                if (isNaN(deliveryFee) || deliveryFee < 0) {
+                    alert('Delivery fee must be a non-negative number.');
+                    return false;
+                }
+                if (isNaN(maxPackageWeight) || maxPackageWeight < 1) {
+                    alert('Max package weight must be at least 1 kg.');
+                    return false;
+                }
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(supportEmail)) {
+                    alert('Please enter a valid email address.');
+                    return false;
+                }
+                if (!/^\+?\d{1,4}[-.\s]?\d{3,4}[-.\s]?\d{4}$/.test(supportPhone)) {
+                    alert('Please enter a valid phone number.');
+                    return false;
+                }
+                return true;
+            }
+
+            // Save settings
+            document.getElementById('confirmSaveButton').addEventListener('click', function() {
+                if (validateSettings()) {
+                    const newSettings = {
+                        deliveryFee: parseFloat(document.getElementById('deliveryFee').value),
+                        maxPackageWeight: parseInt(document.getElementById('maxPackageWeight').value),
+                        supportEmail: document.getElementById('supportEmail').value,
+                        supportPhone: document.getElementById('supportPhone').value,
+                        emailNotifications: document.getElementById('emailNotifications').checked,
+                        smsNotifications: document.getElementById('smsNotifications').checked,
+                        notificationFrequency: document.getElementById('notificationFrequency').value,
+                        adminPermissions: Array.from(document.getElementById('adminPermissions').selectedOptions).map(option => option.value),
+                        driverPermissions: Array.from(document.getElementById('driverPermissions').selectedOptions).map(option => option.value)
+                    };
+                    localStorage.setItem('platformSettings', JSON.stringify(newSettings));
+                    bootstrap.Modal.getInstance(document.getElementById('confirmSaveModal')).hide();
+                    alert('Settings saved successfully!');
+                }
+            });
+
+            // Reset settings
+            document.getElementById('resetSettings').addEventListener('click', function() {
+                document.getElementById('deliveryFee').value = defaultSettings.deliveryFee;
+                document.getElementById('maxPackageWeight').value = defaultSettings.maxPackageWeight;
+                document.getElementById('supportEmail').value = defaultSettings.supportEmail;
+                document.getElementById('supportPhone').value = defaultSettings.supportPhone;
+                document.getElementById('emailNotifications').checked = defaultSettings.emailNotifications;
+                document.getElementById('smsNotifications').checked = defaultSettings.smsNotifications;
+                document.getElementById('notificationFrequency').value = defaultSettings.notificationFrequency;
+
+                Array.from(adminPermissionsSelect.options).forEach(option => {
+                    option.selected = defaultSettings.adminPermissions.includes(option.value);
+                });
+                Array.from(driverPermissionsSelect.options).forEach(option => {
+                    option.selected = defaultSettings.driverPermissions.includes(option.value);
+                });
+
+                alert('Settings reset to defaults.');
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    // Sample notification data (can be replaced with API calls in a real implementation)
+    const initialNotifications = [
+        { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
+        { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
+        { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
+    ];
+
+    // Load notifications from localStorage or use initial data
+    let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
+
+    // Notification elements
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notificationList = document.getElementById('notificationList');
+    const clearNotifications = document.getElementById('clearNotifications');
+
+    // Function to render notifications
+    function renderNotifications() {
+        const unreadCount = notifications.filter(n => !n.read).length;
+        notificationBadge.textContent = unreadCount;
+        notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+        notificationList.innerHTML = notifications.length === 0
+            ? '<div style="padding: 10px; text-align: center; color: rgba(255,255,255,0.7);">No notifications</div>'
+            : notifications.map(n => `
+                <div class="dropdown-item notification-item ${n.read ? 'read' : ''}" style="
+                    padding: 10px 15px;
+                    border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: ${n.read ? 'rgba(255,255,255,0.5)' : 'white'};
+                    background: ${n.read ? 'transparent' : 'rgba(108, 92, 231, 0.1)'};
+                    transition: background 0.3s ease;
+                ">
+                    <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
+                        <div>${n.message}</div>
+                        <small style="color: rgba(255,255,255,0.5);">${n.time}</small>
+                    </a>
+                    <button class="btn btn-sm mark-read-btn" data-id="${n.id}" style="
+                        background: none;
+                        border: none;
+                        color: rgba(255,255,255,0.7);
+                        font-size: 12px;
+                    ">
+                        <i class="fas fa-check-circle"></i>
+                    </button>
+                </div>
+            `).join('');
+
+        // Add event listeners for mark read buttons
+        document.querySelectorAll('.mark-read-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = parseInt(this.dataset.id);
+                const notification = notifications.find(n => n.id === id);
+                if (notification) {
+                    notification.read = true;
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    renderNotifications();
+                }
+            });
+        });
+    }
+
+    // Clear all notifications
+    clearNotifications.addEventListener('click', function() {
+        notifications = [];
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    });
+
+    // Initial render
+    renderNotifications();
+
+    // Simulate new notifications (for demo purposes)
+    setInterval(() => {
+        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+        const newNotification = {
+            id: newId,
+            message: `New event ${newId} occurred.`,
+            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            read: false,
+            link: 'index.html'
+        };
+        notifications.unshift(newNotification);
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    }, 60000); // Add a new notification every 60 seconds (for demo)
+});
+    </script>
+</body>
+</html>

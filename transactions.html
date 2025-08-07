@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrowdWave | Transactions Management</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #fdcb6e;
+            --info: #0984e3;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --gray-light: #dfe6e9;
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --topbar-height: 70px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .admin-body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            transition: all 0.3s ease;
+        }
+
+        .admin-sidebar.collapsed + .admin-main {
+            margin-left: var(--sidebar-collapsed);
+            width: calc(100% - var(--sidebar-collapsed));
+        }
+
+        /* Sidebar Styles */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-height: 100vh;
+            max-height: 100vh;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .admin-sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .admin-sidebar.collapsed .logo-text,
+        .admin-sidebar.collapsed .nav-link span,
+        .admin-sidebar.collapsed .profile-info,
+        .admin-sidebar.collapsed .sidebar-header p {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 40px;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding-top: 10px;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            min-width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: white;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo-text span {
+            color: var(--secondary);
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            margin-top: 3px;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav {
+            padding: 10px 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+
+        .nav-item {
+            position: relative;
+            min-height: 40px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-link i {
+            font-size: 18px;
+            min-width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            transition: margin 0.3s ease;
+        }
+
+        .nav::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .admin-sidebar.collapsed .nav-link i {
+            margin-right: 0;
+        }
+
+        .link-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: all 0.3s ease;
+            z-index: 0;
+        }
+
+        .nav-item.active .link-underline {
+            width: 100%;
+        }
+
+        .nav-item.active .nav-link {
+            color: white;
+            background: rgba(0, 206, 201, 0.1);
+            z-index: 2;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 2;
+        }
+
+        .sidebar-footer {
+            padding: 10px 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-info h6 {
+            margin: 0;
+            font-size: 14px;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-info small {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logout-btn {
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .logout-btn:hover {
+            color: white;
+        }
+
+        /* Top Bar Styles */
+        .admin-topbar {
+            height: var(--topbar-height);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            color: white;
+        }
+
+        .admin-topbar h4 {
+            margin: 0;
+            font-weight: 500;
+            color: white;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-box input {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px 8px 35px;
+            color: white;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            width: 250px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .notifications {
+            position: relative;
+            margin-right: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notifications:hover {
+            color: white;
+        }
+
+        .notifications .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content Styles */
+        .admin-content {
+            padding: 20px;
+            min-height: calc(100vh - var(--topbar-height));
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 0%, rgba(44, 62, 80, 0.9) 100%);
+        }
+
+        .transaction-card {
+            background: rgba(10, 25, 47, 0.9);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .transaction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .transaction-card::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .transaction-table th {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .transaction-table td {
+            padding: 12px 15px;
+            color: rgba(255, 255, 255, 0.9);
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .transaction-table tr:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: white;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-controls select, .filter-controls button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-controls select:focus, .filter-controls button:hover {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--success);
+        }
+
+        .pagination-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .pagination-controls button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-controls button:hover, .pagination-controls button.active {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .modal-content {
+            background: rgba(10, 25, 47, 0.95);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-header, .modal-footer {
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+        }
+
+        .modal-body label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .modal-body input, .modal-body select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: white;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .modal-body input:focus, .modal-body select:focus {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            outline: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-main {
+                margin-left: var(--sidebar-collapsed);
+                width: calc(100% - var(--sidebar-collapsed));
+            }
+            
+            .logo-text,
+            .nav-link span,
+            .profile-info,
+            .sidebar-header p {
+                display: none;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+            }
+            
+            .user-profile {
+                justify-content: center;
+            }
+            
+            .nav {
+                gap: 8px;
+            }
+            
+            .nav-item {
+                min-height: 44px;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 8px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .admin-sidebar.collapsed {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-sidebar.collapsed .logo-text,
+            .admin-sidebar.collapsed .nav-link span,
+            .admin-sidebar.collapsed .profile-info,
+            .admin-sidebar.collapsed .sidebar-header p {
+                display: none;
+            }
+            
+            .admin-sidebar.collapsed .logo-container {
+                justify-content: center;
+            }
+            
+            .admin-sidebar.collapsed .nav-link i {
+                margin-right: 0;
+            }
+            
+            .admin-sidebar.collapsed .user-profile {
+                justify-content: center;
+                padding: 8px 5px;
+            }
+            
+            .nav-link i {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-topbar h4 {
+                display: none;
+            }
+            
+            .search-box input {
+                width: 150px;
+            }
+            
+            .search-box input:focus {
+                width: 180px;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <h1 class="logo-text">Crowd<span>Wave</span></h1>
+            </div>
+            <p class="text-muted">ADMIN CONSOLE</p>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="users.html">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="trips.html">
+                    <i class="fas fa-route"></i>
+                    <span>Trips</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="packages.html">
+                    <i class="fas fa-box-open"></i>
+                    <span>Packages</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="transactions.html">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Transactions</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="disputes.html">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Disputes</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="analytics.html">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="settings.html">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Settings</span>
+                    <div class="link-underline"></div>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="profile-img">
+                    <span>AU</span>
+                </div>
+                <div class="profile-info">
+                    <h6>Admin User</h6>
+                    <small>Super Admin</small>
+                </div>
+                <a href="#" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+        <!-- Top Bar -->
+        <nav class="admin-topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h4>Transactions Management</h4>
+            </div>
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search transactions..." id="searchInput">
+                </div>
+               <!-- Replace the <div class="notifications"> in the <nav class="admin-topbar"> section of each page -->
+<div class="notifications dropdown">
+    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-bell"></i>
+        <span class="badge" id="notificationBadge">0</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="
+        background: rgba(10, 25, 47, 0.95);
+        border: 1px solid rgba(108, 92, 231, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        min-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(108, 92, 231, 0.5) transparent;
+    ">
+        <div class="dropdown-header" style="
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: white;
+        ">
+            <span>Notifications</span>
+            <button class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" id="clearNotifications" style="
+                border: 1px solid rgba(108, 92, 231, 0.3);
+                border-radius: 8px;
+                padding: 4px 10px;
+            ">
+                <i class="fas fa-trash mr-1"></i> Clear All
+            </button>
+        </div>
+        <div id="notificationList" style="padding: 10px;">
+            <!-- Notifications will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+            </div>
+        </nav>
+
+        <!-- Transactions Content -->
+        <div class="admin-content">
+            <div class="transaction-card">
+                <div class="card-header d-flex justify-content-between align-items-center" style="border-bottom: 1px solid rgba(16, 185, 129, 0.2); padding: 15px 20px;">
+                    <h5 style="margin: 0; font-family: 'Orbitron', sans-serif; color: white; font-weight: 500;">Transactions Management</h5>
+                    <div class="filter-controls">
+                        <select id="statusFilter">
+                            <option value="All">All Statuses</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Refunded">Refunded</option>
+                            <option value="Failed">Failed</option>
+                        </select>
+                        <button id="bulkRefund" style="display: none;"><i class="fas fa-undo-alt mr-2"></i>Bulk Refund</button>
+                        <button id="exportCSV"><i class="fas fa-download mr-2"></i>Export CSV</button>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 20px;">
+                    <div class="table-responsive">
+                        <table class="transaction-table w-100">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAll" class="form-check-input bg-transparent border-gray-500"></th>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Package ID</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-controls">
+                        <button id="prevPage" disabled>Previous</button>
+                        <button id="nextPage">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Transaction Modal -->
+        <div class="modal fade" id="viewTransactionModal" tabindex="-1" aria-labelledby="viewTransactionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewTransactionModalLabel">Transaction Details</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <h6 id="viewTransactionId" style="color: white; margin: 0;"></h6>
+                            <small id="viewTransactionUser" style="color: rgba(255,255,255,0.7);"></small>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Package ID</label>
+                                <input type="text" class="form-control" id="viewTransactionPackageId" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Amount</label>
+                                <input type="text" class="form-control" id="viewTransactionAmount" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Date</label>
+                                <input type="text" class="form-control" id="viewTransactionDate" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <input type="text" class="form-control" id="viewTransactionStatus" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Updated</label>
+                                <input type="text" class="form-control" id="viewTransactionUpdated" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm bg-[var(--danger)] text-white hover:bg-[var(--danger)]" id="refundButton" onclick="refundTransaction()">Refund</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Sidebar toggle functionality
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+
+        // Check localStorage for saved state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const sidebar = document.querySelector('.admin-sidebar');
+            const mainContent = document.querySelector('.admin-main');
+            
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            }
+
+            // Sample transaction data
+            const transactions = [
+                { id: 'TXN-001', user: 'Jane Smith', packageId: 'PKG-001', amount: 45.00, date: '2025-08-05', status: 'Completed', updated: '2025-08-05' },
+                { id: 'TXN-002', user: 'John Doe', packageId: 'PKG-002', amount: 30.50, date: '2025-08-06', status: 'Pending', updated: '2025-08-06' },
+                { id: 'TXN-003', user: 'Alex Brown', packageId: 'PKG-003', amount: 60.75, date: '2025-08-07', status: 'Completed', updated: '2025-08-07' },
+                { id: 'TXN-004', user: 'Sarah Wilson', packageId: 'PKG-004', amount: 25.00, date: '2025-08-06', status: 'Refunded', updated: '2025-08-07' },
+                { id: 'TXN-005', user: 'Mike Johnson', packageId: 'PKG-005', amount: 80.00, date: '2025-08-07', status: 'Failed', updated: '2025-08-07' },
+            ];
+
+            // Pagination state
+            let currentPage = 1;
+            const transactionsPerPage = 3;
+
+            // Filter and search functionality
+            const statusFilter = document.getElementById('statusFilter');
+            const searchInput = document.getElementById('searchInput');
+            const transactionTable = document.getElementById('transactionTable');
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+            const selectAll = document.getElementById('selectAll');
+            const bulkRefund = document.getElementById('bulkRefund');
+
+            function renderTransactions(page) {
+                const status = statusFilter.value;
+                const search = searchInput.value.toLowerCase();
+                const filteredTransactions = transactions.filter(txn => 
+                    (status === 'All' || txn.status === status) &&
+                    (txn.id.toLowerCase().includes(search) || txn.user.toLowerCase().includes(search) || txn.packageId.toLowerCase().includes(search))
+                );
+
+                const start = (page - 1) * transactionsPerPage;
+                const end = start + transactionsPerPage;
+                const paginatedTransactions = filteredTransactions.slice(start, end);
+
+                transactionTable.innerHTML = '';
+                paginatedTransactions.forEach(txn => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input type="checkbox" class="form-check-input bg-transparent border-gray-500 transaction-checkbox" data-id="${txn.id}" ${txn.status === 'Refunded' ? 'disabled' : ''}></td>
+                        <td><a href="#" class="text-white text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTransactionModal" onclick="viewTransaction('${txn.id}')">${txn.id}</a></td>
+                        <td style="color: rgba(255,255,255,0.7);">${txn.user}</td>
+                        <td style="color: rgba(255,255,255,0.7);">${txn.packageId}</td>
+                        <td style="color: rgba(255,255,255,0.7);">${txn.amount.toFixed(2)}</td>
+                        <td style="color: rgba(255,255,255,0.7);">${txn.date}</td>
+                        <td><span class="status-badge ${
+                            txn.status === 'Completed' ? 'bg-[rgba(16,185,129,0.2)] text-[var(--success)]' :
+                            txn.status === 'Pending' ? 'bg-[rgba(253,203,110,0.2)] text-[var(--warning)]' :
+                            txn.status === 'Refunded' ? 'bg-[rgba(239,68,68,0.2)] text-[var(--danger)]' :
+                            'bg-[rgba(239,68,68,0.2)] text-[var(--danger)]'
+                        }">${txn.status}</span></td>
+                        <td>
+                            ${txn.status !== 'Refunded' ? `<button class="action-btn text-[var(--danger)]" onclick="refundTransaction('${txn.id}')"><i class="fas fa-undo-alt"></i></button>` : ''}
+                        </td>
+                    `;
+                    transactionTable.appendChild(row);
+                });
+
+                prevPageBtn.disabled = page === 1;
+                nextPageBtn.disabled = end >= filteredTransactions.length;
+
+                // Update bulk action buttons visibility
+                updateBulkActions();
+            }
+
+            function updateBulkActions() {
+                const checkboxes = document.querySelectorAll('.transaction-checkbox:checked');
+                bulkRefund.style.display = checkboxes.length > 0 ? 'inline-block' : 'none';
+            }
+
+            function filterTransactions() {
+                currentPage = 1;
+                renderTransactions(currentPage);
+            }
+
+            statusFilter.addEventListener('change', filterTransactions);
+            searchInput.addEventListener('input', filterTransactions);
+
+            prevPageBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTransactions(currentPage);
+                }
+            });
+
+            nextPageBtn.addEventListener('click', () => {
+                currentPage++;
+                renderTransactions(currentPage);
+            });
+
+            selectAll.addEventListener('change', function() {
+                document.querySelectorAll('.transaction-checkbox:not(:disabled)').forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                updateBulkActions();
+            });
+
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('transaction-checkbox')) {
+                    updateBulkActions();
+                }
+            });
+
+            bulkRefund.addEventListener('click', () => {
+                const selectedIds = Array.from(document.querySelectorAll('.transaction-checkbox:checked')).map(cb => cb.dataset.id);
+                selectedIds.forEach(id => {
+                    const txnIndex = transactions.findIndex(t => t.id === id);
+                    if (txnIndex !== -1 && transactions[txnIndex].status !== 'Refunded') {
+                        transactions[txnIndex].status = 'Refunded';
+                        transactions[txnIndex].updated = new Date().toISOString().split('T')[0];
+                    }
+                });
+                renderTransactions(currentPage);
+                selectAll.checked = false;
+            });
+
+            document.getElementById('exportCSV').addEventListener('click', function() {
+                const csv = ['Transaction ID,User,Package ID,Amount,Date,Status,Last Updated',
+                    ...transactions.map(t => `${t.id},${t.user},${t.packageId},${t.amount.toFixed(2)},${t.date},${t.status},${t.updated}`)
+                ].join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'transactions.csv';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+
+            window.viewTransaction = function(id) {
+                const txn = transactions.find(t => t.id === id);
+                if (txn) {
+                    document.getElementById('viewTransactionId').textContent = txn.id;
+                    document.getElementById('viewTransactionUser').textContent = txn.user;
+                    document.getElementById('viewTransactionPackageId').value = txn.packageId;
+                    document.getElementById('viewTransactionAmount').value = txn.amount.toFixed(2);
+                    document.getElementById('viewTransactionDate').value = txn.date;
+                    document.getElementById('viewTransactionStatus').value = txn.status;
+                    document.getElementById('viewTransactionUpdated').value = txn.updated;
+                    document.getElementById('refundButton').style.display = txn.status === 'Refunded' ? 'none' : 'inline-block';
+                }
+            };
+
+            window.refundTransaction = function(id) {
+                if (id) {
+                    const txnIndex = transactions.findIndex(t => t.id === id);
+                    if (txnIndex !== -1 && transactions[txnIndex].status !== 'Refunded') {
+                        transactions[txnIndex].status = 'Refunded';
+                        transactions[txnIndex].updated = new Date().toISOString().split('T')[0];
+                        bootstrap.Modal.getInstance(document.getElementById('viewTransactionModal')).hide();
+                        renderTransactions(currentPage);
+                    }
+                } else {
+                    const id = document.getElementById('viewTransactionId').textContent;
+                    const txnIndex = transactions.findIndex(t => t.id === id);
+                    if (txnIndex !== -1 && transactions[txnIndex].status !== 'Refunded') {
+                        transactions[txnIndex].status = 'Refunded';
+                        transactions[txnIndex].updated = new Date().toISOString().split('T')[0];
+                        bootstrap.Modal.getInstance(document.getElementById('viewTransactionModal')).hide();
+                        renderTransactions(currentPage);
+                    }
+                }
+            };
+
+            // Initial render
+            renderTransactions(currentPage);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    // Sample notification data (can be replaced with API calls in a real implementation)
+    const initialNotifications = [
+        { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
+        { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
+        { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
+    ];
+
+    // Load notifications from localStorage or use initial data
+    let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
+
+    // Notification elements
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notificationList = document.getElementById('notificationList');
+    const clearNotifications = document.getElementById('clearNotifications');
+
+    // Function to render notifications
+    function renderNotifications() {
+        const unreadCount = notifications.filter(n => !n.read).length;
+        notificationBadge.textContent = unreadCount;
+        notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+        notificationList.innerHTML = notifications.length === 0
+            ? '<div style="padding: 10px; text-align: center; color: rgba(255,255,255,0.7);">No notifications</div>'
+            : notifications.map(n => `
+                <div class="dropdown-item notification-item ${n.read ? 'read' : ''}" style="
+                    padding: 10px 15px;
+                    border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: ${n.read ? 'rgba(255,255,255,0.5)' : 'white'};
+                    background: ${n.read ? 'transparent' : 'rgba(108, 92, 231, 0.1)'};
+                    transition: background 0.3s ease;
+                ">
+                    <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
+                        <div>${n.message}</div>
+                        <small style="color: rgba(255,255,255,0.5);">${n.time}</small>
+                    </a>
+                    <button class="btn btn-sm mark-read-btn" data-id="${n.id}" style="
+                        background: none;
+                        border: none;
+                        color: rgba(255,255,255,0.7);
+                        font-size: 12px;
+                    ">
+                        <i class="fas fa-check-circle"></i>
+                    </button>
+                </div>
+            `).join('');
+
+        // Add event listeners for mark read buttons
+        document.querySelectorAll('.mark-read-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = parseInt(this.dataset.id);
+                const notification = notifications.find(n => n.id === id);
+                if (notification) {
+                    notification.read = true;
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    renderNotifications();
+                }
+            });
+        });
+    }
+
+    // Clear all notifications
+    clearNotifications.addEventListener('click', function() {
+        notifications = [];
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    });
+
+    // Initial render
+    renderNotifications();
+
+    // Simulate new notifications (for demo purposes)
+    setInterval(() => {
+        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+        const newNotification = {
+            id: newId,
+            message: `New event ${newId} occurred.`,
+            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+            read: false,
+            link: 'index.html'
+        };
+        notifications.unshift(newNotification);
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        renderNotifications();
+    }, 60000); // Add a new notification every 60 seconds (for demo)
+});
+    </script>
+</body>
+</html>
