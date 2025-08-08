@@ -10,8 +10,1060 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/styles.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A1A3D; /* Darker navy for text and primary elements */
+            --secondary: #3B82F6; /* Softer blue for accents */
+            --highlight: #F59E0B; /* Amber for highlights */
+            --neutral: #FFFFFF; /* White for element backgrounds */
+            --page-bg: #F4F4F9; /* Softer grey for page background */
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --topbar-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--page-bg);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+
+        /* Futuristic Admin Theme */
+        .admin-body {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--page-bg);
+            color: var(--primary);
+        }
+
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            transition: all 0.3s ease;
+        }
+
+        .admin-sidebar.collapsed + .admin-main {
+            margin-left: var(--sidebar-collapsed);
+            width: calc(100% - var(--sidebar-collapsed));
+        }
+
+        /* Sidebar Styles */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: var(--neutral);
+            border-right: 1px solid rgba(26, 26, 61, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-height: 100vh;
+            max-height: 100vh;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .admin-sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .admin-sidebar.collapsed .logo-text,
+        .admin-sidebar.collapsed .nav-link span,
+        .admin-sidebar.collapsed .profile-info,
+        .admin-sidebar.collapsed .sidebar-header p {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
+            min-height: 40px;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding-top: 10px;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            min-width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--primary);
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo-text span {
+            color: var(--highlight);
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: rgba(26, 26, 61, 0.5);
+            text-transform: uppercase;
+            margin-top: 3px;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav {
+            padding: 10px 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(26, 26, 61, 0.2) transparent;
+        }
+
+        .nav-item {
+            position: relative;
+            min-height: 40px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            color: rgba(26, 26, 61, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-link i {
+            font-size: 18px;
+            min-width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            transition: margin 0.3s ease;
+        }
+
+        .nav::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav::-webkit-scrollbar-thumb {
+            background-color: rgba(26, 26, 61, 0.2);
+            border-radius: 10px;
+        }
+
+        .admin-sidebar.collapsed .nav-link i {
+            margin-right: 0;
+        }
+
+        .link-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: all 0.3s ease;
+            z-index: 0;
+        }
+
+        .nav-item.active .link-underline {
+            width: 100%;
+        }
+
+        .nav-item.active .nav-link {
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+            z-index: 2;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(26, 26, 61, 0.05);
+            z-index: 2;
+        }
+
+        .sidebar-footer {
+            padding: 10px 15px;
+            border-top: 1px solid rgba(26, 26, 61, 0.1);
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-info h6 {
+            margin: 0;
+            font-size: 14px;
+            color: var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-info small {
+            font-size: 12px;
+            color: rgba(26, 26, 61, 0.5);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logout-btn {
+            color: rgba(26, 26, 61, 0.5);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .logout-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Top Bar Styles */
+        .admin-topbar {
+            height: var(--topbar-height);
+            background: var(--primary);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: var(--neutral);
+            font-size: 20px;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            color: var(--page-bg);
+        }
+
+        .admin-topbar h4 {
+            margin: 0;
+            font-weight: 500;
+            color: var(--neutral);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary);
+        }
+
+        .search-box input {
+            background: var(--neutral);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px 8px 35px;
+            color: var(--primary);
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            width: 250px;
+            background: var(--neutral);
+        }
+
+        .search-box input::placeholder {
+            color: var(--primary);
+        }
+
+        .notifications.dropdown {
+            position: relative;
+            margin-right: 20px;
+            color: var(--neutral); /* Changed to white */
+            font-size: 18px;
+            cursor: pointer;    
+            transition: all 0.3s ease;
+        }
+
+        .notifications.dropdown:hover {
+            color: var(--page-bg);
+        }
+
+        .notifications .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--highlight);
+            color: var(--neutral);
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-dropdown {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+        }
+
+        .notification-dropdown .dropdown-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .notification-dropdown .dropdown-header button {
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .notification-dropdown .dropdown-header button:hover {
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .notification-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+            transition: background 0.3s ease;
+        }
+
+        .notification-item.read {
+            color: rgba(26, 26, 61, 0.5);
+            background: transparent;
+        }
+
+        .notification-item:not(.read) {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .notification-item a {
+            text-decoration: none;
+            color: inherit;
+            flex-grow: 1;
+        }
+
+        .notification-item small {
+            color: rgba(26, 26, 61, 0.5);
+        }
+
+        .mark-read-btn {
+            background: none;
+            border: none;
+            color: rgba(26, 26, 61, 0.7);
+            font-size: 12px;
+        }
+
+        /* Main Content Styles */
+        .admin-content {
+            padding: 20px;
+            min-height: calc(100vh - var(--topbar-height));
+            background: var(--page-bg);
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: var(--neutral);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(26, 26, 61, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--neutral);
+        }
+
+        .stat-icon.blue {
+            background: var(--secondary);
+        }
+
+        .stat-icon.green {
+            background: var(--highlight);
+        }
+
+        .stat-icon.purple {
+            background: var(--secondary);
+        }
+
+        .stat-icon.orange {
+            background: var(--highlight);
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: rgba(26, 26, 61, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .stat-trend i {
+            font-size: 10px;
+            margin-right: 3px;
+        }
+
+        .stat-trend.up {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--secondary);
+        }
+
+        .stat-trend.down {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--highlight);
+        }
+
+        .stat-wave {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .stat-icon.blue ~ .stat-wave .wave {
+            background: var(--secondary);
+        }
+
+        .stat-icon.green ~ .stat-wave .wave {
+            background: var(--highlight);
+        }
+
+        .stat-icon.purple ~ .stat-wave .wave {
+            background: var(--secondary);
+        }
+
+        .stat-icon.orange ~ .stat-wave .wave {
+            background: var(--highlight);
+        }
+
+        /* Chart Cards */
+        .chart-card {
+            background: var(--neutral);
+            border-radius: 10px;
+            border: 1px solid rgba(26, 26, 61, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header h5 {
+            margin: 0;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .view-all {
+            font-size: 12px;
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .view-all:hover {
+            color: var(--highlight);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Activity Card (Updated for Minimalist Design) */
+        .activity-card {
+            background: var(--neutral);
+            border-radius: 10px;
+            border: 1px solid rgba(26, 26, 61, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: none;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--neutral);
+            flex-shrink: 0;
+        }
+
+        .activity-icon.new-user {
+            background: var(--secondary);
+        }
+
+        .activity-icon.new-trip {
+            background: var(--highlight);
+        }
+
+        .activity-icon.new-package {
+            background: var(--secondary);
+        }
+
+        .activity-icon.payment {
+            background: var(--highlight);
+        }
+
+        .activity-icon.dispute {
+            background: var(--highlight);
+        }
+
+        .activity-content p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--primary);
+            line-height: 1.4;
+        }
+
+        .activity-content p strong {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .activity-content small {
+            font-size: 11px;
+            color: rgba(26, 26, 61, 0.6);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Chart Placeholder */
+        .chart-placeholder {
+            height: 250px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .chart-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .grid-line {
+            height: 1px;
+            background: rgba(26, 26, 61, 0.05);
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .chart-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: currentColor;
+        }
+
+        .line-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            transform: translate(-50%, 50%);
+        }
+
+        .chart-line.users {
+            color: var(--secondary);
+        }
+
+        .chart-line.trips {
+            color: var(--highlight);
+        }
+
+        .chart-line.revenue {
+            color: var(--secondary);
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+
+        .legend-color.users {
+            background: var(--secondary);
+        }
+
+        .legend-color.trips {
+            background: var(--highlight);
+        }
+
+        .legend-color.revenue {
+            background: var(--secondary);
+        }
+
+        /* Donut Chart */
+        .donut-chart {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto 20px;
+            background: rgba(26, 26, 61, 0.05);
+        }
+
+        .donut-segment {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 90px, 180px, 0);
+            border-radius: 50%;
+        }
+
+        .donut-segment::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background: var(--neutral);
+            border-radius: 50%;
+            top: 10%;
+            left: 10%;
+        }
+
+        .donut-segment.travelers {
+            transform: rotate(0deg);
+            background: var(--secondary);
+        }
+
+        .donut-segment.senders {
+            transform: rotate(calc(0.6 * 360deg));
+            background: var(--secondary);
+        }
+
+        .donut-segment.both {
+            transform: rotate(calc(0.85 * 360deg));
+            background: var(--highlight);
+        }
+
+        .donut-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1;
+        }
+
+        .donut-center h4 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .donut-center small {
+            font-size: 12px;
+            color: rgba(26, 26, 61, 0.7);
+        }
+
+        /* Transaction List */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(26, 26, 61, 0.05);
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--neutral);
+            flex-shrink: 0;
+        }
+
+        .transaction-icon.success {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--secondary);
+        }
+
+        .transaction-icon.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--highlight);
+        }
+
+        .transaction-icon.processing {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--secondary);
+        }
+
+        .transaction-icon.failed {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--highlight);
+        }
+
+        .transaction-details {
+            flex-grow: 1;
+        }
+
+        .transaction-details p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .transaction-details small {
+            font-size: 12px;
+            color: rgba(26, 26, 61, 0.5);
+        }
+
+        .transaction-amount {
+            text-align: right;
+        }
+
+        .transaction-amount strong {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .transaction-amount small {
+            font-size: 12px;
+            display: block;
+            color: rgba(26, 26, 61, 0.5);
+        }
+
+        /* Time Filter */
+        .time-filter {
+            display: flex;
+            gap: 5px;
+            background: rgba(26, 26, 61, 0.05);
+            border-radius: 20px;
+            padding: 3px;
+        }
+
+        .time-filter button {
+            background: none;
+            border: none;
+            padding: 5px 12px;
+            font-size: 12px;
+            border-radius: 20px;
+            color: rgba(26, 26, 61, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-filter button.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--secondary);
+        }
+
+        .time-filter button:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-main {
+                margin-left: var(--sidebar-collapsed);
+                width: calc(100% - var(--sidebar-collapsed));
+            }
+            
+            .logo-text,
+            .nav-link span,
+            .profile-info,
+            .sidebar-header p {
+                display: none;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+            }
+            
+            .user-profile {
+                justify-content: center;
+            }
+            
+            .nav {
+                gap: 8px;
+            }
+            
+            .nav-item {
+                min-height: 44px;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 8px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .admin-sidebar.collapsed {
+                width: var(--sidebar-collapsed);
+            }
+            
+            .admin-sidebar.collapsed .logo-text,
+            .admin-sidebar.collapsed .nav-link span,
+            .admin-sidebar.collapsed .profile-info,
+            .admin-sidebar.collapsed .sidebar-header p {
+                display: none;
+            }
+            
+            .admin-sidebar.collapsed .logo-container {
+                justify-content: center;
+            }
+            
+            .admin-sidebar.collapsed .nav-link i {
+                margin-right: 0;
+            }
+            
+            .admin-sidebar.collapsed .user-profile {
+                justify-content: center;
+                padding: 8px 5px;
+            }
+            
+            .nav-link i {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-topbar h4 {
+                display: none;
+            }
+            
+            .search-box input {
+                width: 150px;
+            }
+            
+            .search-box input:focus {
+                width: 180px;
+            }
+        }
+    </style>
 </head>
 <body class="admin-body">
     <!-- Sidebar -->
@@ -86,7 +1138,7 @@
         <div class="sidebar-footer">
             <div class="user-profile">
                 <div class="profile-img">
-                    <span>AU</span> <!-- Initials as fallback -->
+                    <span>AU</span>
                 </div>
                 <div class="profile-info">
                     <h6>Admin User</h6>
@@ -114,52 +1166,21 @@
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search...">
                 </div>
-                <!-- Replace the <div class="notifications"> in the <nav class="admin-topbar"> section of each page -->
-<div class="notifications dropdown">
-    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-bell"></i>
-        <span class="badge" id="notificationBadge">0</span>
-    </a>
-    <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="
-        background: rgba(10, 25, 47, 0.95);
-        border: 1px solid rgba(108, 92, 231, 0.4);
-        border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        min-width: 300px;
-        max-height: 400px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(108, 92, 231, 0.5) transparent;
-    ">
-        <div class="dropdown-header" style="
-            padding: 10px 15px;
-            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            color: white;
-        ">
-            <span>Notifications</span>
-            <button class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" id="clearNotifications" style="
-                border: 1px solid rgba(108, 92, 231, 0.3);
-                border-radius: 8px;
-                padding: 4px 10px;
-            ">
-                <i class="fas fa-trash mr-1"></i> Clear All
-            </button>
-        </div>
-        <div id="notificationList" style="padding: 10px;">
-            <!-- Notifications will be dynamically inserted here -->
-        </div>
-    </div>
-</div>
-                <!-- <div class="quick-actions">
-                    <button class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus"></i> New
-                    </button>
-                </div> -->
+                <div class="notifications dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationBadge">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                        <div class="dropdown-header">
+                            <span>Notifications</span>
+                            <button class="btn btn-sm" id="clearNotifications">
+                                <i class="fas fa-trash mr-1"></i> Clear All
+                            </button>
+                        </div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
             </div>
         </nav>
 
@@ -469,9 +1490,7 @@
             sidebar.classList.toggle('collapsed');
             mainContent.classList.toggle('expanded');
             
-            // Store state in localStorage
-            const isCollapsed = sidebar.classList.contains('collapsed');
-            localStorage.setItem('sidebarCollapsed', isCollapsed);
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         });
 
         // Check localStorage for saved state on page load
@@ -484,96 +1503,81 @@
                 sidebar.classList.add('collapsed');
                 mainContent.classList.add('expanded');
             }
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-    // Sample notification data (can be replaced with API calls in a real implementation)
-    const initialNotifications = [
-        { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
-        { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
-        { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
-    ];
 
-    // Load notifications from localStorage or use initial data
-    let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
+            // Sample notification data
+            const initialNotifications = [
+                { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
+                { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
+                { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
+            ];
 
-    // Notification elements
-    const notificationBadge = document.getElementById('notificationBadge');
-    const notificationList = document.getElementById('notificationList');
-    const clearNotifications = document.getElementById('clearNotifications');
+            // Load notifications from localStorage or use initial data
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
 
-    // Function to render notifications
-    function renderNotifications() {
-        const unreadCount = notifications.filter(n => !n.read).length;
-        notificationBadge.textContent = unreadCount;
-        notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+            // Notification elements
+            const notificationBadge = document.getElementById('notificationBadge');
+            const notificationList = document.getElementById('notificationList');
+            const clearNotifications = document.getElementById('clearNotifications');
 
-        notificationList.innerHTML = notifications.length === 0
-            ? '<div style="padding: 10px; text-align: center; color: rgba(255,255,255,0.7);">No notifications</div>'
-            : notifications.map(n => `
-                <div class="dropdown-item notification-item ${n.read ? 'read' : ''}" style="
-                    padding: 10px 15px;
-                    border-bottom: 1px solid rgba(108, 92, 231, 0.1);
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    color: ${n.read ? 'rgba(255,255,255,0.5)' : 'white'};
-                    background: ${n.read ? 'transparent' : 'rgba(108, 92, 231, 0.1)'};
-                    transition: background 0.3s ease;
-                ">
-                    <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
-                        <div>${n.message}</div>
-                        <small style="color: rgba(255,255,255,0.5);">${n.time}</small>
-                    </a>
-                    <button class="btn btn-sm mark-read-btn" data-id="${n.id}" style="
-                        background: none;
-                        border: none;
-                        color: rgba(255,255,255,0.7);
-                        font-size: 12px;
-                    ">
-                        <i class="fas fa-check-circle"></i>
-                    </button>
-                </div>
-            `).join('');
+            // Function to render notifications
+            function renderNotifications() {
+                const unreadCount = notifications.filter(n => !n.read).length;
+                notificationBadge.textContent = unreadCount;
+                notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
 
-        // Add event listeners for mark read buttons
-        document.querySelectorAll('.mark-read-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = parseInt(this.dataset.id);
-                const notification = notifications.find(n => n.id === id);
-                if (notification) {
-                    notification.read = true;
-                    localStorage.setItem('notifications', JSON.stringify(notifications));
-                    renderNotifications();
-                }
+                notificationList.innerHTML = notifications.length === 0
+                    ? '<div style="padding: 10px; text-align: center; color: rgba(26,26,61,0.7);">No notifications</div>'
+                    : notifications.map(n => `
+                        <div class="dropdown-item notification-item ${n.read ? 'read' : ''}">
+                            <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
+                                <div>${n.message}</div>
+                                <small>${n.time}</small>
+                            </a>
+                            <button class="btn btn-sm mark-read-btn" data-id="${n.id}">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </div>
+                    `).join('');
+
+                // Add event listeners for mark read buttons
+                document.querySelectorAll('.mark-read-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        const notification = notifications.find(n => n.id === id);
+                        if (notification) {
+                            notification.read = true;
+                            localStorage.setItem('notifications', JSON.stringify(notifications));
+                            renderNotifications();
+                        }
+                    });
+                });
+            }
+
+            // Clear all notifications
+            clearNotifications.addEventListener('click', function() {
+                notifications = [];
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                renderNotifications();
             });
+
+            // Initial render
+            renderNotifications();
+
+            // Simulate new notifications (for demo purposes)
+            setInterval(() => {
+                const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+                const newNotification = {
+                    id: newId,
+                    message: `New event ${newId} occurred.`,
+                    time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                    read: false,
+                    link: 'index.html'
+                };
+                notifications.unshift(newNotification);
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                renderNotifications();
+            }, 60000);
         });
-    }
-
-    // Clear all notifications
-    clearNotifications.addEventListener('click', function() {
-        notifications = [];
-        localStorage.setItem('notifications', JSON.stringify(notifications));
-        renderNotifications();
-    });
-
-    // Initial render
-    renderNotifications();
-
-    // Simulate new notifications (for demo purposes)
-    setInterval(() => {
-        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
-        const newNotification = {
-            id: newId,
-            message: `New event ${newId} occurred.`,
-            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
-            read: false,
-            link: 'index.html'
-        };
-        notifications.unshift(newNotification);
-        localStorage.setItem('notifications', JSON.stringify(notifications));
-        renderNotifications();
-    }, 60000); // Add a new notification every 60 seconds (for demo)
-});
     </script>
 </body>
 </html>
