@@ -18,9 +18,15 @@
             --green: #10B981; /* Emerald green for additional accents */
             --neutral: #FFFFFF; /* White for element backgrounds */
             --page-bg: #F4F4F9; /* Softer grey for page background */
+            --error: #EF4444; /* Red for errors */
             --sidebar-width: 280px;
             --sidebar-collapsed: 80px;
             --topbar-height: 70px;
+            --border-light: rgba(26, 26, 61, 0.1);
+            --border-secondary: rgba(59, 130, 246, 0.2);
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -47,7 +53,7 @@
         .admin-main {
             margin-left: var(--sidebar-width);
             width: calc(100% - var(--sidebar-width));
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .admin-sidebar.collapsed + .admin-main {
@@ -59,7 +65,7 @@
         .admin-sidebar {
             width: var(--sidebar-width);
             background: var(--neutral);
-            border-right: 1px solid rgba(26, 26, 61, 0.1);
+            border-right: 1px solid var(--border-light);
             position: fixed;
             top: 0;
             left: 0;
@@ -84,7 +90,7 @@
 
         .sidebar-header {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
+            border-bottom: 1px solid var(--border-light);
             min-height: 40px;
             flex-shrink: 0;
             z-index: 1;
@@ -156,7 +162,7 @@
             padding: 8px 15px;
             color: rgba(26, 26, 61, 0.7);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             white-space: nowrap;
             position: relative;
             z-index: 1;
@@ -196,7 +202,7 @@
             width: 0;
             height: 2px;
             background: var(--secondary);
-            transition: all 0.3s ease;
+            transition: var(--transition);
             z-index: 0;
         }
 
@@ -218,7 +224,7 @@
 
         .sidebar-footer {
             padding: 10px 15px;
-            border-top: 1px solid rgba(26, 26, 61, 0.1);
+            border-top: 1px solid var(--border-light);
             flex-shrink: 0;
             z-index: 1;
         }
@@ -268,7 +274,7 @@
 
         .logout-btn {
             color: rgba(26, 26, 61, 0.5);
-            transition: all 0.3s ease;
+            transition: var(--transition);
             flex-shrink: 0;
             font-size: 16px;
         }
@@ -282,7 +288,7 @@
             height: var(--topbar-height);
             background: var(--primary);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
+            border-bottom: 1px solid var(--border-light);
             padding: 0 20px;
             display: flex;
             align-items: center;
@@ -304,7 +310,7 @@
             font-size: 20px;
             margin-right: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .sidebar-toggle:hover {
@@ -332,36 +338,36 @@
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--secondary);
+            color: var(--neutral);
         }
 
         .search-box input {
-            background: var(--neutral);
-            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
             padding: 8px 15px 8px 35px;
-            color: var(--primary);
+            color: var(--neutral);
             width: 200px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .search-box input:focus {
-            outline: none;
             width: 250px;
-            background: var(--neutral);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--secondary);
+            outline: none;
         }
 
         .search-box input::placeholder {
-            color: var(--primary);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .notifications.dropdown {
             position: relative;
-            margin-right: 20px;
             color: var(--neutral);
             font-size: 18px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .notifications.dropdown:hover {
@@ -385,33 +391,42 @@
 
         .notification-dropdown {
             background: var(--neutral);
-            border: 1px solid rgba(26, 26, 61, 0.1);
+            border: 1px solid var(--border-light);
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
             min-width: 300px;
             max-height: 400px;
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+            scrollbar-color: var(--secondary) transparent;
+        }
+
+        .notification-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-dropdown::-webkit-scrollbar-thumb {
+            background-color: var(--secondary);
+            border-radius: 10px;
         }
 
         .notification-dropdown .dropdown-header {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            border-bottom: 1px solid var(--border-secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: 'Roboto', sans-serif;
             font-size: 14px;
             color: var(--primary);
         }
 
         .notification-dropdown .dropdown-header button {
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid var(--border-secondary);
             border-radius: 8px;
             padding: 4px 10px;
             background: rgba(59, 130, 246, 0.1);
             color: var(--primary);
+            transition: var(--transition);
         }
 
         .notification-dropdown .dropdown-header button:hover {
@@ -420,12 +435,12 @@
 
         .notification-item {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid var(--border-secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: var(--primary);
-            transition: background 0.3s ease;
+            transition: var(--transition);
         }
 
         .notification-item.read {
@@ -468,14 +483,14 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(26, 26, 61, 0.1);
-            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
             height: 100%;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
         .stat-icon {
@@ -582,19 +597,19 @@
         .chart-card {
             background: var(--neutral);
             border-radius: 10px;
-            border: 1px solid rgba(26, 26, 61, 0.1);
-            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
             height: 100%;
         }
 
         .chart-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
         .card-header {
             padding: 15px 20px;
-            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
+            border-bottom: 1px solid var(--border-light);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -604,13 +619,14 @@
             margin: 0;
             font-weight: 500;
             color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
         }
 
         .view-all {
             font-size: 12px;
             color: var(--secondary);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .view-all:hover {
@@ -625,20 +641,33 @@
         .activity-card {
             background: var(--neutral);
             border-radius: 10px;
-            border: 1px solid rgba(26, 26, 61, 0.1);
-            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
             height: 100%;
         }
 
         .activity-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
         .activity-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary) transparent;
+        }
+
+        .activity-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .activity-list::-webkit-scrollbar-thumb {
+            background-color: var(--secondary);
+            border-radius: 10px;
         }
 
         .activity-item {
@@ -649,7 +678,7 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             padding: 12px;
-            transition: background 0.3s ease;
+            transition: var(--transition);
         }
 
         .activity-item:hover {
@@ -876,7 +905,7 @@
             align-items: center;
             gap: 15px;
             padding-bottom: 15px;
-            border-bottom: 1px solid rgba(26, 26, 61, 0.05);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .transaction-item:last-child {
@@ -961,7 +990,7 @@
             border-radius: 20px;
             color: rgba(26, 26, 61, 0.7);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .time-filter button.active {
@@ -971,6 +1000,189 @@
 
         .time-filter button:hover {
             color: var(--primary);
+        }
+
+        /* Dashboard Listing */
+        .listing-card {
+            background: var(--neutral);
+            border-radius: 10px;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nav-tabs .nav-link {
+            color: rgba(26, 26, 61, 0.7);
+            font-size: 14px;
+            padding: 10px 20px;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary);
+            background: rgba(26, 26, 61, 0.05);
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 15px 20px;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .filter-container .form-control,
+        .filter-container .form-select {
+            background: var(--neutral);
+            border: 1px solid var(--border-light);
+            color: var(--primary);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .filter-container .form-control:focus,
+        .filter-container .form-select:focus {
+            border-color: var(--secondary);
+            background: rgba(59, 130, 246, 0.05);
+            outline: none;
+        }
+
+        .filter-container .btn {
+            background: var(--secondary);
+            color: var(--neutral);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .filter-container .btn:hover {
+            background: var(--primary);
+            color: var(--neutral);
+        }
+
+        .listing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .listing-table th,
+        .listing-table td {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .listing-table th {
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .listing-table th:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .listing-table th.sort-asc::after,
+        .listing-table th.sort-desc::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-left: 5px;
+            border: solid var(--secondary);
+            border-width: 0 2px 2px 0;
+        }
+
+        .listing-table th.sort-asc::after {
+            transform: rotate(-45deg);
+        }
+
+        .listing-table th.sort-desc::after {
+            transform: rotate(135deg);
+        }
+
+        .listing-table td {
+            color: rgba(26, 26, 61, 0.7);
+        }
+
+        .listing-table .status-active {
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        .listing-table .status-inactive {
+            color: var(--error);
+            font-weight: 500;
+        }
+
+        .listing-table .action-btn {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 14px;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .listing-table .action-btn:hover {
+            color: var(--highlight);
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 5px;
+        }
+
+        .pagination .page-item .page-link {
+            background: var(--neutral);
+            border: 1px solid var(--border-light);
+            color: var(--primary);
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .pagination .page-item.active .page-link {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: var(--neutral);
+        }
+
+        .pagination .page-item .page-link:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--secondary);
         }
 
         /* Responsive Adjustments */
@@ -1015,6 +1227,16 @@
                 justify-content: center;
                 padding: 8px;
             }
+
+            .filter-container {
+                flex-direction: column;
+            }
+
+            .listing-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
         }
 
         @media (min-width: 992px) {
@@ -1058,6 +1280,11 @@
             
             .search-box input:focus {
                 width: 180px;
+            }
+
+            .pagination-container {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -1161,7 +1388,7 @@
             <div class="topbar-right">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
+                    <input type="text" placeholder="Search..." id="topSearchInput">
                 </div>
                 <div class="notifications dropdown">
                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1471,6 +1698,128 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Dashboard Listing -->
+                <div class="col-12">
+                    <div class="listing-card">
+                        <div class="card-header">
+                            <h5>User Listings</h5>
+                            
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="travelers">
+                                    <div class="filter-container">
+                                        <input type="text" class="form-control" id="searchTravelers" placeholder="Search by name or email...">
+                                        <input type="text" class="form-control" id="filterLocationTravelers" placeholder="Filter by location...">
+                                        <select class="form-select" id="filterStatusTravelers">
+                                            <option value="">All Statuses</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                        <select class="form-select" id="filterRoleTravelers">
+                                            <option value="">All Roles</option>
+                                            <option value="Traveler">Traveler</option>
+                                            <option value="Both">Both</option>
+                                        </select>
+                                        <button class="btn" id="exportTravelers"><i class="fas fa-download mr-1"></i> Export CSV</button>
+                                    </div>
+                                    <table class="listing-table">
+                                        <thead>
+                                            <tr>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="name">Name</th>
+                                                <th data-sort="email">Email</th>
+                                                <th data-sort="location">Location</th>
+                                                <th data-sort="role">Role</th>
+                                                <th data-sort="status">Status</th>
+                                                <th data-sort="last_active">Last Active</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="travelersTable"></tbody>
+                                    </table>
+                                    <div class="pagination-container">
+                                        <span id="travelersCount"></span>
+                                        <nav>
+                                            <ul class="pagination" id="travelersPagination"></ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="senders">
+                                    <div class="filter-container">
+                                        <input type="text" class="form-control" id="searchSenders" placeholder="Search by name or email...">
+                                        <input type="text" class="form-control" id="filterLocationSenders" placeholder="Filter by location...">
+                                        <select class="form-select" id="filterStatusSenders">
+                                            <option value="">All Statuses</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                        <select class="form-select" id="filterRoleSenders">
+                                            <option value="">All Roles</option>
+                                            <option value="Sender">Sender</option>
+                                            <option value="Both">Both</option>
+                                        </select>
+                                        <button class="btn" id="exportSenders"><i class="fas fa-download mr-1"></i> Export CSV</button>
+                                    </div>
+                                    <table class="listing-table">
+                                        <thead>
+                                            <tr>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="name">Name</th>
+                                                <th data-sort="email">Email</th>
+                                                <th data-sort="location">Location</th>
+                                                <th data-sort="role">Role</th>
+                                                <th data-sort="status">Status</th>
+                                                <th data-sort="last_active">Last Active</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="sendersTable"></tbody>
+                                    </table>
+                                    <div class="pagination-container">
+                                        <span id="sendersCount"></span>
+                                        <nav>
+                                            <ul class="pagination" id="sendersPagination"></ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="receivers">
+                                    <div class="filter-container">
+                                        <input type="text" class="form-control" id="searchReceivers" placeholder="Search by name or email...">
+                                        <input type="text" class="form-control" id="filterLocationReceivers" placeholder="Filter by location...">
+                                        <select class="form-select" id="filterStatusReceivers">
+                                            <option value="">All Statuses</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                        <button class="btn" id="exportReceivers"><i class="fas fa-download mr-1"></i> Export CSV</button>
+                                    </div>
+                                    <table class="listing-table">
+                                        <thead>
+                                            <tr>
+                                                <th data-sort="id">ID</th>
+                                                <th data-sort="name">Name</th>
+                                                <th data-sort="email">Email</th>
+                                                <th data-sort="location">Location</th>
+                                                <th data-sort="status">Status</th>
+                                                <th data-sort="last_active">Last Active</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="receiversTable"></tbody>
+                                    </table>
+                                    <div class="pagination-container">
+                                        <span id="receiversCount"></span>
+                                        <nav>
+                                            <ul class="pagination" id="receiversPagination"></ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1490,7 +1839,7 @@
             localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         });
 
-        // Check localStorage for saved state on page load
+        // Page load
         document.addEventListener('DOMContentLoaded', function() {
             const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
             const sidebar = document.querySelector('.admin-sidebar');
@@ -1502,14 +1851,11 @@
             }
 
             // Sample notification data
-            const initialNotifications = [
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || [
                 { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
                 { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
                 { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
             ];
-
-            // Load notifications from localStorage or use initial data
-            let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
 
             // Notification elements
             const notificationBadge = document.getElementById('notificationBadge');
@@ -1525,18 +1871,17 @@
                 notificationList.innerHTML = notifications.length === 0
                     ? '<div style="padding: 10px; text-align: center; color: rgba(26,26,61,0.7);">No notifications</div>'
                     : notifications.map(n => `
-                        <div class="dropdown-item notification-item ${n.read ? 'read' : ''}">
+                        <div class="notification-item ${n.read ? 'read' : ''}">
                             <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
                                 <div>${n.message}</div>
                                 <small>${n.time}</small>
                             </a>
-                            <button class="btn btn-sm mark-read-btn" data-id="${n.id}">
+                            <button class="mark-read-btn" data-id="${n.id}">
                                 <i class="fas fa-check-circle"></i>
                             </button>
                         </div>
                     `).join('');
 
-                // Add event listeners for mark read buttons
                 document.querySelectorAll('.mark-read-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const id = parseInt(this.dataset.id);
@@ -1557,9 +1902,6 @@
                 renderNotifications();
             });
 
-            // Initial render
-            renderNotifications();
-
             // Simulate new notifications (for demo purposes)
             setInterval(() => {
                 const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
@@ -1574,7 +1916,268 @@
                 localStorage.setItem('notifications', JSON.stringify(notifications));
                 renderNotifications();
             }, 60000);
-        });
-    </script>
-</body>
-</html>
+
+            // Sample user data
+            const initialUsers = [
+                { id: 1, name: 'John Doe', email: 'john.doe@example.com', location: 'New York', role: 'Traveler', status: 'active', last_active: '2025-08-08 12:00' },
+                { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com', location: 'Los Angeles', role: 'Sender', status: 'active', last_active: '2025-08-08 11:30' },
+                { id: 3, name: 'Alice Brown', email: 'alice.brown@example.com', location: 'Chicago', role: 'Both', status: 'inactive', last_active: '2025-08-07 09:00' },
+                { id: 4, name: 'Bob Johnson', email: 'bob.johnson@example.com', location: 'New York', role: 'Traveler', status: 'active', last_active: '2025-08-08 10:15' },
+                { id: 5, name: 'Emma Wilson', email: 'emma.wilson@example.com', location: 'Miami', role: 'Sender', status: 'active', last_active: '2025-08-08 08:45' },
+                { id: 6, name: 'Michael Lee', email: 'michael.lee@example.com', location: 'Los Angeles', role: 'Receiver', status: 'active', last_active: '2025-08-08 07:30' },
+                { id: 7, name: 'Sarah Davis', email: 'sarah.davis@example.com', location: 'Boston', role: 'Receiver', status: 'inactive', last_active: '2025-08-07 14:00' },
+                { id: 8, name: 'David Clark', email: 'david.clark@example.com', location: 'New York', role: 'Both', status: 'active', last_active: '2025-08-08 09:00' }
+            ];
+
+            let users = JSON.parse(localStorage.getItem('users')) || initialUsers;
+            if (!localStorage.getItem('users')) {
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+
+            // Dashboard Listing
+            const tabs = {
+                travelers: {
+                    table: document.getElementById('travelersTable'),
+                    search: document.getElementById('searchTravelers'),
+                    location: document.getElementById('filterLocationTravelers'),
+                    status: document.getElementById('filterStatusTravelers'),
+                    role: document.getElementById('filterRoleTravelers'),
+                    export: document.getElementById('exportTravelers'),
+                    count: document.getElementById('travelersCount'),
+                    pagination: document.getElementById('travelersPagination'),
+                    filterFn: user => user.role === 'Traveler' || user.role === 'Both'
+                },
+                senders: {
+                    table: document.getElementById('sendersTable'),
+                    search: document.getElementById('searchSenders'),
+                    location: document.getElementById('filterLocationSenders'),
+                    status: document.getElementById('filterStatusSenders'),
+                    role: document.getElementById('filterRoleSenders'),
+                    export: document.getElementById('exportSenders'),
+                    count: document.getElementById('sendersCount'),
+                    pagination: document.getElementById('sendersPagination'),
+                    filterFn: user => user.role === 'Sender' || user.role === 'Both'
+                },
+                receivers: {
+                    table: document.getElementById('receiversTable'),
+                    search: document.getElementById('searchReceivers'),
+                    location: document.getElementById('filterLocationReceivers'),
+                    status: document.getElementById('filterStatusReceivers'),
+                    export: document.getElementById('exportReceivers'),
+                    count: document.getElementById('receiversCount'),
+                    pagination: document.getElementById('receiversPagination'),
+                    filterFn: user => user.role === 'Receiver' || user.role === 'Both'
+                }
+            };
+
+            let currentTab = 'travelers';
+            let sortConfig = { key: 'id', direction: 'asc' };
+            let currentPage = { travelers: 1, senders: 1, receivers: 1 };
+            const itemsPerPage = 10;
+
+            function filterUsers(tab) {
+                const search = tabs[tab].search.value.toLowerCase();
+                const location = tabs[tab].location.value.toLowerCase();
+                const status = tabs[tab].status.value;
+                const role = tabs[tab].role ? tabs[tab].role.value : '';
+
+                return users.filter(user => {
+                    return tabs[tab].filterFn(user) &&
+                           (search === '' || user.name.toLowerCase().includes(search) || user.email.toLowerCase().includes(search)) &&
+                           (location === '' || user.location.toLowerCase().includes(location)) &&
+                           (status === '' || user.status === status) &&
+                           (role === '' || user.role === role);
+                });
+            }
+
+            function sortUsers(usersToSort, key, direction) {
+                return usersToSort.sort((a, b) => {
+                    let aValue = a[key];
+                    let bValue = b[key];
+                    if (key === 'last_active') {
+                        aValue = new Date(aValue);
+                        bValue = new Date(bValue);
+                    }
+                    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+                    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }
+
+            function renderTable(tab) {
+                let filteredUsers = filterUsers(tab);
+                filteredUsers = sortUsers(filteredUsers, sortConfig.key, sortConfig.direction);
+                const totalItems = filteredUsers.length;
+                const start = (currentPage[tab] - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedUsers = filteredUsers.slice(start, end);
+
+                tabs[tab].table.innerHTML = paginatedUsers.map(user => `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.location}</td>
+                        ${tab !== 'receivers' ? `<td>${user.role}</td>` : ''}
+                        <td class="status-${user.status}">${user.status.charAt(0).toUpperCase() + user.status.slice(1)}</td>
+                        <td>${user.last_active}</td>
+                        <td>
+                            <button class="action-btn view-profile" data-id="${user.id}"><i class="fas fa-eye"></i> View</button>
+                            <button class="action-btn send-notification" data-id="${user.id}"><i class="fas fa-paper-plane"></i> Notify</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                tabs[tab].count.textContent = `Showing ${start + 1}-${Math.min(end, totalItems)} of ${totalItems} users`;
+
+                renderPagination(tab, totalItems);
+
+                document.querySelectorAll(`#${tab}Table .view-profile`).forEach(btn => {
+                    btn.addEventListener('click', () => alert(`View profile for user ID: ${btn.dataset.id}`));
+                });
+
+                document.querySelectorAll(`#${tab}Table .send-notification`).forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const userId = parseInt(btn.dataset.id);
+                        const user = users.find(u => u.id === userId);
+                        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+                        notifications.push({
+                            id: newId,
+                            message: `Notification sent to ${user.name}.`,
+                            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                            read: false,
+                            link: 'users.html'
+                        });
+                        localStorage.setItem('notifications', JSON.stringify(notifications));
+                        renderNotifications();
+                        alert(`Notification sent to ${user.name}!`);
+                    });
+                });
+            }
+
+            function renderPagination(tab, totalItems) {
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                tabs[tab].pagination.innerHTML = `
+                    <li class="page-item ${currentPage[tab] === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-page="prev">Previous</a>
+                    </li>
+                    ${Array.from({ length: totalPages }, (_, i) => i + 1).map(page => `
+                        <li class="page-item ${currentPage[tab] === page ? 'active' : ''}">
+                            <a class="page-link" href="#" data-page="${page}">${page}</a>
+                        </li>
+                    `).join('')}
+                    <li class="page-item ${currentPage[tab] === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-page="next">Next</a>
+                    </li>
+                `;
+
+                tabs[tab].pagination.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', e => {
+                        e.preventDefault();
+                        const page = link.dataset.page;
+                        if (page === 'prev' && currentPage[tab] > 1) {
+                            currentPage[tab]--;
+                        } else if (page === 'next' && currentPage[tab] < totalPages) {
+                            currentPage[tab]++;
+                        } else if (!isNaN(page)) {
+                            currentPage[tab] = parseInt(page);
+                        }
+                        renderTable(tab);
+                    });
+                });
+            }
+
+            function exportCSV(tab) {
+                const filteredUsers = filterUsers(tab);
+                const headers = tab === 'receivers'
+                    ? ['ID', 'Name', 'Email', 'Location', 'Status', 'Last Active']
+                    : ['ID', 'Name', 'Email', 'Location', 'Role', 'Status', 'Last Active'];
+                const rows = filteredUsers.map(user => [
+                    user.id,
+                    `"${user.name}"`,
+                    `"${user.email}"`,
+                    `"${user.location}"`,
+                    ...(tab !== 'receivers' ? [`"${user.role}"`] : []),
+                    `"${user.status}"`,
+                    `"${user.last_active}"`
+                ]);
+                const csvContent = [
+                    headers.join(','),
+                    ...rows.map(row => row.join(','))
+                ].join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `${tab}_users_${new Date().toISOString().slice(0, 10)}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            Object.keys(tabs).forEach(tab => {
+                tabs[tab].search.addEventListener('input', () => {
+                    currentPage[tab] = 1;
+                    renderTable(tab);
+                });
+                tabs[tab].location.addEventListener('input', () => {
+                    currentPage[tab] = 1;
+                    renderTable(tab);
+                });
+                tabs[tab].status.addEventListener('change', () => {
+                    currentPage[tab] = 1;
+                    renderTable(tab);
+                });
+                if (tabs[tab].role) {
+                    tabs[tab].role.addEventListener('change', () => {
+                        currentPage[tab] = 1;
+                        renderTable(tab);
+                    });
+                }
+                tabs[tab].export.addEventListener('click', () => exportCSV(tab));
+                tabs[tab].table.parentElement.querySelectorAll('th[data-sort]').forEach(th => {
+                    th.addEventListener('click', () => {
+                        const key = th.dataset.sort;
+                        if (sortConfig.key === key) {
+                            sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+                        } else {
+                            sortConfig.key = key;
+                            sortConfig.direction = 'asc';
+                        }
+                        document.querySelectorAll(`#${tab}Table th`).forEach(header => {
+                            header.classList.remove('sort-asc', 'sort-desc');
+                        });
+                        th.classList.add(`sort-${sortConfig.direction}`);
+                        renderTable(tab);
+                    });
+                });
+            });
+
+            document.querySelectorAll('.nav-tabs .nav-link').forEach(link => {
+                link.addEventListener('shown.bs.tab', e => {
+                    currentTab = e.target.getAttribute('href').slice(1);
+                    renderTable(currentTab);
+                });
+            });
+
+            document.getElementById('topSearchInput').addEventListener('input', function() {
+                const search = this.value.toLowerCase();
+                tabs[currentTab].search.value = search;
+                currentPage[currentTab] = 1;
+                renderTable(currentTab);
+            });
+
+            // Time filter for chart (placeholder functionality)
+            document.querySelectorAll('.time-filter button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.time-filter button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    // Placeholder for chart update
+                    console.log(`Filter changed to: ${this.textContent}`);
+                });
+            });
+            // Initial render
+renderNotifications();
+renderTable(currentTab);
+});
+</script>
