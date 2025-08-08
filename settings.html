@@ -606,6 +606,71 @@
             filter: invert(1) grayscale(100%) brightness(200%);
         }
 
+        /* Email Templating Styles */
+        .email-template-list {
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+        }
+
+        .email-template-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .email-template-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .email-template-list::-webkit-scrollbar-thumb {
+            background-color: rgba(59, 130, 246, 0.5);
+            border-radius: 10px;
+        }
+
+        .template-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .template-item:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .template-item span {
+            color: var(--primary);
+            font-size: 14px;
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        .template-item button {
+            background: none;
+            border: none;
+            color: rgba(26, 26, 61, 0.7);
+            font-size: 14px;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .template-item button:hover {
+            color: var(--secondary);
+        }
+
+        .email-preview {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 150px;
+            color: var(--primary);
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .admin-sidebar {
@@ -882,39 +947,47 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Uncomment User Role Settings if needed -->
-                    <!--
+                    <!-- Email Templating -->
                     <div class="settings-section">
-                        <h5>User Role Permissions</h5>
+                        <h5>Email Templating</h5>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="adminPermissions" class="form-label">Admin Permissions</label>
-                                <select class="form-select" id="adminPermissions" multiple>
-                                    <option value="manage_users" selected>Manage Users</option>
-                                    <option value="manage_trips" selected>Manage Trips</option>
-                                    <option value="manage_packages" selected>Manage Packages</option>
-                                    <option value="manage_transactions" selected>Manage Transactions</option>
-                                    <option value="manage_disputes" selected>Manage Disputes</option>
-                                    <option value="view_analytics" selected>View Analytics</option>
-                                    <option value="manage_settings" selected>Manage Settings</option>
-                                </select>
+                                <label for="templateName" class="form-label">Template Name</label>
+                                <input type="text" class="form-control" id="templateName" placeholder="e.g., Order Confirmation">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="driverPermissions" class="form-label">Driver Permissions</label>
-                                <select class="form-select" id="driverPermissions" multiple>
-                                    <option value="view_trips" selected>View Trips</option>
-                                    <option value="manage_packages">Manage Packages</option>
-                                    <option value="view_transactions">View Transactions</option>
-                                </select>
+                                <label for="templateSubject" class="form-label">Email Subject</label>
+                                <input type="text" class="form-control" id="templateSubject" placeholder="e.g., Your Order Confirmation">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="templateBody" class="form-label">Email Body (use {user_name}, {order_id}, etc.)</label>
+                                <textarea class="form-control" id="templateBody" rows="6" placeholder="Dear {user_name},\nYour order {order_id} has been confirmed..."></textarea>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Available Variables</label>
+                                <p class="text-muted" style="font-size: 14px;">{user_name}, {order_id}, {trip_id}, {package_id}, {support_email}, {support_phone}</p>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Preview</label>
+                                <div class="email-preview" id="templatePreview">Enter a template to preview.</div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="action-buttons">
+                                    <button id="clearTemplate"><i class="fas fa-eraser mr-2"></i>Clear</button>
+                                    <button id="saveTemplate" data-bs-toggle="modal" data-bs-target="#confirmTemplateModal"><i class="fas fa-save mr-2"></i>Save Template</button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Saved Templates</label>
+                                <div class="email-template-list" id="templateList"></div>
                             </div>
                         </div>
                     </div>
-                    -->
                 </div>
             </div>
         </div>
 
-        <!-- Confirm Save Modal -->
+        <!-- Confirm Save Settings Modal -->
         <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -928,6 +1001,25 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-sm" id="confirmSaveButton">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Save Template Modal -->
+        <div class="modal fade" id="confirmTemplateModal" tabindex="-1" aria-labelledby="confirmTemplateModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmTemplateModalLabel">Confirm Save Template</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to save this email template?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-sm" id="confirmTemplateSaveButton">Save</button>
                     </div>
                 </div>
             </div>
@@ -985,18 +1077,6 @@
             document.getElementById('smsNotifications').checked = savedSettings.smsNotifications;
             document.getElementById('notificationFrequency').value = savedSettings.notificationFrequency;
 
-            // Uncomment if User Role Settings are enabled
-            /*
-            const adminPermissionsSelect = document.getElementById('adminPermissions');
-            Array.from(adminPermissionsSelect.options).forEach(option => {
-                option.selected = savedSettings.adminPermissions.includes(option.value);
-            });
-            const driverPermissionsSelect = document.getElementById('driverPermissions');
-            Array.from(driverPermissionsSelect.options).forEach(option => {
-                option.selected = savedSettings.driverPermissions.includes(option.value);
-            });
-            */
-
             // Search functionality
             document.getElementById('searchInput').addEventListener('input', function() {
                 const search = this.value.toLowerCase();
@@ -1007,7 +1087,7 @@
                 });
             });
 
-            // Form validation
+            // Form validation for platform settings
             function validateSettings() {
                 const deliveryFee = parseFloat(document.getElementById('deliveryFee').value);
                 const maxPackageWeight = parseInt(document.getElementById('maxPackageWeight').value);
@@ -1033,7 +1113,7 @@
                 return true;
             }
 
-            // Save settings
+            // Save platform settings
             document.getElementById('confirmSaveButton').addEventListener('click', function() {
                 if (validateSettings()) {
                     const newSettings = {
@@ -1043,9 +1123,7 @@
                         supportPhone: document.getElementById('supportPhone').value,
                         emailNotifications: document.getElementById('emailNotifications').checked,
                         smsNotifications: document.getElementById('smsNotifications').checked,
-                        notificationFrequency: document.getElementById('notificationFrequency').value,
-                        adminPermissions: Array.from(document.getElementById('adminPermissions')?.selectedOptions || []).map(option => option.value),
-                        driverPermissions: Array.from(document.getElementById('driverPermissions')?.selectedOptions || []).map(option => option.value)
+                        notificationFrequency: document.getElementById('notificationFrequency').value
                     };
                     localStorage.setItem('platformSettings', JSON.stringify(newSettings));
                     bootstrap.Modal.getInstance(document.getElementById('confirmSaveModal')).hide();
@@ -1053,7 +1131,7 @@
                 }
             });
 
-            // Reset settings
+            // Reset platform settings
             document.getElementById('resetSettings').addEventListener('click', function() {
                 document.getElementById('deliveryFee').value = defaultSettings.deliveryFee;
                 document.getElementById('maxPackageWeight').value = defaultSettings.maxPackageWeight;
@@ -1062,19 +1140,167 @@
                 document.getElementById('emailNotifications').checked = defaultSettings.emailNotifications;
                 document.getElementById('smsNotifications').checked = defaultSettings.smsNotifications;
                 document.getElementById('notificationFrequency').value = defaultSettings.notificationFrequency;
-
-                // Uncomment if User Role Settings are enabled
-                /*
-                Array.from(adminPermissionsSelect.options).forEach(option => {
-                    option.selected = defaultSettings.adminPermissions.includes(option.value);
-                });
-                Array.from(driverPermissionsSelect.options).forEach(option => {
-                    option.selected = defaultSettings.driverPermissions.includes(option.value);
-                });
-                */
-
                 alert('Settings reset to defaults.');
             });
+
+            // Email Templating Functionality
+            let emailTemplates = JSON.parse(localStorage.getItem('emailTemplates')) || [
+                {
+                    id: 1,
+                    name: 'Order Confirmation',
+                    subject: 'Your Order Confirmation',
+                    body: 'Dear {user_name},\nYour order {order_id} has been confirmed.\nContact us at {support_email} for assistance.'
+                },
+                {
+                    id: 2,
+                    name: 'Trip Update',
+                    subject: 'Trip {trip_id} Status Update',
+                    body: 'Dear {user_name},\nYour trip {trip_id} has been updated.\nCheck details or contact {support_phone}.'
+                }
+            ];
+
+            // Save initial templates to localStorage if not present
+            if (!localStorage.getItem('emailTemplates')) {
+                localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
+            }
+
+            const templateNameInput = document.getElementById('templateName');
+            const templateSubjectInput = document.getElementById('templateSubject');
+            const templateBodyInput = document.getElementById('templateBody');
+            const templatePreview = document.getElementById('templatePreview');
+            const templateList = document.getElementById('templateList');
+            const clearTemplateButton = document.getElementById('clearTemplate');
+            const saveTemplateButton = document.getElementById('confirmTemplateSaveButton');
+
+            // Function to preview template
+            function previewTemplate() {
+                const body = templateBodyInput.value || 'Enter a template to preview.';
+                const variables = {
+                    user_name: 'John Doe',
+                    order_id: 'ORD-123',
+                    trip_id: 'TRP-456',
+                    package_id: 'PKG-789',
+                    support_email: savedSettings.supportEmail,
+                    support_phone: savedSettings.supportPhone
+                };
+                let previewText = body;
+                for (const [key, value] of Object.entries(variables)) {
+                    previewText = previewText.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
+                }
+                templatePreview.textContent = previewText;
+            }
+
+            // Function to render template list
+            function renderTemplateList() {
+                templateList.innerHTML = emailTemplates.length === 0
+                    ? '<div style="padding: 10px; text-align: center; color: rgba(26, 26, 61, 0.7);">No templates saved</div>'
+                    : emailTemplates.map(t => `
+                        <div class="template-item">
+                            <span data-id="${t.id}">${t.name}</span>
+                            <button class="edit-template" data-id="${t.id}"><i class="fas fa-edit"></i></button>
+                            <button class="delete-template" data-id="${t.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `).join('');
+
+                // Add event listeners for edit and delete buttons
+                document.querySelectorAll('.edit-template').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        const template = emailTemplates.find(t => t.id === id);
+                        if (template) {
+                            templateNameInput.value = template.name;
+                            templateSubjectInput.value = template.subject;
+                            templateBodyInput.value = template.body;
+                            templateNameInput.dataset.id = id;
+                            previewTemplate();
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.delete-template').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        emailTemplates = emailTemplates.filter(t => t.id !== id);
+                        localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
+                        renderTemplateList();
+                        if (templateNameInput.dataset.id == id) {
+                            templateNameInput.value = '';
+                            templateSubjectInput.value = '';
+                            templateBodyInput.value = '';
+                            delete templateNameInput.dataset.id;
+                            previewTemplate();
+                        }
+                    });
+                });
+            }
+
+            // Event listeners for template inputs
+            templateNameInput.addEventListener('input', previewTemplate);
+            templateSubjectInput.addEventListener('input', previewTemplate);
+            templateBodyInput.addEventListener('input', previewTemplate);
+
+            // Clear template form
+            clearTemplateButton.addEventListener('click', function() {
+                templateNameInput.value = '';
+                templateSubjectInput.value = '';
+                templateBodyInput.value = '';
+                delete templateNameInput.dataset.id;
+                previewTemplate();
+            });
+
+            // Validate and save template
+            function validateTemplate() {
+                const name = templateNameInput.value.trim();
+                const subject = templateSubjectInput.value.trim();
+                const body = templateBodyInput.value.trim();
+
+                if (!name) {
+                    alert('Template name is required.');
+                    return false;
+                }
+                if (!subject) {
+                    alert('Email subject is required.');
+                    return false;
+                }
+                if (!body) {
+                    alert('Email body is required.');
+                    return false;
+                }
+                return true;
+            }
+
+            saveTemplateButton.addEventListener('click', function() {
+                if (validateTemplate()) {
+                    const id = templateNameInput.dataset.id ? parseInt(templateNameInput.dataset.id) : (emailTemplates.length ? Math.max(...emailTemplates.map(t => t.id)) + 1 : 1);
+                    const newTemplate = {
+                        id,
+                        name: templateNameInput.value.trim(),
+                        subject: templateSubjectInput.value.trim(),
+                        body: templateBodyInput.value.trim()
+                    };
+
+                    if (templateNameInput.dataset.id) {
+                        const index = emailTemplates.findIndex(t => t.id === id);
+                        emailTemplates[index] = newTemplate;
+                    } else {
+                        emailTemplates.push(newTemplate);
+                    }
+
+                    localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
+                    renderTemplateList();
+                    templateNameInput.value = '';
+                    templateSubjectInput.value = '';
+                    templateBodyInput.value = '';
+                    delete templateNameInput.dataset.id;
+                    previewTemplate();
+                    bootstrap.Modal.getInstance(document.getElementById('confirmTemplateModal')).hide();
+                    alert('Template saved successfully!');
+                }
+            });
+
+            // Initial render of templates
+            renderTemplateList();
+            previewTemplate();
 
             // Notification functionality
             let notifications = JSON.parse(localStorage.getItem('notifications')) || [
@@ -1083,7 +1309,7 @@
                 { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
             ];
 
-            // Save initial notifications to localStorage if not already present
+            // Save initial notifications to localStorage if not present
             if (!localStorage.getItem('notifications')) {
                 localStorage.setItem('notifications', JSON.stringify(notifications));
             }
