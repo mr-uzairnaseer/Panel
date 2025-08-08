@@ -12,15 +12,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1A1A3D; /* Darker navy for text and primary elements */
+            --primary: #1A1A3D; /* Darker navy for text */
             --secondary: #3B82F6; /* Softer blue for accents */
             --highlight: #F59E0B; /* Amber for highlights */
-            --green: #10B981; /* Emerald green for additional accents */
-            --neutral: #FFFFFF; /* White for element backgrounds */
-            --page-bg: #F4F4F9; /* Softer grey for page background */
+            --green: #10B981; /* Emerald green */
+            --neutral: #FFFFFF; /* White for backgrounds */
+            --page-bg: #F4F4F9; /* Softer grey for page */
+            --error: #EF4444; /* Red for errors */
             --sidebar-width: 280px;
             --sidebar-collapsed: 80px;
             --topbar-height: 70px;
+            --border-light: rgba(26, 26, 61, 0.1);
+            --border-secondary: rgba(59, 130, 246, 0.2);
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -36,18 +43,15 @@
             overflow-x: hidden;
         }
 
-        /* Futuristic Admin Theme */
         .admin-body {
             display: flex;
             min-height: 100vh;
-            background-color: var(--page-bg);
-            color: var(--primary);
         }
 
         .admin-main {
             margin-left: var(--sidebar-width);
             width: calc(100% - var(--sidebar-width));
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .admin-sidebar.collapsed + .admin-main {
@@ -55,20 +59,19 @@
             width: calc(100% - var(--sidebar-collapsed));
         }
 
-        /* Sidebar Styles */
+        /* Sidebar */
         .admin-sidebar {
             width: var(--sidebar-width);
             background: var(--neutral);
-            border-right: 1px solid rgba(26, 26, 61, 0.1);
+            border-right: 1px solid var(--border-light);
             position: fixed;
             top: 0;
             left: 0;
-            min-height: 100vh;
-            max-height: 100vh;
+            height: 100vh;
             z-index: 1000;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            transition: var(--transition);
         }
 
         .admin-sidebar.collapsed {
@@ -84,21 +87,18 @@
 
         .sidebar-header {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
-            min-height: 40px;
+            border-bottom: 1px solid var(--border-light);
             flex-shrink: 0;
-            z-index: 1;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            padding-top: 10px;
             gap: 10px;
         }
 
         .logo-icon {
-            min-width: 40px;
+            width: 40px;
             height: 40px;
             background: var(--secondary);
             border-radius: 10px;
@@ -115,7 +115,6 @@
             font-weight: 700;
             font-size: 22px;
             color: var(--primary);
-            transition: opacity 0.3s ease;
             white-space: nowrap;
         }
 
@@ -130,19 +129,26 @@
             text-transform: uppercase;
             margin-top: 3px;
             white-space: nowrap;
-            transition: opacity 0.3s ease;
         }
 
         .nav {
             padding: 10px 0;
             flex-grow: 1;
-            flex-shrink: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 2px;
             scrollbar-width: thin;
             scrollbar-color: rgba(26, 26, 61, 0.2) transparent;
+        }
+
+        .nav::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav::-webkit-scrollbar-thumb {
+            background-color: rgba(26, 26, 61, 0.2);
+            border-radius: 10px;
         }
 
         .nav-item {
@@ -156,12 +162,8 @@
             padding: 8px 15px;
             color: rgba(26, 26, 61, 0.7);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             white-space: nowrap;
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            height: 100%;
         }
 
         .nav-link i {
@@ -169,20 +171,6 @@
             min-width: 24px;
             text-align: center;
             margin-right: 12px;
-            transition: margin 0.3s ease;
-        }
-
-        .nav::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .nav::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .nav::-webkit-scrollbar-thumb {
-            background-color: rgba(26, 26, 61, 0.2);
-            border-radius: 10px;
         }
 
         .admin-sidebar.collapsed .nav-link i {
@@ -196,8 +184,7 @@
             width: 0;
             height: 2px;
             background: var(--secondary);
-            transition: all 0.3s ease;
-            z-index: 0;
+            transition: var(--transition);
         }
 
         .nav-item.active .link-underline {
@@ -207,20 +194,17 @@
         .nav-item.active .nav-link {
             color: var(--primary);
             background: rgba(59, 130, 246, 0.1);
-            z-index: 2;
         }
 
         .nav-link:hover {
             color: var(--primary);
             background: rgba(26, 26, 61, 0.05);
-            z-index: 2;
         }
 
         .sidebar-footer {
             padding: 10px 15px;
-            border-top: 1px solid rgba(26, 26, 61, 0.1);
+            border-top: 1px solid var(--border-light);
             flex-shrink: 0;
-            z-index: 1;
         }
 
         .user-profile {
@@ -245,7 +229,6 @@
         .profile-info {
             flex-grow: 1;
             overflow: hidden;
-            transition: opacity 0.3s ease;
         }
 
         .profile-info h6 {
@@ -268,8 +251,7 @@
 
         .logout-btn {
             color: rgba(26, 26, 61, 0.5);
-            transition: all 0.3s ease;
-            flex-shrink: 0;
+            transition: var(--transition);
             font-size: 16px;
         }
 
@@ -277,12 +259,11 @@
             color: var(--primary);
         }
 
-        /* Top Bar Styles */
+        /* Top Bar */
         .admin-topbar {
             height: var(--topbar-height);
             background: var(--primary);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
+            border-bottom: 1px solid var(--border-light);
             padding: 0 20px;
             display: flex;
             align-items: center;
@@ -304,7 +285,7 @@
             font-size: 20px;
             margin-right: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .sidebar-toggle:hover {
@@ -342,30 +323,28 @@
             padding: 8px 15px 8px 35px;
             color: var(--neutral);
             width: 200px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .search-box input:focus {
-            outline: none;
             width: 250px;
             background: rgba(255, 255, 255, 0.15);
             border-color: var(--secondary);
+            outline: none;
         }
 
         .search-box input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
 
-        .notifications.dropdown {
-            position: relative;
-            margin-right: 20px;
+        .notifications {
             color: var(--neutral);
             font-size: 18px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
-        .notifications.dropdown:hover {
+        .notifications:hover {
             color: var(--page-bg);
         }
 
@@ -386,33 +365,42 @@
 
         .notification-dropdown {
             background: var(--neutral);
-            border: 1px solid rgba(26, 26, 61, 0.1);
+            border: 1px solid var(--border-light);
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-lg);
             min-width: 300px;
             max-height: 400px;
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+            scrollbar-color: var(--secondary) transparent;
+        }
+
+        .notification-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-dropdown::-webkit-scrollbar-thumb {
+            background-color: var(--secondary);
+            border-radius: 10px;
         }
 
         .notification-dropdown .dropdown-header {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            border-bottom: 1px solid var(--border-secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: 'Roboto', sans-serif;
             font-size: 14px;
             color: var(--primary);
         }
 
         .notification-dropdown .dropdown-header button {
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid var(--border-secondary);
             border-radius: 8px;
             padding: 4px 10px;
             background: rgba(59, 130, 246, 0.1);
             color: var(--primary);
+            transition: var(--transition);
         }
 
         .notification-dropdown .dropdown-header button:hover {
@@ -421,17 +409,16 @@
 
         .notification-item {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid var(--border-secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: var(--primary);
-            transition: background 0.3s ease;
+            transition: var(--transition);
         }
 
         .notification-item.read {
             color: rgba(26, 26, 61, 0.5);
-            background: transparent;
         }
 
         .notification-item:not(.read) {
@@ -439,7 +426,6 @@
         }
 
         .notification-item a {
-            text-decoration: none;
             color: inherit;
             flex-grow: 1;
         }
@@ -455,11 +441,10 @@
             font-size: 12px;
         }
 
-        /* Main Content Styles */
+        /* Main Content */
         .admin-content {
             padding: 20px;
             min-height: calc(100vh - var(--topbar-height));
-            background: var(--page-bg);
         }
 
         .settings-card {
@@ -467,15 +452,14 @@
             border-radius: 10px;
             padding: 20px;
             position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(26, 26, 61, 0.1);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
         }
 
         .settings-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-lg);
         }
 
         .settings-card::before {
@@ -491,8 +475,11 @@
         }
 
         .card-header {
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            border-bottom: 1px solid var(--border-secondary);
             padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .settings-section h5 {
@@ -500,7 +487,7 @@
             font-size: 16px;
             color: var(--primary);
             margin-bottom: 15px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            border-bottom: 1px solid var(--border-secondary);
             padding-bottom: 10px;
         }
 
@@ -515,6 +502,7 @@
             color: var(--primary);
             border-radius: 8px;
             padding: 10px;
+            transition: var(--transition);
         }
 
         .form-control:focus, .form-select:focus {
@@ -524,7 +512,6 @@
         }
 
         .form-check-input {
-            background-color: transparent;
             border-color: rgba(26, 26, 61, 0.5);
         }
 
@@ -546,7 +533,7 @@
             padding: 8px 20px;
             color: var(--primary);
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .action-buttons button:hover {
@@ -557,13 +544,13 @@
 
         .modal-content {
             background: var(--neutral);
-            border: 1px solid rgba(26, 26, 61, 0.1);
+            border: 1px solid var(--border-light);
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-lg);
         }
 
         .modal-header, .modal-footer {
-            border-color: rgba(59, 130, 246, 0.2);
+            border-color: var(--border-secondary);
         }
 
         .modal-title {
@@ -606,24 +593,41 @@
             filter: invert(1) grayscale(100%) brightness(200%);
         }
 
-        /* Email Templating Styles */
+        /* Email Templating */
+        .email-template-container {
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .email-template-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .email-template-header h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: var(--primary);
+            margin: 0;
+        }
+
         .email-template-list {
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+            scrollbar-color: var(--secondary) transparent;
         }
 
         .email-template-list::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .email-template-list::-webkit-scrollbar-track {
-            background: transparent;
+            width: 6px;
         }
 
         .email-template-list::-webkit-scrollbar-thumb {
-            background-color: rgba(59, 130, 246, 0.5);
+            background-color: var(--secondary);
             border-radius: 10px;
         }
 
@@ -631,13 +635,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-            transition: background 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 6px;
+            background: var(--neutral);
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
         }
 
         .template-item:hover {
-            background: rgba(59, 130, 246, 0.05);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
         }
 
         .template-item span {
@@ -653,25 +661,211 @@
             color: rgba(26, 26, 61, 0.7);
             font-size: 14px;
             margin-left: 10px;
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
 
         .template-item button:hover {
             color: var(--secondary);
         }
 
-        .email-preview {
-            background: var(--neutral);
-            border: 1px solid rgba(26, 26, 61, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            min-height: 150px;
-            color: var(--primary);
-            font-size: 14px;
-            white-space: pre-wrap;
+        .template-item button.delete-template:hover {
+            color: var(--error);
         }
 
-        /* Responsive Adjustments */
+        .email-preview {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 200px;
+            color: var(--primary);
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: inset var(--shadow-sm);
+        }
+
+        .email-preview h3 {
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .template-variables {
+            background: rgba(26, 26, 61, 0.05);
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .template-variables span {
+            background: var(--secondary);
+            color: var(--neutral);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 2px;
+            font-size: 12px;
+        }
+
+        .form-control.invalid, .form-select.invalid {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Notification Table */
+        .notification-table {
+            background: var(--neutral);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .notification-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .notification-table th, .notification-table td {
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .notification-table th {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .notification-table td {
+            color: rgba(26, 26, 61, 0.7);
+        }
+
+        /* 3rd Party Configurations */
+        .third-party-config {
+            background: var(--neutral);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .third-party-item {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .third-party-item:last-child {
+            border-bottom: none;
+        }
+
+        .third-party-item h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .api-key-container {
+            position: relative;
+        }
+
+        .api-key-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(26, 26, 61, 0.7);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Chat Support Settings */
+        .chat-support-container {
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .chat-support-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chat-support-header h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .user-filter-container {
+            background: var(--neutral);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .user-list {
+            max-height: 200px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary) transparent;
+        }
+
+        .user-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .user-list::-webkit-scrollbar-thumb {
+            background-color: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .user-item span {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .notification-preview {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.15);
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            color: var(--primary);
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: inset var(--shadow-sm);
+        }
+
+        /* Responsive */
         @media (max-width: 992px) {
             .admin-sidebar {
                 width: var(--sidebar-collapsed);
@@ -689,16 +883,12 @@
                 display: none;
             }
             
-            .logo-container {
+            .logo-container, .user-profile, .nav-link {
                 justify-content: center;
             }
             
             .nav-link i {
                 margin-right: 0;
-            }
-            
-            .user-profile {
-                justify-content: center;
             }
             
             .nav {
@@ -709,35 +899,26 @@
                 min-height: 44px;
             }
             
-            .nav-link {
-                justify-content: center;
-                padding: 8px;
+            .email-template-container .col-md-6,
+            .third-party-config .col-md-6,
+            .chat-support-container .col-md-6 {
+                margin-bottom: 15px;
+            }
+            
+            .notification-table, .third-party-config, .chat-support-container {
+                overflow-x: auto;
             }
         }
 
         @media (min-width: 992px) {
-            .admin-sidebar.collapsed {
-                width: var(--sidebar-collapsed);
-            }
-            
-            .admin-sidebar.collapsed .logo-text,
-            .admin-sidebar.collapsed .nav-link span,
-            .admin-sidebar.collapsed .profile-info,
-            .admin-sidebar.collapsed .sidebar-header p {
-                display: none;
-            }
-            
-            .admin-sidebar.collapsed .logo-container {
+            .admin-sidebar.collapsed .logo-container,
+            .admin-sidebar.collapsed .user-profile,
+            .admin-sidebar.collapsed .nav-link {
                 justify-content: center;
             }
             
             .admin-sidebar.collapsed .nav-link i {
                 margin-right: 0;
-            }
-            
-            .admin-sidebar.collapsed .user-profile {
-                justify-content: center;
-                padding: 8px 5px;
             }
             
             .nav-link i {
@@ -765,6 +946,12 @@
             
             .action-buttons button {
                 width: 100%;
+            }
+            
+            .email-template-header, .chat-support-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
         }
     </style>
@@ -891,7 +1078,7 @@
         <!-- Settings Content -->
         <div class="admin-content">
             <div class="settings-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header">
                     <h5 style="font-family: 'Orbitron', sans-serif; color: var(--primary); font-weight: 500;">Platform Settings</h5>
                     <div class="action-buttons">
                         <button id="resetSettings"><i class="fas fa-undo-alt mr-2"></i>Reset</button>
@@ -947,40 +1134,233 @@
                             </div>
                         </div>
                     </div>
+                    <!-- User/Role-Based Notification Settings -->
+                    <div class="settings-section">
+                        <h5>User/Role-Based Notification Settings</h5>
+                        <div class="notification-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Notification Type</th>
+                                        <th>Email</th>
+                                        <th>SMS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="roleNotificationTable">
+                                    <!-- Dynamically populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Application & 3rd Party Configurations -->
+                    <div class="settings-section">
+                        <h5>Application & 3rd Party Configurations</h5>
+                        <div class="third-party-config">
+                            <div class="third-party-item">
+                                <h6>Stripe Payment Gateway</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="stripeApiKey" class="form-label">Stripe API Key</label>
+                                        <div class="api-key-container">
+                                            <input type="password" class="form-control" id="stripeApiKey" placeholder="sk_test_...">
+                                            <button class="api-key-toggle" data-target="stripeApiKey"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="stripeWebhookSecret" class="form-label">Webhook Secret</label>
+                                        <input type="text" class="form-control" id="stripeWebhookSecret" placeholder="whsec_...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="third-party-item">
+                                <h6>Google Maps API</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="googleMapsApiKey" class="form-label">Google Maps API Key</label>
+                                        <div class="api-key-container">
+                                            <input type="password" class="form-control" id="googleMapsApiKey" placeholder="AIzaSy...">
+                                            <button class="api-key-toggle" data-target="googleMapsApiKey"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="googleMapsRegion" class="form-label">Region Code</label>
+                                        <input type="text" class="form-control" id="googleMapsRegion" placeholder="e.g., US">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="third-party-item">
+                                <h6>Twilio SMS Service</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="twilioAccountSid" class="form-label">Account SID</label>
+                                        <input type="text" class="form-control" id="twilioAccountSid" placeholder="AC...">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="twilioAuthToken" class="form-label">Auth Token</label>
+                                        <div class="api-key-container">
+                                            <input type="password" class="form-control" id="twilioAuthToken" placeholder="...">
+                                            <button class="api-key-toggle" data-target="twilioAuthToken"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="twilioPhoneNumber" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="twilioPhoneNumber" placeholder="+1...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Chat Support Settings -->
+                    <div class="settings-section">
+                        <h5>Chat Support Settings</h5>
+                        <div class="chat-support-container">
+                            <div class="chat-support-header">
+                                <h6>Chat Configuration</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="enableChatSupport" checked>
+                                        <label class="form-check-label" for="enableChatSupport">Enable Chat Support</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="responseTimeGoal" class="form-label">Response Time Goal (minutes)</label>
+                                    <input type="number" class="form-control" id="responseTimeGoal" min="1" value="5">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="greetingMessage" class="form-label">Default Greeting Message</label>
+                                    <textarea class="form-control" id="greetingMessage" rows="3" placeholder="Hello! How can we assist you today?"></textarea>
+                                    <div class="error-message" id="greetingMessageError">Greeting message is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-support-container">
+                            <div class="chat-support-header">
+                                <h6>Custom Notification Builder</h6>
+                                <div class="action-buttons">
+                                    <button id="clearNotification"><i class="fas fa-eraser mr-2"></i>Clear</button>
+                                    <button id="sendNotification" data-bs-toggle="modal" data-bs-target="#confirmNotificationModal"><i class="fas fa-paper-plane mr-2"></i>Send</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="notificationTitle" class="form-label">Notification Title</label>
+                                    <input type="text" class="form-control" id="notificationTitle" placeholder="e.g., Service Update">
+                                    <div class="error-message" id="notificationTitleError">Notification title is required.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="notificationChannel" class="form-label">Delivery Channel</label>
+                                    <select class="form-select" id="notificationChannel">
+                                        <option value="chat">In-App Chat</option>
+                                        <option value="email">Email</option>
+                                        <option value="sms">SMS</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="notificationMessage" class="form-label">Notification Message (use {user_name}, {role}, etc.)</label>
+                                    <textarea class="form-control" id="notificationMessage" rows="5" placeholder="Dear {user_name}, we have an update for you..."></textarea>
+                                    <div class="error-message" id="notificationMessageError">Notification message is required.</div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Available Variables</label>
+                                    <div class="template-variables">
+                                        <span>{user_name}</span>
+                                        <span>{role}</span>
+                                        <span>{location}</span>
+                                        <span>{last_active}</span>
+                                        <span>{support_email}</span>
+                                        <span>{support_phone}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">User Filters</label>
+                                    <div class="user-filter-container">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <label for="filterRole" class="form-label">Role</label>
+                                                <select class="form-select" id="filterRole">
+                                                    <option value="">All Roles</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Driver">Driver</option>
+                                                    <option value="Customer">Customer</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="filterLocation" class="form-label">Location</label>
+                                                <input type="text" class="form-control" id="filterLocation" placeholder="e.g., New York">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label for="filterStatus" class="form-label">Activity Status</label>
+                                                <select class="form-select" id="filterStatus">
+                                                    <option value="">All Statuses</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="user-list" id="userList"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Preview</label>
+                                    <div class="notification-preview" id="notificationPreview">Enter a notification to preview.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Email Templating -->
                     <div class="settings-section">
                         <h5>Email Templating</h5>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="templateName" class="form-label">Template Name</label>
-                                <input type="text" class="form-control" id="templateName" placeholder="e.g., Order Confirmation">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="templateSubject" class="form-label">Email Subject</label>
-                                <input type="text" class="form-control" id="templateSubject" placeholder="e.g., Your Order Confirmation">
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label for="templateBody" class="form-label">Email Body (use {user_name}, {order_id}, etc.)</label>
-                                <textarea class="form-control" id="templateBody" rows="6" placeholder="Dear {user_name},\nYour order {order_id} has been confirmed..."></textarea>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">Available Variables</label>
-                                <p class="text-muted" style="font-size: 14px;">{user_name}, {order_id}, {trip_id}, {package_id}, {support_email}, {support_phone}</p>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">Preview</label>
-                                <div class="email-preview" id="templatePreview">Enter a template to preview.</div>
-                            </div>
-                            <div class="col-md-12 mb-3">
+                        <div class="email-template-container">
+                            <div class="email-template-header">
+                                <h6>Create/Edit Template</h6>
                                 <div class="action-buttons">
                                     <button id="clearTemplate"><i class="fas fa-eraser mr-2"></i>Clear</button>
                                     <button id="saveTemplate" data-bs-toggle="modal" data-bs-target="#confirmTemplateModal"><i class="fas fa-save mr-2"></i>Save Template</button>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label">Saved Templates</label>
-                                <div class="email-template-list" id="templateList"></div>
+                            <div class="template-form">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="templateName" class="form-label">Template Name</label>
+                                        <input type="text" class="form-control" id="templateName" placeholder="e.g., Order Confirmation">
+                                        <div class="error-message" id="templateNameError">Template name is required.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="templateSubject" class="form-label">Email Subject</label>
+                                        <input type="text" class="form-control" id="templateSubject" placeholder="e.g., Your Order Confirmation">
+                                        <div class="error-message" id="templateSubjectError">Email subject is required.</div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="templateBody" class="form-label">Email Body (use {user_name}, {order_id}, etc.)</label>
+                                        <textarea class="form-control" id="templateBody" rows="8" placeholder="Dear {user_name},\nYour order {order_id} has been confirmed...\n\nBest regards,\nCrowdWave Team"></textarea>
+                                        <div class="error-message" id="templateBodyError">Email body is required.</div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Available Variables</label>
+                                        <div class="template-variables">
+                                            <span>{user_name}</span>
+                                            <span>{order_id}</span>
+                                            <span>{trip_id}</span>
+                                            <span>{package_id}</span>
+                                            <span>{support_email}</span>
+                                            <span>{support_phone}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Preview</label>
+                                        <div class="email-preview" id="templatePreview">Enter a template to preview.</div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <div class="email-template-container">
+                            <div class="email-template-header">
+                                <h6>Saved Templates</h6>
+                            </div>
+                            <div class="email-template-list" id="templateList"></div>
                         </div>
                     </div>
                 </div>
@@ -1024,29 +1404,45 @@
                 </div>
             </div>
         </div>
+
+        <!-- Confirm Send Notification Modal -->
+        <div class="modal fade" id="confirmNotificationModal" tabindex="-1" aria-labelledby="confirmNotificationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmNotificationModalLabel">Confirm Send Notification</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to send this notification to the selected users?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-sm" id="confirmSendNotificationButton">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script>
-        // Sidebar toggle functionality
+        // Sidebar toggle
         document.querySelector('.sidebar-toggle').addEventListener('click', function() {
             const sidebar = document.querySelector('.admin-sidebar');
             const mainContent = document.querySelector('.admin-main');
-            
             sidebar.classList.toggle('collapsed');
             mainContent.classList.toggle('expanded');
-            
             localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         });
 
-        // Check localStorage for saved state on page load
+        // Page load
         document.addEventListener('DOMContentLoaded', function() {
             const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
             const sidebar = document.querySelector('.admin-sidebar');
             const mainContent = document.querySelector('.admin-main');
-            
             if (isCollapsed) {
                 sidebar.classList.add('collapsed');
                 mainContent.classList.add('expanded');
@@ -1061,14 +1457,54 @@
                 emailNotifications: true,
                 smsNotifications: false,
                 notificationFrequency: 'immediate',
-                adminPermissions: ['manage_users', 'manage_trips', 'manage_packages', 'manage_transactions', 'manage_disputes', 'view_analytics', 'manage_settings'],
-                driverPermissions: ['view_trips', 'manage_packages', 'view_transactions']
+                thirdParty: {
+                    stripe: { apiKey: '', webhookSecret: '' },
+                    googleMaps: { apiKey: '', region: 'US' },
+                    twilio: { accountSid: '', authToken: '', phoneNumber: '' }
+                },
+                chatSupport: {
+                    enableChatSupport: true,
+                    responseTimeGoal: 5,
+                    greetingMessage: 'Hello! How can we assist you today?'
+                }
             };
 
-            // Load saved settings from localStorage or use defaults
-            const savedSettings = JSON.parse(localStorage.getItem('platformSettings')) || defaultSettings;
+            // Default role-based notifications
+            const defaultRoleNotifications = [
+                { role: 'Admin', notifications: [
+                    { type: 'Order Updates', email: true, sms: false },
+                    { type: 'Trip Updates', email: true, sms: false },
+                    { type: 'Disputes', email: true, sms: true },
+                    { type: 'New Users', email: true, sms: false }
+                ]},
+                { role: 'Driver', notifications: [
+                    { type: 'Order Updates', email: true, sms: true },
+                    { type: 'Trip Updates', email: true, sms: true },
+                    { type: 'Disputes', email: false, sms: true },
+                    { type: 'New Users', email: false, sms: false }
+                ]},
+                { role: 'Customer', notifications: [
+                    { type: 'Order Updates', email: true, sms: true },
+                    { type: 'Trip Updates', email: true, sms: true },
+                    { type: 'Disputes', email: true, sms: false },
+                    { type: 'New Users', email: false, sms: false }
+                ]}
+            ];
 
-            // Initialize form with saved settings
+            // Default users for filtering
+            const defaultUsers = [
+                { id: 1, name: 'John Doe', role: 'Customer', location: 'New York', status: 'active', last_active: '2025-08-08 12:00' },
+                { id: 2, name: 'Jane Smith', role: 'Driver', location: 'Los Angeles', status: 'active', last_active: '2025-08-08 11:30' },
+                { id: 3, name: 'Admin User', role: 'Admin', location: 'Chicago', status: 'inactive', last_active: '2025-08-07 09:00' },
+                { id: 4, name: 'Alice Brown', role: 'Customer', location: 'New York', status: 'active', last_active: '2025-08-08 10:15' }
+            ];
+
+            // Load saved settings
+            const savedSettings = JSON.parse(localStorage.getItem('platformSettings')) || defaultSettings;
+            const savedRoleNotifications = JSON.parse(localStorage.getItem('roleNotifications')) || defaultRoleNotifications;
+            const savedUsers = JSON.parse(localStorage.getItem('users')) || defaultUsers;
+
+            // Initialize form
             document.getElementById('deliveryFee').value = savedSettings.deliveryFee;
             document.getElementById('maxPackageWeight').value = savedSettings.maxPackageWeight;
             document.getElementById('supportEmail').value = savedSettings.supportEmail;
@@ -1076,6 +1512,16 @@
             document.getElementById('emailNotifications').checked = savedSettings.emailNotifications;
             document.getElementById('smsNotifications').checked = savedSettings.smsNotifications;
             document.getElementById('notificationFrequency').value = savedSettings.notificationFrequency;
+            document.getElementById('stripeApiKey').value = savedSettings.thirdParty.stripe.apiKey;
+            document.getElementById('stripeWebhookSecret').value = savedSettings.thirdParty.stripe.webhookSecret;
+            document.getElementById('googleMapsApiKey').value = savedSettings.thirdParty.googleMaps.apiKey;
+            document.getElementById('googleMapsRegion').value = savedSettings.thirdParty.googleMaps.region;
+            document.getElementById('twilioAccountSid').value = savedSettings.thirdParty.twilio.accountSid;
+            document.getElementById('twilioAuthToken').value = savedSettings.thirdParty.twilio.authToken;
+            document.getElementById('twilioPhoneNumber').value = savedSettings.thirdParty.twilio.phoneNumber;
+            document.getElementById('enableChatSupport').checked = savedSettings.chatSupport.enableChatSupport;
+            document.getElementById('responseTimeGoal').value = savedSettings.chatSupport.responseTimeGoal;
+            document.getElementById('greetingMessage').value = savedSettings.chatSupport.greetingMessage;
 
             // Search functionality
             document.getElementById('searchInput').addEventListener('input', function() {
@@ -1087,15 +1533,20 @@
                 });
             });
 
-            // Form validation for platform settings
+            // Validate settings
             function validateSettings() {
                 const deliveryFee = parseFloat(document.getElementById('deliveryFee').value);
                 const maxPackageWeight = parseInt(document.getElementById('maxPackageWeight').value);
                 const supportEmail = document.getElementById('supportEmail').value;
                 const supportPhone = document.getElementById('supportPhone').value;
+                const stripeApiKey = document.getElementById('stripeApiKey').value;
+                const googleMapsApiKey = document.getElementById('googleMapsApiKey').value;
+                const twilioPhoneNumber = document.getElementById('twilioPhoneNumber').value;
+                const responseTimeGoal = parseInt(document.getElementById('responseTimeGoal').value);
+                const greetingMessage = document.getElementById('greetingMessage').value;
 
                 if (isNaN(deliveryFee) || deliveryFee < 0) {
-                    alert('Delivery fee must be a non-negative number.');
+                    alert('Delivery fee must be non-negative.');
                     return false;
                 }
                 if (isNaN(maxPackageWeight) || maxPackageWeight < 1) {
@@ -1103,17 +1554,38 @@
                     return false;
                 }
                 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(supportEmail)) {
-                    alert('Please enter a valid email address.');
+                    alert('Invalid email address.');
                     return false;
                 }
                 if (!/^\+?\d{1,4}[-.\s]?\d{3,4}[-.\s]?\d{4}$/.test(supportPhone)) {
-                    alert('Please enter a valid phone number.');
+                    alert('Invalid phone number.');
+                    return false;
+                }
+                if (stripeApiKey && !/^sk_(test|live)_[0-9a-zA-Z]+$/.test(stripeApiKey)) {
+                    alert('Invalid Stripe API key.');
+                    return false;
+                }
+                if (googleMapsApiKey && !/^AIza[0-9a-zA-Z-_]+$/.test(googleMapsApiKey)) {
+                    alert('Invalid Google Maps API key.');
+                    return false;
+                }
+                if (twilioPhoneNumber && !/^\+?\d{10,14}$/.test(twilioPhoneNumber)) {
+                    alert('Invalid Twilio phone number.');
+                    return false;
+                }
+                if (isNaN(responseTimeGoal) || responseTimeGoal < 1) {
+                    alert('Response time goal must be at least 1 minute.');
+                    return false;
+                }
+                if (!greetingMessage.trim()) {
+                    document.getElementById('greetingMessage').classList.add('invalid');
+                    document.getElementById('greetingMessageError').style.display = 'block';
                     return false;
                 }
                 return true;
             }
 
-            // Save platform settings
+            // Save settings
             document.getElementById('confirmSaveButton').addEventListener('click', function() {
                 if (validateSettings()) {
                     const newSettings = {
@@ -1123,7 +1595,27 @@
                         supportPhone: document.getElementById('supportPhone').value,
                         emailNotifications: document.getElementById('emailNotifications').checked,
                         smsNotifications: document.getElementById('smsNotifications').checked,
-                        notificationFrequency: document.getElementById('notificationFrequency').value
+                        notificationFrequency: document.getElementById('notificationFrequency').value,
+                        thirdParty: {
+                            stripe: {
+                                apiKey: document.getElementById('stripeApiKey').value,
+                                webhookSecret: document.getElementById('stripeWebhookSecret').value
+                            },
+                            googleMaps: {
+                                apiKey: document.getElementById('googleMapsApiKey').value,
+                                region: document.getElementById('googleMapsRegion').value
+                            },
+                            twilio: {
+                                accountSid: document.getElementById('twilioAccountSid').value,
+                                authToken: document.getElementById('twilioAuthToken').value,
+                                phoneNumber: document.getElementById('twilioPhoneNumber').value
+                            }
+                        },
+                        chatSupport: {
+                            enableChatSupport: document.getElementById('enableChatSupport').checked,
+                            responseTimeGoal: parseInt(document.getElementById('responseTimeGoal').value),
+                            greetingMessage: document.getElementById('greetingMessage').value
+                        }
                     };
                     localStorage.setItem('platformSettings', JSON.stringify(newSettings));
                     bootstrap.Modal.getInstance(document.getElementById('confirmSaveModal')).hide();
@@ -1131,7 +1623,7 @@
                 }
             });
 
-            // Reset platform settings
+            // Reset settings
             document.getElementById('resetSettings').addEventListener('click', function() {
                 document.getElementById('deliveryFee').value = defaultSettings.deliveryFee;
                 document.getElementById('maxPackageWeight').value = defaultSettings.maxPackageWeight;
@@ -1140,26 +1632,223 @@
                 document.getElementById('emailNotifications').checked = defaultSettings.emailNotifications;
                 document.getElementById('smsNotifications').checked = defaultSettings.smsNotifications;
                 document.getElementById('notificationFrequency').value = defaultSettings.notificationFrequency;
+                document.getElementById('stripeApiKey').value = defaultSettings.thirdParty.stripe.apiKey;
+                document.getElementById('stripeWebhookSecret').value = defaultSettings.thirdParty.stripe.webhookSecret;
+                document.getElementById('googleMapsApiKey').value = defaultSettings.thirdParty.googleMaps.apiKey;
+                document.getElementById('googleMapsRegion').value = defaultSettings.thirdParty.googleMaps.region;
+                document.getElementById('twilioAccountSid').value = defaultSettings.thirdParty.twilio.accountSid;
+                document.getElementById('twilioAuthToken').value = defaultSettings.thirdParty.twilio.authToken;
+                document.getElementById('twilioPhoneNumber').value = defaultSettings.thirdParty.twilio.phoneNumber;
+                document.getElementById('enableChatSupport').checked = defaultSettings.chatSupport.enableChatSupport;
+                document.getElementById('responseTimeGoal').value = defaultSettings.chatSupport.responseTimeGoal;
+                document.getElementById('greetingMessage').value = defaultSettings.chatSupport.greetingMessage;
+                localStorage.setItem('roleNotifications', JSON.stringify(defaultRoleNotifications));
+                renderRoleNotifications();
                 alert('Settings reset to defaults.');
             });
 
-            // Email Templating Functionality
-            let emailTemplates = JSON.parse(localStorage.getItem('emailTemplates')) || [
-                {
-                    id: 1,
-                    name: 'Order Confirmation',
-                    subject: 'Your Order Confirmation',
-                    body: 'Dear {user_name},\nYour order {order_id} has been confirmed.\nContact us at {support_email} for assistance.'
-                },
-                {
-                    id: 2,
-                    name: 'Trip Update',
-                    subject: 'Trip {trip_id} Status Update',
-                    body: 'Dear {user_name},\nYour trip {trip_id} has been updated.\nCheck details or contact {support_phone}.'
+            // Role-based notifications
+            const roleNotificationTable = document.getElementById('roleNotificationTable');
+
+            function renderRoleNotifications() {
+                roleNotificationTable.innerHTML = savedRoleNotifications.flatMap(role => 
+                    role.notifications.map((notif, index) => `
+                        <tr>
+                            ${index === 0 ? `<td rowspan="${role.notifications.length}">${role.role}</td>` : ''}
+                            <td>${notif.type}</td>
+                            <td><div class="form-check"><input class="form-check-input" type="checkbox" id="${role.role}-${notif.type}-email" data-role="${role.role}" data-type="${notif.type}" data-channel="email" ${notif.email ? 'checked' : ''}></div></td>
+                            <td><div class="form-check"><input class="form-check-input" type="checkbox" id="${role.role}-${notif.type}-sms" data-role="${role.role}" data-type="${notif.type}" data-channel="sms" ${notif.sms ? 'checked' : ''}></div></td>
+                        </tr>
+                    `)
+                ).join('');
+
+                document.querySelectorAll('.notification-table .form-check-input').forEach(input => {
+                    input.addEventListener('change', function() {
+                        const role = this.dataset.role;
+                        const type = this.dataset.type;
+                        const channel = this.dataset.channel;
+                        const roleConfig = savedRoleNotifications.find(r => r.role === role);
+                        const notifConfig = roleConfig.notifications.find(n => n.type === type);
+                        notifConfig[channel] = this.checked;
+                        localStorage.setItem('roleNotifications', JSON.stringify(savedRoleNotifications));
+                    });
+                });
+            }
+
+            // API key toggle
+            document.querySelectorAll('.api-key-toggle').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = document.getElementById(this.dataset.target);
+                    const icon = this.querySelector('i');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.replace('fa-eye', 'fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.replace('fa-eye-slash', 'fa-eye');
+                    }
+                });
+            });
+
+            // Chat Support Notifications
+            const notificationTitleInput = document.getElementById('notificationTitle');
+            const notificationChannelSelect = document.getElementById('notificationChannel');
+            const notificationMessageInput = document.getElementById('notificationMessage');
+            const notificationPreview = document.getElementById('notificationPreview');
+            const filterRoleSelect = document.getElementById('filterRole');
+            const filterLocationInput = document.getElementById('filterLocation');
+            const filterStatusSelect = document.getElementById('filterStatus');
+            const userList = document.getElementById('userList');
+            const clearNotificationButton = document.getElementById('clearNotification');
+            const sendNotificationButton = document.getElementById('confirmSendNotificationButton');
+
+            function renderUserList(users) {
+                userList.innerHTML = users.length === 0
+                    ? '<div style="padding: 10px; text-align: center; color: rgba(26, 26, 61, 0.7); font-size: 14px;">No users found</div>'
+                    : users.map(user => `
+                        <div class="user-item">
+                            <input type="checkbox" id="user-${user.id}" data-id="${user.id}">
+                            <span>${user.name} (${user.role}, ${user.location}, ${user.status})</span>
+                        </div>
+                    `).join('');
+            }
+
+            function filterUsers() {
+                const role = filterRoleSelect.value;
+                const location = filterLocationInput.value.toLowerCase();
+                const status = filterStatusSelect.value;
+
+                const filteredUsers = savedUsers.filter(user => {
+                    return (!role || user.role === role) &&
+                           (!location || user.location.toLowerCase().includes(location)) &&
+                           (!status || user.status === status);
+                });
+
+                renderUserList(filteredUsers);
+            }
+
+            filterRoleSelect.addEventListener('change', filterUsers);
+            filterLocationInput.addEventListener('input', filterUsers);
+            filterStatusSelect.addEventListener('change', filterUsers);
+
+            function previewNotification() {
+                const title = notificationTitleInput.value || 'No title provided';
+                const message = notificationMessageInput.value || 'Enter a notification to preview.';
+                const variables = {
+                    user_name: 'John Doe',
+                    role: 'Customer',
+                    location: 'New York',
+                    last_active: '2025-08-08 12:00',
+                    support_email: savedSettings.supportEmail,
+                    support_phone: savedSettings.supportPhone
+                };
+                let previewMessage = message.replace(/\n/g, '<br>');
+                for (const [key, value] of Object.entries(variables)) {
+                    previewMessage = previewMessage.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
                 }
+                notificationPreview.innerHTML = `<h3>${title}</h3><p>${previewMessage}</p>`;
+            }
+
+            notificationTitleInput.addEventListener('input', () => {
+                notificationTitleInput.classList.remove('invalid');
+                document.getElementById('notificationTitleError').style.display = 'none';
+                previewNotification();
+            });
+            notificationMessageInput.addEventListener('input', () => {
+                notificationMessageInput.classList.remove('invalid');
+                document.getElementById('notificationMessageError').style.display = 'none';
+                previewNotification();
+            });
+            notificationChannelSelect.addEventListener('change', previewNotification);
+
+            clearNotificationButton.addEventListener('click', function() {
+                notificationTitleInput.value = '';
+                notificationChannelSelect.value = 'chat';
+                notificationMessageInput.value = '';
+                filterRoleSelect.value = '';
+                filterLocationInput.value = '';
+                filterStatusSelect.value = '';
+                notificationTitleInput.classList.remove('invalid');
+                notificationMessageInput.classList.remove('invalid');
+                document.getElementById('notificationTitleError').style.display = 'none';
+                document.getElementById('notificationMessageError').style.display = 'none';
+                filterUsers();
+                previewNotification();
+            });
+
+            function validateNotification() {
+                const title = notificationTitleInput.value.trim();
+                const message = notificationMessageInput.value.trim();
+                let isValid = true;
+
+                if (!title) {
+                    notificationTitleInput.classList.add('invalid');
+                    document.getElementById('notificationTitleError').style.display = 'block';
+                    isValid = false;
+                }
+                if (!message) {
+                    notificationMessageInput.classList.add('invalid');
+                    document.getElementById('notificationMessageError').style.display = 'block';
+                    isValid = false;
+                }
+                const selectedUsers = Array.from(document.querySelectorAll('.user-item input:checked')).map(input => parseInt(input.dataset.id));
+                if (selectedUsers.length === 0) {
+                    alert('Please select at least one user to send the notification to.');
+                    isValid = false;
+                }
+                return isValid;
+            }
+
+            sendNotificationButton.addEventListener('click', function() {
+                if (validateNotification()) {
+                    const selectedUsers = Array.from(document.querySelectorAll('.user-item input:checked')).map(input => parseInt(input.dataset.id));
+                    const channel = notificationChannelSelect.value;
+                    const title = notificationTitleInput.value.trim();
+                    const message = notificationMessageInput.value.trim();
+                    const newNotifications = selectedUsers.map(userId => {
+                        const user = savedUsers.find(u => u.id === userId);
+                        const variables = {
+                            user_name: user.name,
+                            role: user.role,
+                            location: user.location,
+                            last_active: user.last_active,
+                            support_email: savedSettings.supportEmail,
+                            support_phone: savedSettings.supportPhone
+                        };
+                        let formattedMessage = message;
+                        for (const [key, value] of Object.entries(variables)) {
+                            formattedMessage = formattedMessage.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
+                        }
+                        return {
+                            id: notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1,
+                            message: `${title}: ${formattedMessage}`,
+                            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                            read: false,
+                            link: 'index.html',
+                            userId: userId,
+                            channel: channel
+                        };
+                    });
+
+                    notifications.push(...newNotifications);
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    bootstrap.Modal.getInstance(document.getElementById('confirmNotificationModal')).hide();
+                    alert(`Notification sent to ${selectedUsers.length} user(s) via ${channel}!`);
+                    notificationTitleInput.value = '';
+                    notificationChannelSelect.value = 'chat';
+                    notificationMessageInput.value = '';
+                    filterUsers();
+                    previewNotification();
+                    renderNotifications();
+                }
+            });
+
+            // Email Templating
+            let emailTemplates = JSON.parse(localStorage.getItem('emailTemplates')) || [
+                { id: 1, name: 'Order Confirmation', subject: 'Your Order Confirmation', body: 'Dear {user_name},\n\nYour order {order_id} has been confirmed.\n\nContact us at {support_email} for assistance.\n\nBest regards,\nCrowdWave Team' },
+                { id: 2, name: 'Trip Update', subject: 'Trip {trip_id} Status Update', body: 'Dear {user_name},\n\nYour trip {trip_id} has been updated.\n\nCheck details or contact {support_phone}.\n\nBest regards,\nCrowdWave Team' }
             ];
 
-            // Save initial templates to localStorage if not present
             if (!localStorage.getItem('emailTemplates')) {
                 localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
             }
@@ -1172,8 +1861,8 @@
             const clearTemplateButton = document.getElementById('clearTemplate');
             const saveTemplateButton = document.getElementById('confirmTemplateSaveButton');
 
-            // Function to preview template
             function previewTemplate() {
+                const subject = templateSubjectInput.value || 'No subject provided';
                 const body = templateBodyInput.value || 'Enter a template to preview.';
                 const variables = {
                     user_name: 'John Doe',
@@ -1183,17 +1872,18 @@
                     support_email: savedSettings.supportEmail,
                     support_phone: savedSettings.supportPhone
                 };
-                let previewText = body;
+                let previewSubject = subject;
+                let previewBody = body.replace(/\n/g, '<br>');
                 for (const [key, value] of Object.entries(variables)) {
-                    previewText = previewText.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
+                    previewSubject = previewSubject.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
+                    previewBody = previewBody.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
                 }
-                templatePreview.textContent = previewText;
+                templatePreview.innerHTML = `<h3>Subject: ${previewSubject}</h3><p>${previewBody}</p>`;
             }
 
-            // Function to render template list
             function renderTemplateList() {
                 templateList.innerHTML = emailTemplates.length === 0
-                    ? '<div style="padding: 10px; text-align: center; color: rgba(26, 26, 61, 0.7);">No templates saved</div>'
+                    ? '<div style="padding: 15px; text-align: center; color: rgba(26, 26, 61, 0.7); font-size: 14px;">No templates saved</div>'
                     : emailTemplates.map(t => `
                         <div class="template-item">
                             <span data-id="${t.id}">${t.name}</span>
@@ -1202,177 +1892,148 @@
                         </div>
                     `).join('');
 
-                // Add event listeners for edit and delete buttons
                 document.querySelectorAll('.edit-template').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const id = parseInt(this.dataset.id);
                         const template = emailTemplates.find(t => t.id === id);
-                        if (template) {
-                            templateNameInput.value = template.name;
-                            templateSubjectInput.value = template.subject;
-                            templateBodyInput.value = template.body;
-                            templateNameInput.dataset.id = id;
-                            previewTemplate();
-                        }
-                    });
-                });
-
-                document.querySelectorAll('.delete-template').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = parseInt(this.dataset.id);
-                        emailTemplates = emailTemplates.filter(t => t.id !== id);
-                        localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
-                        renderTemplateList();
-                        if (templateNameInput.dataset.id == id) {
-                            templateNameInput.value = '';
-                            templateSubjectInput.value = '';
-                            templateBodyInput.value = '';
-                            delete templateNameInput.dataset.id;
-                            previewTemplate();
-                        }
-                    });
-                });
-            }
-
-            // Event listeners for template inputs
-            templateNameInput.addEventListener('input', previewTemplate);
-            templateSubjectInput.addEventListener('input', previewTemplate);
-            templateBodyInput.addEventListener('input', previewTemplate);
-
-            // Clear template form
-            clearTemplateButton.addEventListener('click', function() {
-                templateNameInput.value = '';
-                templateSubjectInput.value = '';
-                templateBodyInput.value = '';
-                delete templateNameInput.dataset.id;
-                previewTemplate();
-            });
-
-            // Validate and save template
-            function validateTemplate() {
-                const name = templateNameInput.value.trim();
-                const subject = templateSubjectInput.value.trim();
-                const body = templateBodyInput.value.trim();
-
-                if (!name) {
-                    alert('Template name is required.');
-                    return false;
-                }
-                if (!subject) {
-                    alert('Email subject is required.');
-                    return false;
-                }
-                if (!body) {
-                    alert('Email body is required.');
-                    return false;
-                }
-                return true;
-            }
-
-            saveTemplateButton.addEventListener('click', function() {
-                if (validateTemplate()) {
-                    const id = templateNameInput.dataset.id ? parseInt(templateNameInput.dataset.id) : (emailTemplates.length ? Math.max(...emailTemplates.map(t => t.id)) + 1 : 1);
-                    const newTemplate = {
-                        id,
-                        name: templateNameInput.value.trim(),
-                        subject: templateSubjectInput.value.trim(),
-                        body: templateBodyInput.value.trim()
-                    };
-
-                    if (templateNameInput.dataset.id) {
-                        const index = emailTemplates.findIndex(t => t.id === id);
-                        emailTemplates[index] = newTemplate;
-                    } else {
-                        emailTemplates.push(newTemplate);
-                    }
-
-                    localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
-                    renderTemplateList();
-                    templateNameInput.value = '';
-                    templateSubjectInput.value = '';
-                    templateBodyInput.value = '';
-                    delete templateNameInput.dataset.id;
-                    previewTemplate();
-                    bootstrap.Modal.getInstance(document.getElementById('confirmTemplateModal')).hide();
-                    alert('Template saved successfully!');
-                }
-            });
-
-            // Initial render of templates
-            renderTemplateList();
-            previewTemplate();
-
-            // Notification functionality
-            let notifications = JSON.parse(localStorage.getItem('notifications')) || [
-                { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
-                { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
-                { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
-            ];
-
-            // Save initial notifications to localStorage if not present
-            if (!localStorage.getItem('notifications')) {
-                localStorage.setItem('notifications', JSON.stringify(notifications));
-            }
-
-            const notificationBadge = document.getElementById('notificationBadge');
-            const notificationList = document.getElementById('notificationList');
-            const clearNotifications = document.getElementById('clearNotifications');
-
-            function renderNotifications() {
-                const unreadCount = notifications.filter(n => !n.read).length;
-                notificationBadge.textContent = unreadCount;
-                notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
-
-                notificationList.innerHTML = notifications.length === 0
-                    ? '<div style="padding: 10px; text-align: center; color: rgba(26, 26, 61, 0.7);">No notifications</div>'
-                    : notifications.map(n => `
-                        <div class="notification-item ${n.read ? 'read' : ''}">
-                            <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
-                                <div>${n.message}</div>
-                                <small>${n.time}</small>
-                            </a>
-                            <button class="btn btn-sm mark-read-btn" data-id="${n.id}">
-                                <i class="fas fa-check-circle"></i>
-                            </button>
-                        </div>
+templateNameInput.value = template.name;
+templateSubjectInput.value = template.subject;
+templateBodyInput.value = template.body;
+templateNameInput.dataset.id = id;
+previewTemplate();
+});
+});
+document.querySelectorAll('.delete-template').forEach(btn => {
+btn.addEventListener('click', function() {
+const id = parseInt(this.dataset.id);
+emailTemplates = emailTemplates.filter(t => t.id !== id);
+localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
+renderTemplateList();
+});
+});
+}
+templateNameInput.addEventListener('input', () => {
+templateNameInput.classList.remove('invalid');
+document.getElementById('templateNameError').style.display = 'none';
+previewTemplate();
+});
+templateSubjectInput.addEventListener('input', () => {
+templateSubjectInput.classList.remove('invalid');
+document.getElementById('templateSubjectError').style.display = 'none';
+previewTemplate();
+});
+templateBodyInput.addEventListener('input', () => {
+templateBodyInput.classList.remove('invalid');
+document.getElementById('templateBodyError').style.display = 'none';
+previewTemplate();
+});
+clearTemplateButton.addEventListener('click', function() {
+templateNameInput.value = '';
+templateSubjectInput.value = '';
+templateBodyInput.value = '';
+templateNameInput.removeAttribute('data-id');
+templateNameInput.classList.remove('invalid');
+templateSubjectInput.classList.remove('invalid');
+templateBodyInput.classList.remove('invalid');
+document.getElementById('templateNameError').style.display = 'none';
+document.getElementById('templateSubjectError').style.display = 'none';
+document.getElementById('templateBodyError').style.display = 'none';
+previewTemplate();
+});
+function validateTemplate() {
+const name = templateNameInput.value.trim();
+const subject = templateSubjectInput.value.trim();
+const body = templateBodyInput.value.trim();
+let isValid = true;
+if (!name) {
+templateNameInput.classList.add('invalid');
+document.getElementById('templateNameError').style.display = 'block';
+isValid = false;
+}
+if (!subject) {
+templateSubjectInput.classList.add('invalid');
+document.getElementById('templateSubjectError').style.display = 'block';
+isValid = false;
+}
+if (!body) {
+templateBodyInput.classList.add('invalid');
+document.getElementById('templateBodyError').style.display = 'block';
+isValid = false;
+}
+return isValid;
+}
+saveTemplateButton.addEventListener('click', function() {
+if (validateTemplate()) {
+const id = templateNameInput.dataset.id ? parseInt(templateNameInput.dataset.id) : (emailTemplates.length ? Math.max(...emailTemplates.map(t => t.id)) + 1 : 1);
+const newTemplate = {
+id: id,
+name: templateNameInput.value.trim(),
+subject: templateSubjectInput.value.trim(),
+body: templateBodyInput.value.trim()
+};
+if (templateNameInput.dataset.id) {
+const index = emailTemplates.findIndex(t => t.id === id);
+emailTemplates[index] = newTemplate;
+} else {
+emailTemplates.push(newTemplate);
+}
+localStorage.setItem('emailTemplates', JSON.stringify(emailTemplates));
+bootstrap.Modal.getInstance(document.getElementById('confirmTemplateModal')).hide();
+alert('Template saved successfully!');
+templateNameInput.value = '';
+templateSubjectInput.value = '';
+templateBodyInput.value = '';
+templateNameInput.removeAttribute('data-id');
+previewTemplate();
+renderTemplateList();
+}
+});
+// Notifications
+let notifications = JSON.parse(localStorage.getItem('notifications')) || [
+{ id: 1, message: 'New user registered', time: '2025-08-08 10:00', read: false, link: 'users.html' },
+{ id: 2, message: 'Order #1234 updated', time: '2025-08-08 09:30', read: true, link: 'transactions.html' }
+];
+if (!localStorage.getItem('notifications')) {
+localStorage.setItem('notifications', JSON.stringify(notifications));
+}
+function renderNotifications() {
+const notificationList = document.getElementById('notificationList');
+const notificationBadge = document.getElementById('notificationBadge');
+const unreadCount = notifications.filter(n => !n.read).length;
+notificationBadge.textContent = unreadCount;
+notificationBadge.style.display = unreadCount > 0 ? 'block' : 'none';
+notificationList.innerHTML = notifications.length === 0
+? 'No notifications'
+: notifications.map(n => `
+                        
+                            ${n.message}
+                            ${n.time}
+                            <button class="mark-read-btn" data-id="${n.id}"><i class="fas fa-check"></i></button>
+                        
                     `).join('');
-
-                document.querySelectorAll('.mark-read-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = parseInt(this.dataset.id);
-                        const notification = notifications.find(n => n.id === id);
-                        if (notification) {
-                            notification.read = true;
-                            localStorage.setItem('notifications', JSON.stringify(notifications));
-                            renderNotifications();
-                        }
-                    });
-                });
-            }
-
-            clearNotifications.addEventListener('click', function() {
-                notifications = [];
-                localStorage.setItem('notifications', JSON.stringify(notifications));
-                renderNotifications();
-            });
-
-            setInterval(() => {
-                const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
-                const newNotification = {
-                    id: newId,
-                    message: `New event ${newId} occurred.`,
-                    time: new Date().toISOString().slice(0, 16).replace('T', ' '),
-                    read: false,
-                    link: 'index.html'
-                };
-                notifications.unshift(newNotification);
-                localStorage.setItem('notifications', JSON.stringify(notifications));
-                renderNotifications();
-            }, 60000);
-
-            // Initial render
-            renderNotifications();
-        });
-    </script>
-</body>
-</html>
+document.querySelectorAll('.mark-read-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+const id = parseInt(this.dataset.id);
+const notification = notifications.find(n => n.id === id);
+if (notification) {
+notification.read = true;
+localStorage.setItem('notifications', JSON.stringify(notifications));
+renderNotifications();
+}
+});
+});
+}
+document.getElementById('clearNotifications').addEventListener('click', function() {
+notifications = [];
+localStorage.setItem('notifications', JSON.stringify(notifications));
+renderNotifications();
+});
+// Initialize
+renderRoleNotifications();
+renderTemplateList();
+renderNotifications();
+filterUsers();
+previewTemplate();
+previewNotification();
+});
+</script>
