@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrowdWave | Settings Management</title>
+    <title>CrowdWave | Add Trip</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -322,40 +322,6 @@
             align-items: center;
         }
 
-        .search-box {
-            position: relative;
-            margin-right: 20px;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--neutral);
-        }
-
-        .search-box input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 8px 15px 8px 35px;
-            color: var(--neutral);
-            width: 200px;
-            transition: all 0.3s ease;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            width: 250px;
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--secondary);
-        }
-
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
         .notifications.dropdown {
             position: relative;
             margin-right: 20px;
@@ -462,54 +428,50 @@
             background: var(--page-bg);
         }
 
-        .settings-card {
+        /* Form Card */
+        .form-card {
             background: var(--neutral);
             border-radius: 10px;
-            padding: 20px;
+            padding: 25px;
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(26, 26, 61, 0.1);
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
         }
 
-        .settings-card:hover {
-            transform: translateY(-5px);
+        .form-card:hover {
+            transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .settings-card::before {
+        .form-card::before {
             content: '';
             position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 80px;
-            height: 80px;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
             background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
             border-radius: 50%;
             opacity: 0.4;
         }
 
-        .card-header {
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 15px 20px;
-        }
-
-        .settings-section h5 {
+        .form-card h5 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 16px;
             color: var(--primary);
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            padding-bottom: 10px;
+            font-weight: 500;
+            margin-bottom: 20px;
         }
 
-        .form-label {
+        .form-card label {
             color: rgba(26, 26, 61, 0.7);
             font-size: 14px;
         }
 
-        .form-control, .form-select {
+        .form-card input, .form-card select {
             background: var(--neutral);
             border: 1px solid rgba(26, 26, 61, 0.2);
             color: var(--primary);
@@ -517,93 +479,36 @@
             padding: 10px;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-card input:focus, .form-card select:focus {
             border-color: var(--secondary);
             background: rgba(59, 130, 246, 0.05);
             outline: none;
         }
 
-        .form-check-input {
-            background-color: transparent;
-            border-color: rgba(26, 26, 61, 0.5);
-        }
-
-        .form-check-input:checked {
-            background-color: var(--secondary);
-            border-color: var(--secondary);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .action-buttons button {
-            background: var(--neutral);
-            border: 1px solid rgba(26, 26, 61, 0.2);
-            border-radius: 8px;
-            padding: 8px 20px;
-            color: var(--primary);
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .action-buttons button:hover {
-            background: var(--secondary);
-            border-color: var(--secondary);
-            color: var(--neutral);
-        }
-
-        .modal-content {
-            background: var(--neutral);
-            border: 1px solid rgba(26, 26, 61, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-header, .modal-footer {
-            border-color: rgba(59, 130, 246, 0.2);
-        }
-
-        .modal-title {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary);
-        }
-
-        .modal-body {
-            color: var(--primary);
-        }
-
-        .modal-footer button {
-            border-radius: 8px;
-            padding: 8px 20px;
-            font-size: 14px;
-        }
-
-        .modal-footer .btn:first-child {
+        .form-card .btn-cancel {
             background: var(--neutral);
             border: 1px solid rgba(26, 26, 61, 0.2);
             color: var(--primary);
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
         }
 
-        .modal-footer .btn:first-child:hover {
-            background: rgba(59, 130, 246, 0.1);
+        .form-card .btn-cancel:hover {
+            background: rgba(26, 26, 61, 0.05);
         }
 
-        .modal-footer .btn:last-child {
+        .form-card .btn-add {
             background: var(--secondary);
-            border-color: var(--secondary);
+            border: none;
             color: var(--neutral);
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
         }
 
-        .modal-footer .btn:last-child:hover {
+        .form-card .btn-add:hover {
             background: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .btn-close {
-            filter: invert(1) grayscale(100%) brightness(200%);
         }
 
         /* Responsive Adjustments */
@@ -684,23 +589,6 @@
             .admin-topbar h4 {
                 display: none;
             }
-            
-            .search-box input {
-                width: 150px;
-            }
-            
-            .search-box input:focus {
-                width: 180px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .action-buttons button {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -731,7 +619,7 @@
                     <div class="link-underline"></div>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="trips.html">
                     <i class="fas fa-route"></i>
                     <span>Trips</span>
@@ -766,7 +654,7 @@
                     <div class="link-underline"></div>
                 </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="settings.html">
                     <i class="fas fa-sliders-h"></i>
                     <span>Settings</span>
@@ -798,13 +686,9 @@
                 <button class="sidebar-toggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h4>Settings Management</h4>
+                <h4>Add New Trip</h4>
             </div>
             <div class="topbar-right">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search settings..." id="searchInput">
-                </div>
                 <div class="notifications dropdown">
                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell"></i>
@@ -823,113 +707,39 @@
             </div>
         </nav>
 
-        <!-- Settings Content -->
+        <!-- Add Trip Content -->
         <div class="admin-content">
-            <div class="settings-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 style="font-family: 'Orbitron', sans-serif; color: var(--primary); font-weight: 500;">Platform Settings</h5>
-                    <div class="action-buttons">
-                        <button id="resetSettings"><i class="fas fa-undo-alt mr-2"></i>Reset</button>
-                        <button id="saveSettings" data-bs-toggle="modal" data-bs-target="#confirmSaveModal"><i class="fas fa-save mr-2"></i>Save</button>
+            <div class="form-card">
+                <h5>Add New Trip</h5>
+                <form id="addTripForm">
+                    <div class="mb-3">
+                        <label for="newTripTraveler" class="form-label">Traveler</label>
+                        <input type="text" class="form-control" id="newTripTraveler" required>
                     </div>
-                </div>
-                <div class="card-body">
-                    <!-- Platform Configuration -->
-                    <div class="settings-section">
-                        <h5>Platform Configuration</h5>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="deliveryFee" class="form-label">Delivery Fee ($)</label>
-                                <input type="number" class="form-control" id="deliveryFee" min="0" step="0.01" value="5.00">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="maxPackageWeight" class="form-label">Max Package Weight (kg)</label>
-                                <input type="number" class="form-control" id="maxPackageWeight" min="1" value="50">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="supportEmail" class="form-label">Support Email</label>
-                                <input type="email" class="form-control" id="supportEmail" value="support@crowdwave.com">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="supportPhone" class="form-label">Support Phone</label>
-                                <input type="tel" class="form-control" id="supportPhone" value="+1-800-555-1234">
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="newTripOrigin" class="form-label">Origin</label>
+                        <input type="text" class="form-control" id="newTripOrigin" required>
                     </div>
-                    <!-- Notification Settings -->
-                    <div class="settings-section">
-                        <h5>Notification Settings</h5>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
-                                    <label class="form-check-label" for="emailNotifications">Enable Email Notifications</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="smsNotifications">
-                                    <label class="form-check-label" for="smsNotifications">Enable SMS Notifications</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label for="notificationFrequency" class="form-label">Notification Frequency</label>
-                                <select class="form-select" id="notificationFrequency">
-                                    <option value="immediate">Immediate</option>
-                                    <option value="daily">Daily</option>
-                                    <option value="weekly">Weekly</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="newTripDestination" class="form-label">Destination</label>
+                        <input type="text" class="form-control" id="newTripDestination" required>
                     </div>
-                    <!-- Uncomment User Role Settings if needed -->
-                    <!--
-                    <div class="settings-section">
-                        <h5>User Role Permissions</h5>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="adminPermissions" class="form-label">Admin Permissions</label>
-                                <select class="form-select" id="adminPermissions" multiple>
-                                    <option value="manage_users" selected>Manage Users</option>
-                                    <option value="manage_trips" selected>Manage Trips</option>
-                                    <option value="manage_packages" selected>Manage Packages</option>
-                                    <option value="manage_transactions" selected>Manage Transactions</option>
-                                    <option value="manage_disputes" selected>Manage Disputes</option>
-                                    <option value="view_analytics" selected>View Analytics</option>
-                                    <option value="manage_settings" selected>Manage Settings</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="driverPermissions" class="form-label">Driver Permissions</label>
-                                <select class="form-select" id="driverPermissions" multiple>
-                                    <option value="view_trips" selected>View Trips</option>
-                                    <option value="manage_packages">Manage Packages</option>
-                                    <option value="view_transactions">View Transactions</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="newTripDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="newTripDate" required>
                     </div>
-                    -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Confirm Save Modal -->
-        <div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmSaveModalLabel">Confirm Save Settings</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="mb-3">
+                        <label for="newTripStatus" class="form-label">Status</label>
+                        <select class="form-select" id="newTripStatus" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                        </select>
                     </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to save these settings? This action will update the platform configuration.</p>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="trips.html" class="btn btn-cancel">Cancel</a>
+                        <button type="submit" class="btn btn-add">Add Trip</button>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-sm" id="confirmSaveButton">Save</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -960,134 +770,61 @@
                 mainContent.classList.add('expanded');
             }
 
-            // Default settings
-            const defaultSettings = {
-                deliveryFee: 5.00,
-                maxPackageWeight: 50,
-                supportEmail: 'support@crowdwave.com',
-                supportPhone: '+1-800-555-1234',
-                emailNotifications: true,
-                smsNotifications: false,
-                notificationFrequency: 'immediate',
-                adminPermissions: ['manage_users', 'manage_trips', 'manage_packages', 'manage_transactions', 'manage_disputes', 'view_analytics', 'manage_settings'],
-                driverPermissions: ['view_trips', 'manage_packages', 'view_transactions']
-            };
+            // Form submission for adding a new trip
+            const addTripForm = document.getElementById('addTripForm');
+            addTripForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const traveler = document.getElementById('newTripTraveler').value;
+                const origin = document.getElementById('newTripOrigin').value;
+                const destination = document.getElementById('newTripDestination').value;
+                const date = document.getElementById('newTripDate').value;
+                const status = document.getElementById('newTripStatus').value;
 
-            // Load saved settings from localStorage or use defaults
-            const savedSettings = JSON.parse(localStorage.getItem('platformSettings')) || defaultSettings;
+                // Retrieve trips from localStorage
+                let trips = JSON.parse(localStorage.getItem('trips')) || [];
+                
+                // Generate new trip ID
+                const newId = `TRP-${String(trips.length + 1).padStart(3, '0')}`;
+                
+                // Create new trip object
+                const newTrip = {
+                    id: newId,
+                    traveler,
+                    origin,
+                    destination,
+                    date,
+                    status
+                };
 
-            // Initialize form with saved settings
-            document.getElementById('deliveryFee').value = savedSettings.deliveryFee;
-            document.getElementById('maxPackageWeight').value = savedSettings.maxPackageWeight;
-            document.getElementById('supportEmail').value = savedSettings.supportEmail;
-            document.getElementById('supportPhone').value = savedSettings.supportPhone;
-            document.getElementById('emailNotifications').checked = savedSettings.emailNotifications;
-            document.getElementById('smsNotifications').checked = savedSettings.smsNotifications;
-            document.getElementById('notificationFrequency').value = savedSettings.notificationFrequency;
+                // Add trip to array and save to localStorage
+                trips.push(newTrip);
+                localStorage.setItem('trips', JSON.stringify(trips));
 
-            // Uncomment if User Role Settings are enabled
-            /*
-            const adminPermissionsSelect = document.getElementById('adminPermissions');
-            Array.from(adminPermissionsSelect.options).forEach(option => {
-                option.selected = savedSettings.adminPermissions.includes(option.value);
-            });
-            const driverPermissionsSelect = document.getElementById('driverPermissions');
-            Array.from(driverPermissionsSelect.options).forEach(option => {
-                option.selected = savedSettings.driverPermissions.includes(option.value);
-            });
-            */
+                // Add notification for new trip
+                let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+                const newNotification = {
+                    id: notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1,
+                    message: `Trip ${newId} added for ${traveler}.`,
+                    time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                    read: false,
+                    link: 'trips.html'
+                };
+                notifications.unshift(newNotification);
+                localStorage.setItem('notifications', JSON.stringify(notifications));
 
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const search = this.value.toLowerCase();
-                const sections = document.querySelectorAll('.settings-section');
-                sections.forEach(section => {
-                    const title = section.querySelector('h5').textContent.toLowerCase();
-                    section.style.display = title.includes(search) ? 'block' : 'none';
-                });
-            });
-
-            // Form validation
-            function validateSettings() {
-                const deliveryFee = parseFloat(document.getElementById('deliveryFee').value);
-                const maxPackageWeight = parseInt(document.getElementById('maxPackageWeight').value);
-                const supportEmail = document.getElementById('supportEmail').value;
-                const supportPhone = document.getElementById('supportPhone').value;
-
-                if (isNaN(deliveryFee) || deliveryFee < 0) {
-                    alert('Delivery fee must be a non-negative number.');
-                    return false;
-                }
-                if (isNaN(maxPackageWeight) || maxPackageWeight < 1) {
-                    alert('Max package weight must be at least 1 kg.');
-                    return false;
-                }
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(supportEmail)) {
-                    alert('Please enter a valid email address.');
-                    return false;
-                }
-                if (!/^\+?\d{1,4}[-.\s]?\d{3,4}[-.\s]?\d{4}$/.test(supportPhone)) {
-                    alert('Please enter a valid phone number.');
-                    return false;
-                }
-                return true;
-            }
-
-            // Save settings
-            document.getElementById('confirmSaveButton').addEventListener('click', function() {
-                if (validateSettings()) {
-                    const newSettings = {
-                        deliveryFee: parseFloat(document.getElementById('deliveryFee').value),
-                        maxPackageWeight: parseInt(document.getElementById('maxPackageWeight').value),
-                        supportEmail: document.getElementById('supportEmail').value,
-                        supportPhone: document.getElementById('supportPhone').value,
-                        emailNotifications: document.getElementById('emailNotifications').checked,
-                        smsNotifications: document.getElementById('smsNotifications').checked,
-                        notificationFrequency: document.getElementById('notificationFrequency').value,
-                        adminPermissions: Array.from(document.getElementById('adminPermissions')?.selectedOptions || []).map(option => option.value),
-                        driverPermissions: Array.from(document.getElementById('driverPermissions')?.selectedOptions || []).map(option => option.value)
-                    };
-                    localStorage.setItem('platformSettings', JSON.stringify(newSettings));
-                    bootstrap.Modal.getInstance(document.getElementById('confirmSaveModal')).hide();
-                    alert('Settings saved successfully!');
-                }
-            });
-
-            // Reset settings
-            document.getElementById('resetSettings').addEventListener('click', function() {
-                document.getElementById('deliveryFee').value = defaultSettings.deliveryFee;
-                document.getElementById('maxPackageWeight').value = defaultSettings.maxPackageWeight;
-                document.getElementById('supportEmail').value = defaultSettings.supportEmail;
-                document.getElementById('supportPhone').value = defaultSettings.supportPhone;
-                document.getElementById('emailNotifications').checked = defaultSettings.emailNotifications;
-                document.getElementById('smsNotifications').checked = defaultSettings.smsNotifications;
-                document.getElementById('notificationFrequency').value = defaultSettings.notificationFrequency;
-
-                // Uncomment if User Role Settings are enabled
-                /*
-                Array.from(adminPermissionsSelect.options).forEach(option => {
-                    option.selected = defaultSettings.adminPermissions.includes(option.value);
-                });
-                Array.from(driverPermissionsSelect.options).forEach(option => {
-                    option.selected = defaultSettings.driverPermissions.includes(option.value);
-                });
-                */
-
-                alert('Settings reset to defaults.');
+                // Redirect back to trips page
+                window.location.href = 'trips.html';
             });
 
             // Notification functionality
-            let notifications = JSON.parse(localStorage.getItem('notifications')) || [
+            const initialNotifications = [
                 { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
                 { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
                 { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
             ];
 
-            // Save initial notifications to localStorage if not already present
-            if (!localStorage.getItem('notifications')) {
-                localStorage.setItem('notifications', JSON.stringify(notifications));
-            }
-
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
             const notificationBadge = document.getElementById('notificationBadge');
             const notificationList = document.getElementById('notificationList');
             const clearNotifications = document.getElementById('clearNotifications');
@@ -1098,9 +835,10 @@
                 notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
 
                 notificationList.innerHTML = notifications.length === 0
-                    ? '<div style="padding: 10px; text-align: center; color: rgba(26, 26, 61, 0.7);">No notifications</div>'
+                    ? '<div style="padding: 10px; text-align: center; color: rgba(26,26,61,0.7);">No notifications</div>'
                     : notifications.map(n => `
-                        <div class="notification-item ${n.read ? 'read' : ''}">
+                        
+                        <div class="dropdown-item notification-item ${n.read ? 'read' : ''}">
                             <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
                                 <div>${n.message}</div>
                                 <small>${n.time}</small>
@@ -1150,3 +888,4 @@
     </script>
 </body>
 </html>
+```

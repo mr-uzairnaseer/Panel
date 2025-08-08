@@ -12,34 +12,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6c5ce7;
-            --primary-dark: #5649c0;
-            --secondary: #00cec9;
-            --success: #00b894;
-            --danger: #d63031;
-            --warning: #fdcb6e;
-            --info: #0984e3;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --gray: #636e72;
-            --gray-light: #dfe6e9;
+            --primary: #1A1A3D; /* Darker navy for text and primary elements */
+            --secondary: #3B82F6; /* Softer blue for accents */
+            --highlight: #F59E0B; /* Amber for highlights */
+            --green: #10B981; /* Emerald green for additional accents */
+            --neutral: #FFFFFF; /* White for element backgrounds */
+            --page-bg: #F4F4F9; /* Softer grey for page background */
             --sidebar-width: 280px;
             --sidebar-collapsed: 80px;
             --topbar-height: 70px;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: var(--page-bg);
+            color: var(--primary);
             overflow-x: hidden;
         }
 
+        /* Futuristic Admin Theme */
         .admin-body {
             display: flex;
             min-height: 100vh;
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: var(--page-bg);
+            color: var(--primary);
         }
 
         .admin-main {
@@ -56,8 +58,8 @@
         /* Sidebar Styles */
         .admin-sidebar {
             width: var(--sidebar-width);
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--neutral);
+            border-right: 1px solid rgba(26, 26, 61, 0.1);
             position: fixed;
             top: 0;
             left: 0;
@@ -82,7 +84,7 @@
 
         .sidebar-header {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
             min-height: 40px;
             flex-shrink: 0;
             z-index: 1;
@@ -98,12 +100,12 @@
         .logo-icon {
             min-width: 40px;
             height: 40px;
-            background: var(--primary);
+            background: var(--secondary);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--neutral);
             font-size: 18px;
             flex-shrink: 0;
         }
@@ -112,19 +114,19 @@
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
             font-size: 22px;
-            color: white;
+            color: var(--primary);
             transition: opacity 0.3s ease;
             white-space: nowrap;
         }
 
         .logo-text span {
-            color: var(--secondary);
+            color: var(--highlight);
         }
 
         .sidebar-header p {
             font-size: 12px;
             letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(26, 26, 61, 0.5);
             text-transform: uppercase;
             margin-top: 3px;
             white-space: nowrap;
@@ -140,7 +142,7 @@
             flex-direction: column;
             gap: 2px;
             scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+            scrollbar-color: rgba(26, 26, 61, 0.2) transparent;
         }
 
         .nav-item {
@@ -152,7 +154,7 @@
             display: flex;
             align-items: center;
             padding: 8px 15px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(26, 26, 61, 0.7);
             text-decoration: none;
             transition: all 0.3s ease;
             white-space: nowrap;
@@ -179,7 +181,7 @@
         }
 
         .nav::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(26, 26, 61, 0.2);
             border-radius: 10px;
         }
 
@@ -203,20 +205,20 @@
         }
 
         .nav-item.active .nav-link {
-            color: white;
-            background: rgba(0, 206, 201, 0.1);
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
             z-index: 2;
         }
 
         .nav-link:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.05);
+            color: var(--primary);
+            background: rgba(26, 26, 61, 0.05);
             z-index: 2;
         }
 
         .sidebar-footer {
             padding: 10px 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(26, 26, 61, 0.1);
             flex-shrink: 0;
             z-index: 1;
         }
@@ -231,11 +233,11 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--neutral);
             font-weight: bold;
             flex-shrink: 0;
         }
@@ -249,7 +251,7 @@
         .profile-info h6 {
             margin: 0;
             font-size: 14px;
-            color: white;
+            color: var(--primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -257,7 +259,7 @@
 
         .profile-info small {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(26, 26, 61, 0.5);
             display: block;
             white-space: nowrap;
             overflow: hidden;
@@ -265,22 +267,22 @@
         }
 
         .logout-btn {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(26, 26, 61, 0.5);
             transition: all 0.3s ease;
             flex-shrink: 0;
             font-size: 16px;
         }
 
         .logout-btn:hover {
-            color: white;
+            color: var(--primary);
         }
 
         /* Top Bar Styles */
         .admin-topbar {
             height: var(--topbar-height);
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--primary);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
             padding: 0 20px;
             display: flex;
             align-items: center;
@@ -298,7 +300,7 @@
         .sidebar-toggle {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--neutral);
             font-size: 20px;
             margin-right: 20px;
             cursor: pointer;
@@ -306,13 +308,13 @@
         }
 
         .sidebar-toggle:hover {
-            color: white;
+            color: var(--page-bg);
         }
 
         .admin-topbar h4 {
             margin: 0;
             font-weight: 500;
-            color: white;
+            color: var(--neutral);
         }
 
         .topbar-right {
@@ -330,15 +332,15 @@
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--secondary);
         }
 
         .search-box input {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--neutral);
             border: none;
             border-radius: 30px;
             padding: 8px 15px 8px 35px;
-            color: white;
+            color: var(--primary);
             width: 200px;
             transition: all 0.3s ease;
         }
@@ -346,32 +348,32 @@
         .search-box input:focus {
             outline: none;
             width: 250px;
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--neutral);
         }
 
         .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--primary);
         }
 
-        .notifications {
+        .notifications.dropdown {
             position: relative;
             margin-right: 20px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--neutral);
             font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .notifications:hover {
-            color: white;
+        .notifications.dropdown:hover {
+            color: var(--page-bg);
         }
 
         .notifications .badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: var(--danger);
-            color: white;
+            background: var(--highlight);
+            color: var(--neutral);
             font-size: 10px;
             width: 18px;
             height: 18px;
@@ -381,61 +383,133 @@
             justify-content: center;
         }
 
+        .notification-dropdown {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+        }
+
+        .notification-dropdown .dropdown-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .notification-dropdown .dropdown-header button {
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .notification-dropdown .dropdown-header button:hover {
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .notification-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+            transition: background 0.3s ease;
+        }
+
+        .notification-item.read {
+            color: rgba(26, 26, 61, 0.5);
+            background: transparent;
+        }
+
+        .notification-item:not(.read) {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .notification-item a {
+            text-decoration: none;
+            color: inherit;
+            flex-grow: 1;
+        }
+
+        .notification-item small {
+            color: rgba(26, 26, 61, 0.5);
+        }
+
+        .mark-read-btn {
+            background: none;
+            border: none;
+            color: rgba(26, 26, 61, 0.7);
+            font-size: 12px;
+        }
+
         /* Main Content Styles */
         .admin-content {
             padding: 20px;
             min-height: calc(100vh - var(--topbar-height));
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(52, 73, 94, 0.9) 100%);
+            background: var(--page-bg);
         }
 
+        /* Package Card */
         .package-card {
-            background: rgba(15, 27, 49, 0.9);
-            border: 1px solid rgba(253, 203, 110, 0.3);
-            border-radius: 15px;
-            padding: 20px;
+            background: var(--neutral);
+            border-radius: 10px;
+            padding: 25px;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(26, 26, 61, 0.1);
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .package-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(253, 203, 110, 0.2);
-            border-color: rgba(253, 203, 110, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .package-card::before {
             content: '';
             position: absolute;
-            top: -40px;
-            left: -40px;
-            width: 90px;
-            height: 90px;
-            background: radial-gradient(circle, rgba(253, 203, 110, 0.3) 0%, transparent 70%);
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
             border-radius: 50%;
-            opacity: 0.5;
+            opacity: 0.4;
         }
 
+        /* Table Styles */
         .package-table th {
             font-family: 'Orbitron', sans-serif;
             font-size: 13px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(26, 26, 61, 0.8);
             padding: 12px 15px;
-            border-bottom: 1px solid rgba(253, 203, 110, 0.2);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
         }
 
         .package-table td {
             padding: 12px 15px;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
             vertical-align: middle;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.05);
         }
 
         .package-table tr:hover {
-            background: rgba(253, 203, 110, 0.1);
+            background: rgba(59, 130, 246, 0.05);
         }
 
         .status-badge {
@@ -445,18 +519,39 @@
             font-weight: 500;
         }
 
+        .status-badge.awaiting-pickup {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--highlight);
+        }
+
+        .status-badge.in-transit {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--secondary);
+        }
+
+        .status-badge.delivered {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+
+        .status-badge.cancelled {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
         .action-btn {
             background: none;
             border: none;
-            color: inherit;
+            color: var(--secondary);
             cursor: pointer;
             transition: color 0.3s ease;
         }
 
         .action-btn:hover {
-            color: white;
+            color: var(--primary);
         }
 
+        /* Filter Controls */
         .filter-controls {
             display: flex;
             gap: 10px;
@@ -465,20 +560,25 @@
         }
 
         .filter-controls select, .filter-controls button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(253, 203, 110, 0.3);
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
             border-radius: 8px;
             padding: 8px 12px;
-            color: white;
+            color: var(--primary);
             font-size: 14px;
             transition: all 0.3s ease;
         }
 
         .filter-controls select:focus, .filter-controls button:hover {
-            background: rgba(253, 203, 110, 0.2);
-            border-color: var(--warning);
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--secondary);
         }
 
+        .filter-controls button i {
+            margin-right: 5px;
+        }
+
+        /* Pagination Controls */
         .pagination-controls {
             display: flex;
             justify-content: flex-end;
@@ -487,53 +587,96 @@
         }
 
         .pagination-controls button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(253, 203, 110, 0.3);
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
             border-radius: 8px;
             padding: 8px 12px;
-            color: white;
+            color: var(--primary);
             font-size: 14px;
             transition: all 0.3s ease;
         }
 
         .pagination-controls button:hover, .pagination-controls button.active {
-            background: var(--warning);
-            border-color: var(--warning);
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: var(--neutral);
         }
 
+        .pagination-controls button:disabled {
+            background: rgba(26, 26, 61, 0.1);
+            color: rgba(26, 26, 61, 0.5);
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
         .modal-content {
-            background: rgba(15, 27, 49, 0.95);
-            border: 1px solid rgba(253, 203, 110, 0.4);
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.1);
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         }
 
         .modal-header, .modal-footer {
-            border-color: rgba(253, 203, 110, 0.2);
+            border-color: rgba(26, 26, 61, 0.1);
         }
 
         .modal-title {
             font-family: 'Orbitron', sans-serif;
-            color: white;
+            color: var(--primary);
         }
 
         .modal-body label {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(26, 26, 61, 0.7);
             font-size: 14px;
         }
 
         .modal-body input, .modal-body select {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(253, 203, 110, 0.3);
-            color: white;
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
+            color: var(--primary);
             border-radius: 8px;
             padding: 10px;
         }
 
         .modal-body input:focus, .modal-body select:focus {
-            border-color: var(--warning);
-            background: rgba(253, 203, 110, 0.1);
+            border-color: var(--secondary);
+            background: rgba(59, 130, 246, 0.05);
             outline: none;
+        }
+
+        .modal-footer button {
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .modal-footer .btn-cancel {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
+            color: var(--primary);
+        }
+
+        .modal-footer .btn-cancel:hover {
+            background: rgba(26, 26, 61, 0.05);
+        }
+
+        .modal-footer .btn-save, .modal-footer .btn-edit {
+            background: var(--secondary);
+            border: none;
+            color: var(--neutral);
+        }
+
+        .modal-footer .btn-save:hover, .modal-footer .btn-edit:hover {
+            background: var(--primary);
+        }
+
+        .btn-close {
+            color: var(--primary);
+            opacity: 0.7;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
         }
 
         /* Responsive Adjustments */
@@ -731,51 +874,25 @@
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search packages..." id="searchInput">
                 </div>
-                <!-- Replace the <div class="notifications"> in the <nav class="admin-topbar"> section of each page -->
-<div class="notifications dropdown">
-    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-bell"></i>
-        <span class="badge" id="notificationBadge">0</span>
-    </a>
-    <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="
-        background: rgba(10, 25, 47, 0.95);
-        border: 1px solid rgba(108, 92, 231, 0.4);
-        border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        min-width: 300px;
-        max-height: 400px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(108, 92, 231, 0.5) transparent;
-    ">
-        <div class="dropdown-header" style="
-            padding: 10px 15px;
-            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            color: white;
-        ">
-            <span>Notifications</span>
-            <button class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" id="clearNotifications" style="
-                border: 1px solid rgba(108, 92, 231, 0.3);
-                border-radius: 8px;
-                padding: 4px 10px;
-            ">
-                <i class="fas fa-trash mr-1"></i> Clear All
-            </button>
-        </div>
-        <div id="notificationList" style="padding: 10px;">
-            <!-- Notifications will be dynamically inserted here -->
-        </div>
-    </div>
-</div>
+                <div class="notifications dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationBadge">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                        <div class="dropdown-header">
+                            <span>Notifications</span>
+                            <button class="btn btn-sm" id="clearNotifications">
+                                <i class="fas fa-trash mr-1"></i> Clear All
+                            </button>
+                        </div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
                 <div class="quick-actions">
-                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addPackageModal">
+                    <a href="add-package.html" class="btn btn-sm" style="background: var(--secondary); color: var(--neutral); border: none;">
                         <i class="fas fa-plus"></i> Add Package
-                    </button>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -783,8 +900,8 @@
         <!-- Packages Content -->
         <div class="admin-content">
             <div class="package-card">
-                <div class="card-header d-flex justify-content-between align-items-center" style="border-bottom: 1px solid rgba(253, 203, 110, 0.2); padding: 15px 20px;">
-                    <h5 style="margin: 0; font-family: 'Orbitron', sans-serif; color: white; font-weight: 500;">Packages Management</h5>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 style="margin: 0; font-family: 'Orbitron', sans-serif; color: var(--primary); font-weight: 500;">Packages Management</h5>
                     <div class="filter-controls">
                         <select id="statusFilter">
                             <option value="All">All Statuses</option>
@@ -793,16 +910,16 @@
                             <option value="Delivered">Delivered</option>
                             <option value="Cancelled">Cancelled</option>
                         </select>
-                        <button id="bulkUpdateStatus" style="display: none;"><i class="fas fa-sync-alt mr-2"></i>Bulk Update Status</button>
-                        <button id="exportCSV"><i class="fas fa-download mr-2"></i>Export CSV</button>
+                        <button id="bulkUpdateStatus" style="display: none;"><i class="fas fa-sync-alt"></i> Bulk Update Status</button>
+                        <button id="exportCSV"><i class="fas fa-download"></i> Export CSV</button>
                     </div>
                 </div>
-                <div class="card-body" style="padding: 20px;">
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="package-table w-100">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="selectAll" class="form-check-input bg-transparent border-gray-500"></th>
+                                    <th><input type="checkbox" id="selectAll" class="form-check-input"></th>
                                     <th>Package ID</th>
                                     <th>Sender</th>
                                     <th>Trip ID</th>
@@ -829,12 +946,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="viewPackageModalLabel">Package Details</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-4">
-                            <h6 id="viewPackageId" style="color: white; margin: 0;"></h6>
-                            <small id="viewPackageSender" style="color: rgba(255,255,255,0.7);"></small>
+                            <h6 id="viewPackageId" style="color: var(--primary); margin: 0;"></h6>
+                            <small id="viewPackageSender" style="color: rgba(26, 26, 61, 0.7);"></small>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -860,8 +977,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" data-bs-toggle="modal" data-bs-target="#editPackageModal" onclick="openEditFromView()">Edit Package</button>
+                        <button type="button" class="btn btn-sm btn-cancel" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#editPackageModal" onclick="openEditFromView()">Edit Package</button>
                     </div>
                 </div>
             </div>
@@ -873,7 +990,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editPackageModalLabel">Edit Package</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -907,42 +1024,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" onclick="savePackage()">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Add Package Modal -->
-        <div class="modal fade" id="addPackageModal" tabindex="-1" aria-labelledby="addPackageModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addPackageModalLabel">Add New Package</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="newPackageSender" class="form-label">Sender</label>
-                            <input type="text" class="form-control" id="newPackageSender">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newPackageTripId" class="form-label">Trip ID</label>
-                            <input type="text" class="form-control" id="newPackageTripId">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newPackageWeight" class="form-label">Weight (kg)</label>
-                            <input type="number" step="0.1" class="form-control" id="newPackageWeight">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newPackageDimensions" class="form-label">Dimensions (cm)</label>
-                            <input type="text" class="form-control" id="newPackageDimensions">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" onclick="addPackage()">Add Package</button>
+                        <button type="button" class="btn btn-sm btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-sm btn-save" onclick="savePackage()">Save</button>
                     </div>
                 </div>
             </div>
@@ -954,7 +1037,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="bulkStatusModalLabel">Bulk Update Status</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -968,8 +1051,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" onclick="applyBulkStatus()">Apply</button>
+                        <button type="button" class="btn btn-sm btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-sm btn-save" onclick="applyBulkStatus()">Apply</button>
                     </div>
                 </div>
             </div>
@@ -1011,6 +1094,9 @@
                 { id: 'PKG-005', sender: 'Mike Johnson', tripId: 'TRP-005', weight: 4.0, dimensions: '50x30x20', status: 'Cancelled', updated: '2025-08-07' },
             ];
 
+            // Store packages in localStorage to share with add-package.html
+            localStorage.setItem('packages', JSON.stringify(packages));
+
             // Pagination state
             let currentPage = 1;
             const packagesPerPage = 3;
@@ -1025,11 +1111,14 @@
             const bulkUpdateStatus = document.getElementById('bulkUpdateStatus');
 
             function renderPackages(page) {
+                const packages = JSON.parse(localStorage.getItem('packages')) || [];
                 const status = statusFilter.value;
                 const search = searchInput.value.toLowerCase();
                 const filteredPackages = packages.filter(pkg => 
                     (status === 'All' || pkg.status === status) &&
-                    (pkg.id.toLowerCase().includes(search) || pkg.sender.toLowerCase().includes(search) || pkg.tripId.toLowerCase().includes(search))
+                    (pkg.id.toLowerCase().includes(search) || 
+                     pkg.sender.toLowerCase().includes(search) || 
+                     pkg.tripId.toLowerCase().includes(search))
                 );
 
                 const start = (page - 1) * packagesPerPage;
@@ -1040,20 +1129,15 @@
                 paginatedPackages.forEach(pkg => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td><input type="checkbox" class="form-check-input bg-transparent border-gray-500 package-checkbox" data-id="${pkg.id}"></td>
-                        <td><a href="#" class="text-white text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewPackageModal" onclick="viewPackage('${pkg.id}')">${pkg.id}</a></td>
-                        <td style="color: rgba(255,255,255,0.7);">${pkg.sender}</td>
-                        <td style="color: rgba(255,255,255,0.7);">${pkg.tripId}</td>
-                        <td style="color: rgba(255,255,255,0.7);">${pkg.weight.toFixed(1)}</td>
-                        <td style="color: rgba(255,255,255,0.7);">${pkg.dimensions}</td>
-                        <td><span class="status-badge ${
-                            pkg.status === 'Awaiting Pickup' ? 'bg-[rgba(253,203,110,0.2)] text-[var(--warning)]' :
-                            pkg.status === 'In Transit' ? 'bg-[rgba(9,132,227,0.2)] text-[var(--info)]' :
-                            pkg.status === 'Delivered' ? 'bg-[rgba(16,185,129,0.2)] text-[var(--success)]' :
-                            'bg-[rgba(239,68,68,0.2)] text-[var(--danger)]'
-                        }">${pkg.status}</span></td>
+                        <td><input type="checkbox" class="form-check-input package-checkbox" data-id="${pkg.id}"></td>
+                        <td><a href="#" class="text-decoration-none" style="color: var(--primary);" data-bs-toggle="modal" data-bs-target="#viewPackageModal" onclick="viewPackage('${pkg.id}')">${pkg.id}</a></td>
+                        <td style="color: rgba(26, 26, 61, 0.7);">${pkg.sender}</td>
+                        <td style="color: rgba(26, 26, 61, 0.7);">${pkg.tripId}</td>
+                        <td style="color: rgba(26, 26, 61, 0.7);">${pkg.weight.toFixed(1)}</td>
+                        <td style="color: rgba(26, 26, 61, 0.7);">${pkg.dimensions}</td>
+                        <td><span class="status-badge ${pkg.status.toLowerCase().replace(' ', '-')}"">${pkg.status}</span></td>
                         <td>
-                            <button class="action-btn text-[var(--info)]" data-bs-toggle="modal" data-bs-target="#editPackageModal" onclick="openEditModal('${pkg.id}', '${pkg.sender}', '${pkg.tripId}', '${pkg.weight}', '${pkg.dimensions}', '${pkg.status}')"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" data-bs-toggle="modal" data-bs-target="#editPackageModal" onclick="openEditModal('${pkg.id}', '${pkg.sender}', '${pkg.tripId}', '${pkg.weight}', '${pkg.dimensions}', '${pkg.status}')"><i class="fas fa-edit"></i></button>
                         </td>
                     `;
                     packageTable.appendChild(row);
@@ -1109,6 +1193,7 @@
             });
 
             document.getElementById('exportCSV').addEventListener('click', function() {
+                const packages = JSON.parse(localStorage.getItem('packages')) || [];
                 const csv = ['Package ID,Sender,Trip ID,Weight,Dimensions,Status,Last Updated',
                     ...packages.map(p => `${p.id},${p.sender},${p.tripId},${p.weight},${p.dimensions},${p.status},${p.updated}`)
                 ].join('\n');
@@ -1122,6 +1207,7 @@
             });
 
             window.viewPackage = function(id) {
+                const packages = JSON.parse(localStorage.getItem('packages')) || [];
                 const pkg = packages.find(p => p.id === id);
                 if (pkg) {
                     document.getElementById('viewPackageId').textContent = pkg.id;
@@ -1161,29 +1247,20 @@
                 const weight = parseFloat(document.getElementById('packageWeight').value);
                 const dimensions = document.getElementById('packageDimensions').value;
                 const status = document.getElementById('packageStatus').value;
+                const packages = JSON.parse(localStorage.getItem('packages')) || [];
                 const packageIndex = packages.findIndex(p => p.id === id);
                 if (packageIndex !== -1) {
                     packages[packageIndex] = { ...packages[packageIndex], sender, tripId, weight, dimensions, status, updated: new Date().toISOString().split('T')[0] };
+                    localStorage.setItem('packages', JSON.stringify(packages));
                     renderPackages(currentPage);
                     bootstrap.Modal.getInstance(document.getElementById('editPackageModal')).hide();
                 }
             };
 
-            window.addPackage = function() {
-                const sender = document.getElementById('newPackageSender').value;
-                const tripId = document.getElementById('newPackageTripId').value;
-                const weight = parseFloat(document.getElementById('newPackageWeight').value);
-                const dimensions = document.getElementById('newPackageDimensions').value;
-                const newId = `PKG-${String(packages.length + 1).padStart(3, '0')}`;
-                packages.push({ id: newId, sender, tripId, weight, dimensions, status: 'Awaiting Pickup', updated: new Date().toISOString().split('T')[0] });
-                renderPackages(currentPage);
-                bootstrap.Modal.getInstance(document.getElementById('addPackageModal')).hide();
-                document.getElementById('addPackageModal').querySelector('form').reset();
-            };
-
             window.applyBulkStatus = function() {
                 const newStatus = document.getElementById('bulkStatus').value;
                 const selectedIds = Array.from(document.querySelectorAll('.package-checkbox:checked')).map(cb => cb.dataset.id);
+                const packages = JSON.parse(localStorage.getItem('packages')) || [];
                 selectedIds.forEach(id => {
                     const packageIndex = packages.findIndex(p => p.id === id);
                     if (packageIndex !== -1) {
@@ -1191,103 +1268,80 @@
                         packages[packageIndex].updated = new Date().toISOString().split('T')[0];
                     }
                 });
+                localStorage.setItem('packages', JSON.stringify(packages));
                 renderPackages(currentPage);
                 bootstrap.Modal.getInstance(document.getElementById('bulkStatusModal')).hide();
                 selectAll.checked = false;
             };
 
+            // Notification functionality
+            const initialNotifications = [
+                { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
+                { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
+                { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
+            ];
+
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
+            const notificationBadge = document.getElementById('notificationBadge');
+            const notificationList = document.getElementById('notificationList');
+            const clearNotifications = document.getElementById('clearNotifications');
+
+            function renderNotifications() {
+                const unreadCount = notifications.filter(n => !n.read).length;
+                notificationBadge.textContent = unreadCount;
+                notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+                notificationList.innerHTML = notifications.length === 0
+                    ? '<div style="padding: 10px; text-align: center; color: rgba(26,26,61,0.7);">No notifications</div>'
+                    : notifications.map(n => `
+                        <div class="dropdown-item notification-item ${n.read ? 'read' : ''}">
+                            <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
+                                <div>${n.message}</div>
+                                <small>${n.time}</small>
+                            </a>
+                            <button class="btn btn-sm mark-read-btn" data-id="${n.id}">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </div>
+                    `).join('');
+
+                document.querySelectorAll('.mark-read-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        const notification = notifications.find(n => n.id === id);
+                        if (notification) {
+                            notification.read = true;
+                            localStorage.setItem('notifications', JSON.stringify(notifications));
+                            renderNotifications();
+                        }
+                    });
+                });
+            }
+
+            clearNotifications.addEventListener('click', function() {
+                notifications = [];
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                renderNotifications();
+            });
+
+            setInterval(() => {
+                const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+                const newNotification = {
+                    id: newId,
+                    message: `New event ${newId} occurred.`,
+                    time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                    read: false,
+                    link: 'index.html'
+                };
+                notifications.unshift(newNotification);
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                renderNotifications();
+            }, 60000);
+
             // Initial render
             renderPackages(currentPage);
+            renderNotifications();
         });
-        document.addEventListener('DOMContentLoaded', function() {
-    // Sample notification data (can be replaced with API calls in a real implementation)
-    const initialNotifications = [
-        { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
-        { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
-        { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
-    ];
-
-    // Load notifications from localStorage or use initial data
-    let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
-
-    // Notification elements
-    const notificationBadge = document.getElementById('notificationBadge');
-    const notificationList = document.getElementById('notificationList');
-    const clearNotifications = document.getElementById('clearNotifications');
-
-    // Function to render notifications
-    function renderNotifications() {
-        const unreadCount = notifications.filter(n => !n.read).length;
-        notificationBadge.textContent = unreadCount;
-        notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
-
-        notificationList.innerHTML = notifications.length === 0
-            ? '<div style="padding: 10px; text-align: center; color: rgba(255,255,255,0.7);">No notifications</div>'
-            : notifications.map(n => `
-                <div class="dropdown-item notification-item ${n.read ? 'read' : ''}" style="
-                    padding: 10px 15px;
-                    border-bottom: 1px solid rgba(108, 92, 231, 0.1);
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    color: ${n.read ? 'rgba(255,255,255,0.5)' : 'white'};
-                    background: ${n.read ? 'transparent' : 'rgba(108, 92, 231, 0.1)'};
-                    transition: background 0.3s ease;
-                ">
-                    <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
-                        <div>${n.message}</div>
-                        <small style="color: rgba(255,255,255,0.5);">${n.time}</small>
-                    </a>
-                    <button class="btn btn-sm mark-read-btn" data-id="${n.id}" style="
-                        background: none;
-                        border: none;
-                        color: rgba(255,255,255,0.7);
-                        font-size: 12px;
-                    ">
-                        <i class="fas fa-check-circle"></i>
-                    </button>
-                </div>
-            `).join('');
-
-        // Add event listeners for mark read buttons
-        document.querySelectorAll('.mark-read-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = parseInt(this.dataset.id);
-                const notification = notifications.find(n => n.id === id);
-                if (notification) {
-                    notification.read = true;
-                    localStorage.setItem('notifications', JSON.stringify(notifications));
-                    renderNotifications();
-                }
-            });
-        });
-    }
-
-    // Clear all notifications
-    clearNotifications.addEventListener('click', function() {
-        notifications = [];
-        localStorage.setItem('notifications', JSON.stringify(notifications));
-        renderNotifications();
-    });
-
-    // Initial render
-    renderNotifications();
-
-    // Simulate new notifications (for demo purposes)
-    setInterval(() => {
-        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
-        const newNotification = {
-            id: newId,
-            message: `New event ${newId} occurred.`,
-            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
-            read: false,
-            link: 'index.html'
-        };
-        notifications.unshift(newNotification);
-        localStorage.setItem('notifications', JSON.stringify(notifications));
-        renderNotifications();
-    }, 60000); // Add a new notification every 60 seconds (for demo)
-});
     </script>
 </body>
 </html>

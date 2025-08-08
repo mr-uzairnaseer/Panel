@@ -12,34 +12,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6c5ce7;
-            --primary-dark: #5649c0;
-            --secondary: #00cec9;
-            --success: #00b894;
-            --danger: #d63031;
-            --warning: #fdcb6e;
-            --info: #0984e3;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --gray: #636e72;
-            --gray-light: #dfe6e9;
+            --primary: #1A1A3D; /* Darker navy for text and primary elements */
+            --secondary: #3B82F6; /* Softer blue for accents */
+            --highlight: #F59E0B; /* Amber for highlights */
+            --green: #10B981; /* Emerald green for additional accents */
+            --neutral: #FFFFFF; /* White for element backgrounds */
+            --page-bg: #F4F4F9; /* Softer grey for page background */
             --sidebar-width: 280px;
             --sidebar-collapsed: 80px;
             --topbar-height: 70px;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: var(--page-bg);
+            color: var(--primary);
             overflow-x: hidden;
         }
 
+        /* Futuristic Admin Theme */
         .admin-body {
             display: flex;
             min-height: 100vh;
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: var(--page-bg);
+            color: var(--primary);
         }
 
         .admin-main {
@@ -56,8 +58,8 @@
         /* Sidebar Styles */
         .admin-sidebar {
             width: var(--sidebar-width);
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--neutral);
+            border-right: 1px solid rgba(26, 26, 61, 0.1);
             position: fixed;
             top: 0;
             left: 0;
@@ -82,7 +84,7 @@
 
         .sidebar-header {
             padding: 10px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
             min-height: 40px;
             flex-shrink: 0;
             z-index: 1;
@@ -98,12 +100,12 @@
         .logo-icon {
             min-width: 40px;
             height: 40px;
-            background: var(--primary);
+            background: var(--secondary);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--neutral);
             font-size: 18px;
             flex-shrink: 0;
         }
@@ -112,19 +114,19 @@
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
             font-size: 22px;
-            color: white;
+            color: var(--primary);
             transition: opacity 0.3s ease;
             white-space: nowrap;
         }
 
         .logo-text span {
-            color: var(--secondary);
+            color: var(--highlight);
         }
 
         .sidebar-header p {
             font-size: 12px;
             letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(26, 26, 61, 0.5);
             text-transform: uppercase;
             margin-top: 3px;
             white-space: nowrap;
@@ -140,7 +142,7 @@
             flex-direction: column;
             gap: 2px;
             scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+            scrollbar-color: rgba(26, 26, 61, 0.2) transparent;
         }
 
         .nav-item {
@@ -152,7 +154,7 @@
             display: flex;
             align-items: center;
             padding: 8px 15px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(26, 26, 61, 0.7);
             text-decoration: none;
             transition: all 0.3s ease;
             white-space: nowrap;
@@ -179,7 +181,7 @@
         }
 
         .nav::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(26, 26, 61, 0.2);
             border-radius: 10px;
         }
 
@@ -203,20 +205,20 @@
         }
 
         .nav-item.active .nav-link {
-            color: white;
-            background: rgba(0, 206, 201, 0.1);
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
             z-index: 2;
         }
 
         .nav-link:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.05);
+            color: var(--primary);
+            background: rgba(26, 26, 61, 0.05);
             z-index: 2;
         }
 
         .sidebar-footer {
             padding: 10px 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(26, 26, 61, 0.1);
             flex-shrink: 0;
             z-index: 1;
         }
@@ -231,11 +233,11 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--neutral);
             font-weight: bold;
             flex-shrink: 0;
         }
@@ -249,7 +251,7 @@
         .profile-info h6 {
             margin: 0;
             font-size: 14px;
-            color: white;
+            color: var(--primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -257,7 +259,7 @@
 
         .profile-info small {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(26, 26, 61, 0.5);
             display: block;
             white-space: nowrap;
             overflow: hidden;
@@ -265,22 +267,22 @@
         }
 
         .logout-btn {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(26, 26, 61, 0.5);
             transition: all 0.3s ease;
             flex-shrink: 0;
             font-size: 16px;
         }
 
         .logout-btn:hover {
-            color: white;
+            color: var(--primary);
         }
 
         /* Top Bar Styles */
         .admin-topbar {
             height: var(--topbar-height);
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--primary);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
             padding: 0 20px;
             display: flex;
             align-items: center;
@@ -298,7 +300,7 @@
         .sidebar-toggle {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--neutral);
             font-size: 20px;
             margin-right: 20px;
             cursor: pointer;
@@ -306,13 +308,13 @@
         }
 
         .sidebar-toggle:hover {
-            color: white;
+            color: var(--page-bg);
         }
 
         .admin-topbar h4 {
             margin: 0;
             font-weight: 500;
-            color: white;
+            color: var(--neutral);
         }
 
         .topbar-right {
@@ -330,15 +332,15 @@
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--secondary);
         }
 
         .search-box input {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--neutral);
             border: none;
             border-radius: 30px;
             padding: 8px 15px 8px 35px;
-            color: white;
+            color: var(--primary);
             width: 200px;
             transition: all 0.3s ease;
         }
@@ -346,32 +348,32 @@
         .search-box input:focus {
             outline: none;
             width: 250px;
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--neutral);
         }
 
         .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--primary);
         }
 
-        .notifications {
+        .notifications.dropdown {
             position: relative;
             margin-right: 20px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--neutral);
             font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .notifications:hover {
-            color: white;
+        .notifications.dropdown:hover {
+            color: var(--page-bg);
         }
 
         .notifications .badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: var(--danger);
-            color: white;
+            background: var(--highlight);
+            color: var(--neutral);
             font-size: 10px;
             width: 18px;
             height: 18px;
@@ -381,61 +383,133 @@
             justify-content: center;
         }
 
+        .notification-dropdown {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            min-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(59, 130, 246, 0.5) transparent;
+        }
+
+        .notification-dropdown .dropdown-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .notification-dropdown .dropdown-header button {
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .notification-dropdown .dropdown-header button:hover {
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .notification-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+            transition: background 0.3s ease;
+        }
+
+        .notification-item.read {
+            color: rgba(26, 26, 61, 0.5);
+            background: transparent;
+        }
+
+        .notification-item:not(.read) {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .notification-item a {
+            text-decoration: none;
+            color: inherit;
+            flex-grow: 1;
+        }
+
+        .notification-item small {
+            color: rgba(26, 26, 61, 0.5);
+        }
+
+        .mark-read-btn {
+            background: none;
+            border: none;
+            color: rgba(26, 26, 61, 0.7);
+            font-size: 12px;
+        }
+
         /* Main Content Styles */
         .admin-content {
             padding: 20px;
             min-height: calc(100vh - var(--topbar-height));
-            background: linear-gradient(45deg, rgba(15, 23, 42, 0.95) 0%, rgba(44, 62, 80, 0.9) 100%);
+            background: var(--page-bg);
         }
 
+        /* Trip Card */
         .trip-card {
-            background: rgba(10, 25, 47, 0.9);
-            border: 1px solid rgba(0, 206, 201, 0.3);
-            border-radius: 15px;
-            padding: 20px;
+            background: var(--neutral);
+            border-radius: 10px;
+            padding: 25px;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(26, 26, 61, 0.1);
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .trip-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 206, 201, 0.2);
-            border-color: rgba(0, 206, 201, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .trip-card::after {
+        .trip-card::before {
             content: '';
             position: absolute;
-            bottom: -30px;
-            left: -30px;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, rgba(0, 206, 201, 0.3) 0%, transparent 70%);
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
             border-radius: 50%;
-            opacity: 0.5;
+            opacity: 0.4;
         }
 
+        /* Table Styles */
         .trip-table th {
             font-family: 'Orbitron', sans-serif;
             font-size: 13px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(26, 26, 61, 0.8);
             padding: 12px 15px;
-            border-bottom: 1px solid rgba(0, 206, 201, 0.2);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.1);
         }
 
         .trip-table td {
             padding: 12px 15px;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
             vertical-align: middle;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(26, 26, 61, 0.05);
         }
 
         .trip-table tr:hover {
-            background: rgba(0, 206, 201, 0.1);
+            background: rgba(59, 130, 246, 0.05);
         }
 
         .status-badge {
@@ -445,18 +519,29 @@
             font-weight: 500;
         }
 
+        .status-badge.completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--highlight);
+        }
+
         .action-btn {
             background: none;
             border: none;
-            color: inherit;
+            color: var(--secondary);
             cursor: pointer;
             transition: color 0.3s ease;
         }
 
         .action-btn:hover {
-            color: white;
+            color: var(--primary);
         }
 
+        /* Filter Controls */
         .filter-controls {
             display: flex;
             gap: 10px;
@@ -465,20 +550,25 @@
         }
 
         .filter-controls select, .filter-controls button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 206, 201, 0.3);
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
             border-radius: 8px;
             padding: 8px 12px;
-            color: white;
+            color: var(--primary);
             font-size: 14px;
             transition: all 0.3s ease;
         }
 
         .filter-controls select:focus, .filter-controls button:hover {
-            background: rgba(0, 206, 201, 0.2);
+            background: rgba(59, 130, 246, 0.1);
             border-color: var(--secondary);
         }
 
+        .filter-controls button i {
+            margin-right: 5px;
+        }
+
+        /* Pagination Controls */
         .pagination-controls {
             display: flex;
             justify-content: flex-end;
@@ -487,11 +577,11 @@
         }
 
         .pagination-controls button {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 206, 201, 0.3);
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
             border-radius: 8px;
             padding: 8px 12px;
-            color: white;
+            color: var(--primary);
             font-size: 14px;
             transition: all 0.3s ease;
         }
@@ -499,41 +589,84 @@
         .pagination-controls button:hover, .pagination-controls button.active {
             background: var(--secondary);
             border-color: var(--secondary);
+            color: var(--neutral);
         }
 
+        .pagination-controls button:disabled {
+            background: rgba(26, 26, 61, 0.1);
+            color: rgba(26, 26, 61, 0.5);
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
         .modal-content {
-            background: rgba(10, 25, 47, 0.95);
-            border: 1px solid rgba(0, 206, 201, 0.4);
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.1);
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         }
 
         .modal-header, .modal-footer {
-            border-color: rgba(0, 206, 201, 0.2);
+            border-color: rgba(26, 26, 61, 0.1);
         }
 
         .modal-title {
             font-family: 'Orbitron', sans-serif;
-            color: white;
+            color: var(--primary);
         }
 
         .modal-body label {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(26, 26, 61, 0.7);
             font-size: 14px;
         }
 
         .modal-body input, .modal-body select {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 206, 201, 0.3);
-            color: white;
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
+            color: var(--primary);
             border-radius: 8px;
             padding: 10px;
         }
 
         .modal-body input:focus, .modal-body select:focus {
             border-color: var(--secondary);
-            background: rgba(0, 206, 201, 0.1);
+            background: rgba(59, 130, 246, 0.05);
             outline: none;
+        }
+
+        .modal-footer button {
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .modal-footer .btn-cancel {
+            background: var(--neutral);
+            border: 1px solid rgba(26, 26, 61, 0.2);
+            color: var(--primary);
+        }
+
+        .modal-footer .btn-cancel:hover {
+            background: rgba(26, 26, 61, 0.05);
+        }
+
+        .modal-footer .btn-save, .modal-footer .btn-edit {
+            background: var(--secondary);
+            border: none;
+            color: var(--neutral);
+        }
+
+        .modal-footer .btn-save:hover, .modal-footer .btn-edit:hover {
+            background: var(--primary);
+        }
+
+        .btn-close {
+            color: var(--primary);
+            opacity: 0.7;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
         }
 
         /* Responsive Adjustments */
@@ -731,51 +864,25 @@
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search trips..." id="searchInput">
                 </div>
-                <!-- Replace the <div class="notifications"> in the <nav class="admin-topbar"> section of each page -->
-<div class="notifications dropdown">
-    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-bell"></i>
-        <span class="badge" id="notificationBadge">0</span>
-    </a>
-    <div class="dropdown-menu dropdown-menu-end notification-dropdown" style="
-        background: rgba(10, 25, 47, 0.95);
-        border: 1px solid rgba(108, 92, 231, 0.4);
-        border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        min-width: 300px;
-        max-height: 400px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(108, 92, 231, 0.5) transparent;
-    ">
-        <div class="dropdown-header" style="
-            padding: 10px 15px;
-            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            color: white;
-        ">
-            <span>Notifications</span>
-            <button class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" id="clearNotifications" style="
-                border: 1px solid rgba(108, 92, 231, 0.3);
-                border-radius: 8px;
-                padding: 4px 10px;
-            ">
-                <i class="fas fa-trash mr-1"></i> Clear All
-            </button>
-        </div>
-        <div id="notificationList" style="padding: 10px;">
-            <!-- Notifications will be dynamically inserted here -->
-        </div>
-    </div>
-</div>
+                <div class="notifications dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notificationBadge">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                        <div class="dropdown-header">
+                            <span>Notifications</span>
+                            <button class="btn btn-sm" id="clearNotifications">
+                                <i class="fas fa-trash mr-1"></i> Clear All
+                            </button>
+                        </div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
                 <div class="quick-actions">
-                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTripModal">
+                    <a href="add-trip.html" class="btn btn-sm" style="background: var(--secondary); color: var(--neutral); border: none;">
                         <i class="fas fa-plus"></i> Add Trip
-                    </button>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -783,33 +890,28 @@
         <!-- Trips Content -->
         <div class="admin-content">
             <div class="trip-card">
-                <div class="card-header d-flex justify-content-between align-items-center" style="border-bottom: 1px solid rgba(0, 206, 201, 0.2); padding: 15px 20px;">
-                    <h5 style="margin: 0; font-family: 'Orbitron', sans-serif; color: white; font-weight: 500;">Trips Management</h5>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 style="margin: 0; font-family: 'Orbitron', sans-serif; color: var(--primary); font-weight: 500;">Trips Management</h5>
                     <div class="filter-controls">
                         <select id="statusFilter">
                             <option value="All">All Statuses</option>
                             <option value="Pending">Pending</option>
-                            <option value="In Transit">In Transit</option>
                             <option value="Completed">Completed</option>
-                            <option value="Cancelled">Cancelled</option>
                         </select>
-                        <button id="bulkCancel" style="display: none;"><i class="fas fa-ban mr-2"></i>Bulk Cancel</button>
-                        <button id="exportCSV"><i class="fas fa-download mr-2"></i>Export CSV</button>
+                        <button id="exportCSV"><i class="fas fa-download"></i> Export CSV</button>
                     </div>
                 </div>
-                <div class="card-body" style="padding: 20px;">
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="trip-table w-100">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="selectAll" class="form-check-input bg-transparent border-gray-500"></th>
                                     <th>Trip ID</th>
                                     <th>Traveler</th>
                                     <th>Origin</th>
                                     <th>Destination</th>
-                                    <th>Departure Date</th>
+                                    <th>Date</th>
                                     <th>Status</th>
-                                    <th>Package Count</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -830,14 +932,18 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="viewTripModalLabel">Trip Details</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-4">
-                            <h6 id="viewTripId" style="color: white; margin: 0;"></h6>
-                            <small id="viewTripTraveler" style="color: rgba(255,255,255,0.7);"></small>
-                        </div>
                         <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Trip ID</label>
+                                <input type="text" class="form-control" id="viewTripId" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Traveler</label>
+                                <input type="text" class="form-control" id="viewTripTraveler" readonly>
+                            </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Origin</label>
                                 <input type="text" class="form-control" id="viewTripOrigin" readonly>
@@ -847,26 +953,18 @@
                                 <input type="text" class="form-control" id="viewTripDestination" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Departure Date</label>
-                                <input type="text" class="form-control" id="viewTripDeparture" readonly>
+                                <label class="form-label">Date</label>
+                                <input type="text" class="form-control" id="viewTripDate" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Status</label>
                                 <input type="text" class="form-control" id="viewTripStatus" readonly>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Package Count</label>
-                                <input type="text" class="form-control" id="viewTripPackages" readonly>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Last Updated</label>
-                                <input type="text" class="form-control" id="viewTripUpdated" readonly>
-                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" data-bs-toggle="modal" data-bs-target="#editTripModal" onclick="openEditFromView()">Edit Trip</button>
+                        <button type="button" class="btn btn-sm btn-cancel" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#editTripModal" onclick="openEditFromView()">Edit Trip</button>
                     </div>
                 </div>
             </div>
@@ -878,7 +976,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editTripModalLabel">Edit Trip</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -898,56 +996,20 @@
                             <input type="text" class="form-control" id="tripDestination">
                         </div>
                         <div class="mb-3">
-                            <label for="tripDeparture" class="form-label">Departure Date</label>
-                            <input type="date" class="form-control" id="tripDeparture">
+                            <label for="tripDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="tripDate">
                         </div>
                         <div class="mb-3">
                             <label for="tripStatus" class="form-label">Status</label>
                             <select class="form-select" id="tripStatus">
                                 <option value="Pending">Pending</option>
-                                <option value="In Transit">In Transit</option>
                                 <option value="Completed">Completed</option>
-                                <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" onclick="saveTrip()">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Add Trip Modal -->
-        <div class="modal fade" id="addTripModal" tabindex="-1" aria-labelledby="addTripModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addTripModalLabel">Add New Trip</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="newTripTraveler" class="form-label">Traveler</label>
-                            <input type="text" class="form-control" id="newTripTraveler">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newTripOrigin" class="form-label">Origin</label>
-                            <input type="text" class="form-control" id="newTripOrigin">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newTripDestination" class="form-label">Destination</label>
-                            <input type="text" class="form-control" id="newTripDestination">
-                        </div>
-                        <div class="mb-3">
-                            <label for="newTripDeparture" class="form-label">Departure Date</label>
-                            <input type="date" class="form-control" id="newTripDeparture">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm bg-[rgba(255,255,255,0.1)] text-white hover:bg-[rgba(255,255,255,0.15)]" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-sm bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)]" onclick="addTrip()">Add Trip</button>
+                        <button type="button" class="btn btn-sm btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-sm btn-save" onclick="saveTrip()">Save</button>
                     </div>
                 </div>
             </div>
@@ -982,12 +1044,15 @@
 
             // Sample trip data
             const trips = [
-                { id: 'TRP-001', traveler: 'John Doe', origin: 'New York', destination: 'London', departure: '2025-08-10', status: 'Pending', packages: 2, updated: '2025-08-05' },
-                { id: 'TRP-002', traveler: 'Jane Smith', origin: 'Paris', destination: 'Tokyo', departure: '2025-08-15', status: 'In Transit', packages: 1, updated: '2025-08-06' },
-                { id: 'TRP-003', traveler: 'Alex Brown', origin: 'Sydney', destination: 'Dubai', departure: '2025-08-20', status: 'Completed', packages: 3, updated: '2025-08-07' },
-                { id: 'TRP-004', traveler: 'Sarah Wilson', origin: 'Berlin', destination: 'New York', departure: '2025-08-25', status: 'Pending', packages: 2, updated: '2025-08-06' },
-                { id: 'TRP-005', traveler: 'Mike Johnson', origin: 'London', destination: 'Singapore', departure: '2025-08-30', status: 'Cancelled', packages: 0, updated: '2025-08-07' },
+                { id: 'TRP-001', traveler: 'John Doe', origin: 'New York', destination: 'London', date: '2025-09-01', status: 'Pending' },
+                { id: 'TRP-002', traveler: 'Jane Smith', origin: 'Paris', destination: 'Tokyo', date: '2025-08-15', status: 'Completed' },
+                { id: 'TRP-003', traveler: 'Alex Brown', origin: 'Sydney', destination: 'Dubai', date: '2025-08-20', status: 'Pending' },
+                { id: 'TRP-004', traveler: 'Sarah Wilson', origin: 'Toronto', destination: 'Miami', date: '2025-09-10', status: 'Completed' },
+                { id: 'TRP-005', traveler: 'Mike Johnson', origin: 'Berlin', destination: 'Singapore', date: '2025-08-25', status: 'Pending' },
             ];
+
+            // Store trips in localStorage to share with add-trip.html
+            localStorage.setItem('trips', JSON.stringify(trips));
 
             // Pagination state
             let currentPage = 1;
@@ -999,15 +1064,16 @@
             const tripTable = document.getElementById('tripTable');
             const prevPageBtn = document.getElementById('prevPage');
             const nextPageBtn = document.getElementById('nextPage');
-            const selectAll = document.getElementById('selectAll');
-            const bulkCancel = document.getElementById('bulkCancel');
 
             function renderTrips(page) {
+                const trips = JSON.parse(localStorage.getItem('trips')) || [];
                 const status = statusFilter.value;
                 const search = searchInput.value.toLowerCase();
                 const filteredTrips = trips.filter(trip => 
                     (status === 'All' || trip.status === status) &&
-                    (trip.id.toLowerCase().includes(search) || trip.traveler.toLowerCase().includes(search) || trip.origin.toLowerCase().includes(search) || trip.destination.toLowerCase().includes(search))
+                    (trip.traveler.toLowerCase().includes(search) || 
+                     trip.origin.toLowerCase().includes(search) || 
+                     trip.destination.toLowerCase().includes(search))
                 );
 
                 const start = (page - 1) * tripsPerPage;
@@ -1018,22 +1084,14 @@
                 paginatedTrips.forEach(trip => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td><input type="checkbox" class="form-check-input bg-transparent border-gray-500 trip-checkbox" data-id="${trip.id}"></td>
-                        <td><a href="#" class="text-white text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTripModal" onclick="viewTrip('${trip.id}')">${trip.id}</a></td>
-                        <td style="color: rgba(255,255,255,0.7);">${trip.traveler}</td>
-                        <td style="color: rgba(255,255,255,0.7);">${trip.origin}</td>
-                        <td style="color: rgba(255,255,255,0.7);">${trip.destination}</td>
-                        <td style="color: rgba(255,255,255,0.7);">${trip.departure}</td>
-                        <td><span class="status-badge ${
-                            trip.status === 'Pending' ? 'bg-[rgba(253,203,110,0.2)] text-[var(--warning)]' :
-                            trip.status === 'In Transit' ? 'bg-[rgba(9,132,227,0.2)] text-[var(--info)]' :
-                            trip.status === 'Completed' ? 'bg-[rgba(16,185,129,0.2)] text-[var(--success)]' :
-                            'bg-[rgba(239,68,68,0.2)] text-[var(--danger)]'
-                        }">${trip.status}</span></td>
-                        <td style="color: rgba(255,255,255,0.7);">${trip.packages}</td>
+                        <td>${trip.id}</td>
+                        <td><a href="#" class="text-decoration-none" style="color: var(--primary);" data-bs-toggle="modal" data-bs-target="#viewTripModal" onclick="viewTrip('${trip.id}')">${trip.traveler}</a></td>
+                        <td style="color: rgba(26, 26, 61, 0.7);">${trip.origin}</td>
+                        <td style="color: rgba(26, 26, 61, 0.7);">${trip.destination}</td>
+                        <td style="color: rgba(26, 26, 61, 0.7);">${trip.date}</td>
+                        <td><span class="status-badge ${trip.status.toLowerCase()}">${trip.status}</span></td>
                         <td>
-                            <button class="action-btn text-[var(--info)]" data-bs-toggle="modal" data-bs-target="#editTripModal" onclick="openEditModal('${trip.id}', '${trip.traveler}', '${trip.origin}', '${trip.destination}', '${trip.departure}', '${trip.status}')"><i class="fas fa-edit"></i></button>
-                            ${trip.status !== 'Cancelled' ? `<button class="action-btn text-[var(--danger)]" onclick="cancelTrip('${trip.id}')"><i class="fas fa-ban"></i></button>` : ''}
+                            <button class="action-btn" data-bs-toggle="modal" data-bs-target="#editTripModal" onclick="openEditModal('${trip.id}', '${trip.traveler}', '${trip.origin}', '${trip.destination}', '${trip.date}', '${trip.status}')"><i class="fas fa-edit"></i></button>
                         </td>
                     `;
                     tripTable.appendChild(row);
@@ -1041,14 +1099,6 @@
 
                 prevPageBtn.disabled = page === 1;
                 nextPageBtn.disabled = end >= filteredTrips.length;
-
-                // Update bulk action buttons visibility
-                updateBulkActions();
-            }
-
-            function updateBulkActions() {
-                const checkboxes = document.querySelectorAll('.trip-checkbox:checked');
-                bulkCancel.style.display = checkboxes.length > 0 ? 'inline-block' : 'none';
             }
 
             function filterTrips() {
@@ -1071,35 +1121,10 @@
                 renderTrips(currentPage);
             });
 
-            selectAll.addEventListener('change', function() {
-                document.querySelectorAll('.trip-checkbox').forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                });
-                updateBulkActions();
-            });
-
-            document.addEventListener('change', function(e) {
-                if (e.target.classList.contains('trip-checkbox')) {
-                    updateBulkActions();
-                }
-            });
-
-            bulkCancel.addEventListener('click', () => {
-                const selectedIds = Array.from(document.querySelectorAll('.trip-checkbox:checked')).map(cb => cb.dataset.id);
-                selectedIds.forEach(id => {
-                    const tripIndex = trips.findIndex(t => t.id === id);
-                    if (tripIndex !== -1 && trips[tripIndex].status !== 'Cancelled') {
-                        trips[tripIndex].status = 'Cancelled';
-                        trips[tripIndex].updated = new Date().toISOString().split('T')[0];
-                    }
-                });
-                renderTrips(currentPage);
-                selectAll.checked = false;
-            });
-
             document.getElementById('exportCSV').addEventListener('click', function() {
-                const csv = ['Trip ID,Traveler,Origin,Destination,Departure Date,Status,Package Count,Last Updated',
-                    ...trips.map(t => `${t.id},${t.traveler},${t.origin},${t.destination},${t.departure},${t.status},${t.packages},${t.updated}`)
+                const trips = JSON.parse(localStorage.getItem('trips')) || [];
+                const csv = ['Trip ID,Traveler,Origin,Destination,Date,Status',
+                    ...trips.map(t => `${t.id},${t.traveler},${t.origin},${t.destination},${t.date},${t.status}`)
                 ].join('\n');
                 const blob = new Blob([csv], { type: 'text/csv' });
                 const url = window.URL.createObjectURL(blob);
@@ -1111,37 +1136,36 @@
             });
 
             window.viewTrip = function(id) {
+                const trips = JSON.parse(localStorage.getItem('trips')) || [];
                 const trip = trips.find(t => t.id === id);
                 if (trip) {
-                    document.getElementById('viewTripId').textContent = trip.id;
-                    document.getElementById('viewTripTraveler').textContent = trip.traveler;
+                    document.getElementById('viewTripId').value = trip.id;
+                    document.getElementById('viewTripTraveler').value = trip.traveler;
                     document.getElementById('viewTripOrigin').value = trip.origin;
                     document.getElementById('viewTripDestination').value = trip.destination;
-                    document.getElementById('viewTripDeparture').value = trip.departure;
+                    document.getElementById('viewTripDate').value = trip.date;
                     document.getElementById('viewTripStatus').value = trip.status;
-                    document.getElementById('viewTripPackages').value = trip.packages;
-                    document.getElementById('viewTripUpdated').value = trip.updated;
                 }
             };
 
-            window.openEditModal = function(id, traveler, origin, destination, departure, status) {
+            window.openEditModal = function(id, traveler, origin, destination, date, status) {
                 document.getElementById('tripId').value = id;
                 document.getElementById('tripTraveler').value = traveler;
                 document.getElementById('tripOrigin').value = origin;
                 document.getElementById('tripDestination').value = destination;
-                document.getElementById('tripDeparture').value = departure;
+                document.getElementById('tripDate').value = date;
                 document.getElementById('tripStatus').value = status;
             };
 
             window.openEditFromView = function() {
-                const id = document.getElementById('viewTripId').textContent;
-                const traveler = document.getElementById('viewTripTraveler').textContent;
+                const id = document.getElementById('viewTripId').value;
+                const traveler = document.getElementById('viewTripTraveler').value;
                 const origin = document.getElementById('viewTripOrigin').value;
                 const destination = document.getElementById('viewTripDestination').value;
-                const departure = document.getElementById('viewTripDeparture').value;
+                const date = document.getElementById('viewTripDate').value;
                 const status = document.getElementById('viewTripStatus').value;
                 bootstrap.Modal.getInstance(document.getElementById('viewTripModal')).hide();
-                openEditModal(id, traveler, origin, destination, departure, status);
+                openEditModal(id, traveler, origin, destination, date, status);
             };
 
             window.saveTrip = function() {
@@ -1149,129 +1173,86 @@
                 const traveler = document.getElementById('tripTraveler').value;
                 const origin = document.getElementById('tripOrigin').value;
                 const destination = document.getElementById('tripDestination').value;
-                const departure = document.getElementById('tripDeparture').value;
+                const date = document.getElementById('tripDate').value;
                 const status = document.getElementById('tripStatus').value;
+                const trips = JSON.parse(localStorage.getItem('trips')) || [];
                 const tripIndex = trips.findIndex(t => t.id === id);
                 if (tripIndex !== -1) {
-                    trips[tripIndex] = { ...trips[tripIndex], traveler, origin, destination, departure, status, updated: new Date().toISOString().split('T')[0] };
+                    trips[tripIndex] = { id, traveler, origin, destination, date, status };
+                    localStorage.setItem('trips', JSON.stringify(trips));
                     renderTrips(currentPage);
                     bootstrap.Modal.getInstance(document.getElementById('editTripModal')).hide();
                 }
             };
 
-            window.addTrip = function() {
-                const traveler = document.getElementById('newTripTraveler').value;
-                const origin = document.getElementById('newTripOrigin').value;
-                const destination = document.getElementById('newTripDestination').value;
-                const departure = document.getElementById('newTripDeparture').value;
-                const newId = `TRP-${String(trips.length + 1).padStart(3, '0')}`;
-                trips.push({ id: newId, traveler, origin, destination, departure, status: 'Pending', packages: 0, updated: new Date().toISOString().split('T')[0] });
-                renderTrips(currentPage);
-                bootstrap.Modal.getInstance(document.getElementById('addTripModal')).hide();
-                document.getElementById('addTripModal').querySelector('form').reset();
-            };
+            // Notification functionality
+            const initialNotifications = [
+                { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
+                { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
+                { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
+            ];
 
-            window.cancelTrip = function(id) {
-                const tripIndex = trips.findIndex(t => t.id === id);
-                if (tripIndex !== -1) {
-                    trips[tripIndex].status = 'Cancelled';
-                    trips[tripIndex].updated = new Date().toISOString().split('T')[0];
-                    renderTrips(currentPage);
-                }
-            };
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
+            const notificationBadge = document.getElementById('notificationBadge');
+            const notificationList = document.getElementById('notificationList');
+            const clearNotifications = document.getElementById('clearNotifications');
+
+            function renderNotifications() {
+                const unreadCount = notifications.filter(n => !n.read).length;
+                notificationBadge.textContent = unreadCount;
+                notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+                notificationList.innerHTML = notifications.length === 0
+                    ? '<div style="padding: 10px; text-align: center; color: rgba(26,26,61,0.7);">No notifications</div>'
+                    : notifications.map(n => `
+                        <div class="dropdown-item notification-item ${n.read ? 'read' : ''}">
+                            <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
+                                <div>${n.message}</div>
+                                <small>${n.time}</small>
+                            </a>
+                            <button class="btn btn-sm mark-read-btn" data-id="${n.id}">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </div>
+                    `).join('');
+
+                document.querySelectorAll('.mark-read-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.dataset.id);
+                        const notification = notifications.find(n => n.id === id);
+                        if (notification) {
+                            notification.read = true;
+                            localStorage.setItem('notifications', JSON.stringify(notifications));
+                            renderNotifications();
+                        }
+                    });
+                });
+            }
+
+            clearNotifications.addEventListener('click', function() {
+                notifications = [];
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                renderNotifications();
+            });
+
+            setInterval(() => {
+                const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
+                const newNotification = {
+                    id: newId,
+                    message: `New event ${newId} occurred.`,
+                    time: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                    read: false,
+                    link: 'index.html'
+                };
+                notifications.unshift(newNotification);
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                renderNotifications();
+            }, 60000);
 
             // Initial render
             renderTrips(currentPage);
+            renderNotifications();
         });
-        document.addEventListener('DOMContentLoaded', function() {
-    // Sample notification data (can be replaced with API calls in a real implementation)
-    const initialNotifications = [
-        { id: 1, message: 'New dispute (DSP-001) raised by Jane Smith.', time: '2025-08-07 10:00', read: false, link: 'disputes.html' },
-        { id: 2, message: 'User John Doe registered.', time: '2025-08-07 09:30', read: false, link: 'users.html' },
-        { id: 3, message: 'Trip TRP-001 completed successfully.', time: '2025-08-07 08:45', read: false, link: 'trips.html' }
-    ];
-
-    // Load notifications from localStorage or use initial data
-    let notifications = JSON.parse(localStorage.getItem('notifications')) || initialNotifications;
-
-    // Notification elements
-    const notificationBadge = document.getElementById('notificationBadge');
-    const notificationList = document.getElementById('notificationList');
-    const clearNotifications = document.getElementById('clearNotifications');
-
-    // Function to render notifications
-    function renderNotifications() {
-        const unreadCount = notifications.filter(n => !n.read).length;
-        notificationBadge.textContent = unreadCount;
-        notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
-
-        notificationList.innerHTML = notifications.length === 0
-            ? '<div style="padding: 10px; text-align: center; color: rgba(255,255,255,0.7);">No notifications</div>'
-            : notifications.map(n => `
-                <div class="dropdown-item notification-item ${n.read ? 'read' : ''}" style="
-                    padding: 10px 15px;
-                    border-bottom: 1px solid rgba(108, 92, 231, 0.1);
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    color: ${n.read ? 'rgba(255,255,255,0.5)' : 'white'};
-                    background: ${n.read ? 'transparent' : 'rgba(108, 92, 231, 0.1)'};
-                    transition: background 0.3s ease;
-                ">
-                    <a href="${n.link}" style="text-decoration: none; color: inherit; flex-grow: 1;">
-                        <div>${n.message}</div>
-                        <small style="color: rgba(255,255,255,0.5);">${n.time}</small>
-                    </a>
-                    <button class="btn btn-sm mark-read-btn" data-id="${n.id}" style="
-                        background: none;
-                        border: none;
-                        color: rgba(255,255,255,0.7);
-                        font-size: 12px;
-                    ">
-                        <i class="fas fa-check-circle"></i>
-                    </button>
-                </div>
-            `).join('');
-
-        // Add event listeners for mark read buttons
-        document.querySelectorAll('.mark-read-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = parseInt(this.dataset.id);
-                const notification = notifications.find(n => n.id === id);
-                if (notification) {
-                    notification.read = true;
-                    localStorage.setItem('notifications', JSON.stringify(notifications));
-                    renderNotifications();
-                }
-            });
-        });
-    }
-
-    // Clear all notifications
-    clearNotifications.addEventListener('click', function() {
-        notifications = [];
-        localStorage.setItem('notifications', JSON.stringify(notifications));
-        renderNotifications();
-    });
-
-    // Initial render
-    renderNotifications();
-
-    // Simulate new notifications (for demo purposes)
-    setInterval(() => {
-        const newId = notifications.length ? Math.max(...notifications.map(n => n.id)) + 1 : 1;
-        const newNotification = {
-            id: newId,
-            message: `New event ${newId} occurred.`,
-            time: new Date().toISOString().slice(0, 16).replace('T', ' '),
-            read: false,
-            link: 'index.html'
-        };
-        notifications.unshift(newNotification);
-        localStorage.setItem('notifications', JSON.stringify(notifications));
-        renderNotifications();
-    }, 60000); // Add a new notification every 60 seconds (for demo)
-});
     </script>
 </body>
 </html>
